@@ -1,0 +1,174 @@
+{
+  "description": "项目配置文件。",
+  "setting": {
+    "urlCheck": false,
+    "es6": true,
+    "postcss": true,
+    "minified": true,
+    "newFeature": true,
+    "uglifyFileName": true,
+    "checkInvalidKey": true,
+    "checkSiteMap": true,
+    "uploadWithSourceMap": true,
+    "useMultiFrameRuntime": true,
+    "useApiHook": true,
+    "useApiHostProcess": true,
+    "babelSetting": {
+      "ignore": [],
+      "disablePlugins": [],
+      "outputPath": ""
+    },
+    "useIsolateContext": true,
+    "useCompilerModule": true,
+    "userConfirmedUseCompilerModuleSwitch": false,
+    "userConfirmedBundleSwitch": false,
+    "packNpmManually": false,
+    "packNpmRelationList": [],
+    "minifyWXSS": true
+  },
+  "compileType": "miniprogram",
+  "libVersion": "3.3.5",
+  "appid": "wxaa8bb51e96f02c47",
+  "projectname": "Renard",
+  "simulatorType": "wechat",
+  "simulatorPluginLibVersion": {},
+  "condition": {
+    "miniprogram": {
+      "list": [
+        {
+          "name": "首页",
+          "pathName": "pages/index/index",
+          "query": ""
+        },
+        {
+          "name": "专题",
+          "pathName": "pages/topic/topic",
+          "query": ""
+        },
+        {
+          "name": "专题详情",
+          "pathName": "pages/topicDetail/topicDetail",
+          "query": "id=314"
+        },
+        {
+          "name": "品牌",
+          "pathName": "pages/brand/brand",
+          "query": ""
+        },
+        {
+          "name": "品牌详情",
+          "pathName": "pages/brandDetail/brandDetail",
+          "query": "id=1001000"
+        },
+        {
+          "name": "人气推荐",
+          "pathName": "pages/hotGoods/hotGoods",
+          "query": ""
+        },
+        {
+          "name": "新品首发",
+          "pathName": "pages/newGoods/newGoods",
+          "query": ""
+        },
+        {
+          "name": "分类",
+          "pathName": "pages/catalog/catalog",
+          "query": ""
+        },
+        {
+          "name": "分类详情",
+          "pathName": "pages/category/category",
+          "query": "id=1008002"
+        },
+        {
+          "name": "查找",
+          "pathName": "pages/search/search",
+          "query": ""
+        },
+        {
+          "name": "商品",
+          "pathName": "pages/goods/goods",
+          "query": "id=1181000"
+        },
+        {
+          "name": "商品评论列表",
+          "pathName": "pages/comment/comment",
+          "query": "valueId=1181000&type=0"
+        },
+        {
+          "name": "购物车",
+          "pathName": "pages/cart/cart",
+          "query": ""
+        },
+        {
+          "name": "下单",
+          "pathName": "pages/shopping/checkout/checkout",
+          "query": ""
+        },
+        {
+          "name": "支付结果",
+          "pathName": "pages/payResult/payResult",
+          "query": ""
+        },
+        {
+          "name": "我的",
+          "pathName": "pages/ucenter/index/index",
+          "query": ""
+        },
+        {
+          "name": "我的订单列表",
+          "pathName": "pages/ucenter/order/order",
+          "query": ""
+        },
+        {
+          "name": "我的订单详情",
+          "pathName": "pages/ucenter/orderDetail/orderDetail",
+          "query": "id=1"
+        },
+        {
+          "name": "待评价的订单详情",
+          "pathName": "pages/ucenter/orderDetail/orderDetail",
+          "query": "id=1"
+        },
+        {
+          "name": "购买商品评价",
+          "pathName": "pages/commentPost/commentPost",
+          "query": "orderId=2&type=0&valueId=1116011"
+        },
+        {
+          "name": "我的优惠券",
+          "pathName": "pages/ucenter/coupon/coupon",
+          "query": ""
+        },
+        {
+          "name": "我的收藏",
+          "pathName": "pages/ucenter/collect/collect",
+          "query": ""
+        },
+        {
+          "name": "我的地址",
+          "pathName": "pages/ucenter/address/address",
+          "query": ""
+        },
+        {
+          "name": "我的地址添加",
+          "pathName": "pages/ucenter/addressAdd/addressAdd",
+          "query": ""
+        },
+        {
+          "name": "登录",
+          "pathName": "pages/auth/login/login",
+          "query": ""
+        }
+      ]
+    }
+  },
+  "packOptions": {
+    "ignore": [],
+    "include": []
+  },
+  "editorSetting": {
+    "tabIndent": "auto",
+    "tabSize": 2
+  }
+}

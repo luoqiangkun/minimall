@@ -1,0 +1,73 @@
+<view class="container index">
+<!-- 
+  <view class="welcome">您好！遇见美食</view> -->
+
+  <view class="search">
+    <view class="search-inner">
+      <navigator url="/pages/search/search">
+          <van-icon name="search" size="60rpx" color="#ada9a8" />
+          <view class="search-input">搜索您爱吃的美食</view>
+      </navigator>
+    </view>
+  </view>
+
+  <view class="banner">
+    <swiper class="banner-container" indicator-dots="true" autoplay="true" interval="3000" duration="1000">
+        <swiper-item wx:for="{{banner}}" wx:key="id">
+          <navigator url="/pages/home/index">
+            <image src="{{item.url}}" background-size="cover" mode="widthFix"></image>
+          </navigator>
+        </swiper-item>
+    </swiper>
+  </view>
+
+  <view class="navigation">
+    <view class="navigation-cell">
+      <navigator url="pages/coupon/coupon">
+        <view>
+          <van-icon name="gift-o" size="100rpx" color="var(--pink)" />
+        </view>
+        <view>
+          <text>礼品</text>
+        </view>
+      </navigator>
+    </view>
+    <view class="navigation-cell">
+      <navigator url="/pages/coupon/coupon">
+        <view>
+          <van-icon name="coupon-o" size="100rpx" color="var(--pink)" />
+        </view>
+        <view>
+          <text>优惠券</text>
+        </view>
+      </navigator>
+    </view>
+    <view class="navigation-cell">
+      <navigator url="/pages/store/index">
+        <view>
+          <van-icon name="shop-collect-o" size="100rpx" color="var(--pink)"/>
+        </view>
+        <view>
+          <text>小店</text>
+        </view>
+      </navigator>
+    </view>
+  </view>
+
+  <view class="popular">
+    <view class="popular-title">热销商品</view>
+    <view class="popular-list">
+      <view class="popular-goods" wx:for="{{hotGoods}}" wx:for-index="index" wx:for-item="item" wx:key="id">
+        <navigator url="/pages/goods/goods?id={{item.id}}">
+          <image src="{{item.picUrl}}" mode="widthFix" />
+          <view class="popular-text">
+            <view class="goods-name">{{item.name}}</view>
+            <view class="goods-price">￥{{item.retailPrice}}</view>
+          </view>  
+        </navigator>
+      </view>
+    </view>
+  </view>
+</view>
+
+

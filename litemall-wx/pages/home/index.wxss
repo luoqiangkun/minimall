@@ -1,0 +1,102 @@
+
+.container {
+  background-color: #ffffff;
+  padding: 0 50rpx;
+}
+.welcome {
+  font-size: 40rpx;
+  font-weight: 600;
+  margin-bottom: 20rpx;
+}
+.search {
+  margin-bottom: 40rpx;
+}
+.search .search-inner navigator{
+  height: 100rpx;
+  margin: 0 auto;
+  background-color: #fcf8f9;
+  display: flex;
+  align-content: center;
+  border-radius: 100rpx;
+  padding: 0 20rpx;
+}
+.search .search-input {
+  color: #ada9a8;
+  line-height: 100rpx;
+  margin-left: 10rpx;
+}
+
+.banner {
+  margin-bottom: 40rpx;
+  border-radius: 70rpx;
+  overflow: hidden;
+}
+.banner image {
+  width: 100%;
+}
+.navigation {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 40rpx;
+}
+.navigation .navigation-cell {
+    width: 30%;
+    font-weight: 600;
+    height: 200rpx;
+    background-color: #faf8f9;
+    border-radius: 50rpx;
+    overflow: hidden;
+}
+.navigation .navigation-cell navigator {
+  height: 100%;
+  display: flex;
+  align-content: center;
+  flex-wrap: wrap;
+}
+.navigation .navigation-cell view {
+  width: 100%;
+  text-align: center;
+}
+.navigation .navigation-cell view text {
+  color: #000;
+}
+.popular {
+
+}
+.popular .popular-title {
+  font-size: 35rpx;
+  font-weight: 600;
+  margin-bottom: 40rpx;
+}
+
+.popular .popular-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.popular .popular-list .popular-goods {
+  width: 47%;
+  background-color: #faf8f9;
+  border-radius: 30rpx;
+  overflow: hidden;
+  margin-bottom: 40rpx;
+  text-align: center;
+}
+.popular .popular-list .popular-goods image {
+  width: 85%;
+}
+.popular .popular-list .popular-goods .popular-text {
+  text-align: center;
+  padding: 20rpx;
+  font-size: 32rpx;
+}
+.popular .popular-list .popular-goods .goods-name {
+  font-weight: 600;
+  margin-bottom: 10rpx;
+  white-space: nowrap; /* 对于单行文本 */
+  overflow: hidden;
+  text-overflow: ellipsis; /* 显示省略号 */
+}
+.popular .popular-list .popular-goods .goods-price {
+  color: var(--pink);
+}
