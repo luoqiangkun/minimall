@@ -98,13 +98,6 @@ litemall:
       accessKeyId: 111111
       accessKeySecret: xxxxxx
       bucketName: litemall
-    # 腾讯对象存储配置信息
-    # 请参考 https://cloud.tencent.com/document/product/436/6249
-    tencent:
-      secretId:
-      secretKey:
-      region:
-      bucketName:
     # 七牛云对象存储配置信息
     qiniu:
       endpoint: http://pd5cb6ulu.bkt.clouddn.com
