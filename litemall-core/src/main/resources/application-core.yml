@@ -101,10 +101,10 @@ litemall:
     # 腾讯对象存储配置信息
     # 请参考 https://cloud.tencent.com/document/product/436/6249
     tencent:
-      secretId: AKIDOccMr856uoU1Tsa2MQL5aqseBUWRrb5i
-      secretKey: XqtgEhIdrupTs4ygaWlkUUXv3w3FiwuD
-      region: ap-shanghai
-      bucketName: vytech-1300096589
+      secretId:
+      secretKey:
+      region:
+      bucketName:
     # 七牛云对象存储配置信息
     qiniu:
       endpoint: http://pd5cb6ulu.bkt.clouddn.com
