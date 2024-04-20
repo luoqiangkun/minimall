@@ -8,6 +8,7 @@ import org.linlinjava.litemall.core.storage.StorageService;
 import org.linlinjava.litemall.core.util.ResponseUtil;
 import org.linlinjava.litemall.core.validator.Order;
 import org.linlinjava.litemall.core.validator.Sort;
+import org.linlinjava.litemall.db.domain.LitemallStorage;
 import org.linlinjava.litemall.db.domain.LitemallStore;
 import org.linlinjava.litemall.db.service.LitemallStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +40,7 @@ public class AdminStorageController {
                        @RequestParam(defaultValue = "10") Integer limit,
                        @Sort @RequestParam(defaultValue = "add_time") String sort,
                        @Order @RequestParam(defaultValue = "desc") String order) {
-        List<LitemallStore> storageList = litemallStorageService.querySelective(key, name, page, limit, sort, order);
+        List<LitemallStorage> storageList = litemallStorageService.querySelective(key, name, page, limit, sort, order);
         return ResponseUtil.okList(storageList);
     }
 
@@ -48,7 +49,7 @@ public class AdminStorageController {
     @PostMapping("/create")
     public Object create(@RequestParam("file") MultipartFile file) throws IOException {
         String originalFilename = file.getOriginalFilename();
-        LitemallStore litemallStorage = storageService.store(file.getInputStream(), file.getSize(),
+        LitemallStorage litemallStorage = storageService.store(file.getInputStream(), file.getSize(),
                 file.getContentType(), originalFilename);
         return ResponseUtil.ok(litemallStorage);
     }
@@ -57,7 +58,7 @@ public class AdminStorageController {
     @RequiresPermissionsDesc(menu = {"系统管理", "对象存储"}, button = "详情")
     @PostMapping("/read")
     public Object read(@NotNull Integer id) {
-        LitemallStore storageInfo = litemallStorageService.findById(id);
+        LitemallStorage storageInfo = litemallStorageService.findById(id);
         if (storageInfo == null) {
             return ResponseUtil.badArgumentValue();
         }
@@ -67,7 +68,7 @@ public class AdminStorageController {
     @RequiresPermissions("admin:storage:update")
     @RequiresPermissionsDesc(menu = {"系统管理", "对象存储"}, button = "编辑")
     @PostMapping("/update")
-    public Object update(@RequestBody LitemallStore litemallStorage) {
+    public Object update(@RequestBody LitemallStorage litemallStorage) {
         if (litemallStorageService.update(litemallStorage) == 0) {
             return ResponseUtil.updatedDataFailed();
         }
@@ -77,7 +78,7 @@ public class AdminStorageController {
     @RequiresPermissions("admin:storage:delete")
     @RequiresPermissionsDesc(menu = {"系统管理", "对象存储"}, button = "删除")
     @PostMapping("/delete")
-    public Object delete(@RequestBody LitemallStore litemallStorage) {
+    public Object delete(@RequestBody LitemallStorage litemallStorage) {
         String key = litemallStorage.getKey();
         if (StringUtils.isEmpty(key)) {
             return ResponseUtil.badArgument();
