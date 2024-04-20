@@ -921,7 +921,7 @@ export default {
       mall_banner: '商场banner',
       mall_logo: '商场logo',
       mall_notice: '商场公告',
-      mall_business_hours:'营业时间'
+      mall_business_hours: '营业时间'
     },
     placeholder: {
       mall_longitude: '经度',

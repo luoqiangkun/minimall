@@ -96,7 +96,7 @@ public class LitemallGoodsSpecificationService {
                 goodsSpecificationVo = new GoodsSpecificationVO();
                 goodsSpecificationVo.setName(specification);
                 List<LitemallGoodsSpecification> valueList = new ArrayList<>();
-                goodsSpecification.setChecked(true);
+                goodsSpecification.setChecked(false);
                 valueList.add(goodsSpecification);
                 goodsSpecificationVo.setValueList(valueList);
                 map.put(specification, goodsSpecificationVo);

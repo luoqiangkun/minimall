@@ -923,7 +923,7 @@ export default {
       mall_banner: 'Banner',
       mall_logo: 'Logo',
       mall_notice: 'Notice',
-      mall_business_hours:'Business Hours',
+      mall_business_hours: 'Business Hours'
     },
     placeholder: {
       mall_longitude: 'Longitude',

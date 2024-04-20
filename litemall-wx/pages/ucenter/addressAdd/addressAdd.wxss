@@ -41,27 +41,23 @@ page {
 
 .add-address .btns {
   position: fixed;
-  bottom: 0;
+  bottom: 0rpx;
   left: 0;
-  overflow: hidden;
-  display: flex;
-  height: 100rpx;
   width: 100%;
 }
-
-.add-address .cannel, .add-address .save {
-  flex: 1;
+.add-address .btns button {
   height: 100rpx;
-  text-align: center;
   line-height: 100rpx;
-  font-size: 28rpx;
+  width: 90%;
+  margin:  0 auto 20rpx;
+  text-align: center;
+  border-radius: 50rpx;
+  font-size: 30rpx;
   color: #fff;
-  border: none;
-  border-radius: 0;
 }
 
 .add-address .cannel {
-  background: #333;
+  background: var(--grey);
 }
 
 .add-address .save {

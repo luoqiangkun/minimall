@@ -2,10 +2,10 @@
   <div class="app-container mini-container">
     <el-form ref="dataForm" :rules="rules" :model="dataForm" status-icon label-width="300px">
       <el-form-item :label="$t('config_mall.form.mall_name')" prop="litemall_mall_name">
-        <el-input v-model="dataForm.litemall_mall_name"/>
+        <el-input v-model="dataForm.litemall_mall_name" />
       </el-form-item>
       <el-form-item :label="$t('config_mall.form.mall_desc')" prop="litemall_mall_desc">
-        <el-input v-model="dataForm.litemall_mall_desc"/>
+        <el-input v-model="dataForm.litemall_mall_desc" />
       </el-form-item>
       <el-form-item :label="$t('config_mall.form.mall_business_hours')">
         <el-col :span="11">
@@ -17,7 +17,7 @@
         </el-col>
       </el-form-item>
       <el-form-item :label="$t('config_mall.form.mall_address')" prop="litemall_mall_address">
-        <el-input v-model="dataForm.litemall_mall_address"/>
+        <el-input v-model="dataForm.litemall_mall_address" />
       </el-form-item>
       <el-form-item :label="$t('config_mall.form.mall_coordinates')">
         <el-col :span="11">
@@ -29,10 +29,10 @@
         </el-col>
       </el-form-item>
       <el-form-item :label="$t('config_mall.form.mall_phone')" prop="litemall_mall_phone">
-        <el-input v-model="dataForm.litemall_mall_phone"/>
+        <el-input v-model="dataForm.litemall_mall_phone" />
       </el-form-item>
       <el-form-item :label="$t('config_mall.form.mall_qq')" prop="litemall_mall_qq">
-        <el-input v-model="dataForm.litemall_mall_qq"/>
+        <el-input v-model="dataForm.litemall_mall_qq" />
       </el-form-item>
       <el-form-item :label="$t('config_mall.form.mall_banner')" prop="litemall_mall_banner">
         <el-upload
@@ -43,7 +43,7 @@
           class="avatar-uploader banner"
           accept=".jpg,.jpeg,.png,.gif"
         >
-          <img :src="dataForm.litemall_mall_banner" class="avatar" v-if="dataForm.litemall_mall_banner">
+          <img v-if="dataForm.litemall_mall_banner" :src="dataForm.litemall_mall_banner" class="avatar">
           <i v-else class="el-icon-plus avatar-uploader-icon" />
         </el-upload>
       </el-form-item>
@@ -56,14 +56,14 @@
           class="avatar-uploader"
           accept=".jpg,.jpeg,.png,.gif"
         >
-          <img :src="dataForm.litemall_mall_logo" class="avatar" v-if="dataForm.litemall_mall_logo">
+          <img v-if="dataForm.litemall_mall_logo" :src="dataForm.litemall_mall_logo" class="avatar">
           <i v-else class="el-icon-plus avatar-uploader-icon" />
         </el-upload>
       </el-form-item>
 
-       <el-form-item :label="$t('config_mall.form.mall_notice')">
-          <el-input type="textarea" v-model="dataForm.litemall_mall_notice"></el-input>
-        </el-form-item>
+      <el-form-item :label="$t('config_mall.form.mall_notice')">
+        <el-input v-model="dataForm.litemall_mall_notice" type="textarea" />
+      </el-form-item>
 
       <el-form-item>
         <el-button @click="cancel">{{ $t('app.button.cancel') }}</el-button>
@@ -88,10 +88,10 @@ export default {
         litemall_mall_qq: '',
         litemall_mall_longitude: '',
         litemall_mall_latitude: '',
-        litemall_mall_banner:'',
-        litemall_mall_logo:'',
-        litemall_mall_desc:'',
-        litemall_mall_notice:'',
+        litemall_mall_banner: '',
+        litemall_mall_logo: '',
+        litemall_mall_desc: '',
+        litemall_mall_notice: '',
         litemall_mall_business_start_time: '',
         litemall_mall_business_end_time: ''
       },
@@ -119,9 +119,9 @@ export default {
         ],
         litemall_mall_logo: [
           { required: true, message: '不能为空', trigger: 'change' }
-        ],
+        ]
       },
-      uploadPath:uploadPath,
+      uploadPath: uploadPath
     }
   },
   computed: {
@@ -189,7 +189,6 @@ export default {
 .avatar-uploader .el-upload:hover {
   border-color: #20a0ff;
 }
-
 
 .avatar-uploader-icon {
   font-size: 28px;

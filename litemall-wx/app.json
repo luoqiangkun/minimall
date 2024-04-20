@@ -112,6 +112,8 @@
     "van-steps": "./lib/vant-weapp/steps/index",
     "van-action-sheet": "./lib/vant-weapp/action-sheet/index",
     "van-sticky": "./lib/vant-weapp/sticky/index",
+    "van-divider": "./lib/vant-weapp/divider/index",
+    "van-dialog": "./lib/vant-weapp/dialog/index",
     "iconfont": "./iconfont/iconfont"
   },
   "sitemapLocation": "sitemap.json"

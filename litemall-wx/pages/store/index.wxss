@@ -180,7 +180,6 @@
 	width: 100rpx;
 	height: 100rpx;
 	flex-shrink: 0;
-	background: linear-gradient(45deg, #ec008c, #6739b6);
 	border-radius: 20rpx;
 	overflow: hidden;
 }
@@ -407,7 +406,7 @@
 }
 
 .product-popup  .spec-list  .spec-item {
-
+  margin-bottom: 60rpx;
 }
 .spec-list  .spec-item .spec-name {
   font-weight: 600;

@@ -85,7 +85,9 @@
         </el-form-item>
 
         <el-form-item :label="$t('goods_edit.form.category_id')">
-          <el-cascader :options="categoryList" expand-trigger="hover" clearable @change="handleCategoryChange" />
+          <el-select v-model="goods.categoryId" clearable>
+            <el-option v-for="item in categoryList" :key="item.value" :label="item.label" :value="item.value" />
+          </el-select>
         </el-form-item>
 
         <el-form-item :label="$t('goods_edit.form.brand_id')">

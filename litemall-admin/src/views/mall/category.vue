@@ -47,20 +47,19 @@
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
       <el-form ref="dataForm" :rules="rules" :model="dataForm" status-icon label-position="left" label-width="100px" style="width: 400px; margin-left:50px;">
         <el-form-item :label="$t('mall_category.form.name')" prop="name">
-          <el-input v-model="dataForm.name"/>
+          <el-input v-model="dataForm.name" />
         </el-form-item>
         <el-form-item :label="$t('mall_category.form.keywords')" prop="keywords">
-          <el-input v-model="dataForm.keywords"/>
+          <el-input v-model="dataForm.keywords" />
         </el-form-item>
         <el-form-item :label="$t('mall_category.form.level')" prop="level">
           <el-select v-model="dataForm.level" @change="onLevelChange">
             <el-option :label="$t('mall_category.value.level_L1')" value="L1" />
-            <el-option :label="$t('mall_category.value.level_L2')" value="L2" />
           </el-select>
         </el-form-item>
         <el-form-item v-if="dataForm.level === 'L2'" :label="$t('mall_category.form.pid')" prop="pid">
           <el-select v-model="dataForm.pid">
-            <el-option v-for="item in catL1" :key="item.value" :label="item.label" :value="item.value"/>
+            <el-option v-for="item in catL1" :key="item.value" :label="item.label" :value="item.value" />
           </el-select>
         </el-form-item>
         <el-form-item :label="$t('mall_category.form.icon_url')" prop="iconUrl">
@@ -70,9 +69,10 @@
             :show-file-list="false"
             :on-success="uploadIconUrl"
             class="avatar-uploader"
-            accept=".jpg,.jpeg,.png,.gif">
+            accept=".jpg,.jpeg,.png,.gif"
+          >
             <img v-if="dataForm.iconUrl" :src="dataForm.iconUrl" class="avatar">
-            <i v-else class="el-icon-plus avatar-uploader-icon"/>
+            <i v-else class="el-icon-plus avatar-uploader-icon" />
           </el-upload>
         </el-form-item>
         <el-form-item :label="$t('mall_category.form.pic_url')" prop="picUrl">
@@ -82,13 +82,14 @@
             :show-file-list="false"
             :on-success="uploadPicUrl"
             class="avatar-uploader"
-            accept=".jpg,.jpeg,.png,.gif">
+            accept=".jpg,.jpeg,.png,.gif"
+          >
             <img v-if="dataForm.picUrl" :src="dataForm.picUrl" class="avatar">
-            <i v-else class="el-icon-plus avatar-uploader-icon"/>
+            <i v-else class="el-icon-plus avatar-uploader-icon" />
           </el-upload>
         </el-form-item>
         <el-form-item :label="$t('mall_category.form.desc')" prop="desc">
-          <el-input v-model="dataForm.desc"/>
+          <el-input v-model="dataForm.desc" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -102,9 +103,6 @@
 </template>
 
 <style scoped>
-.filter-item{
-  margin-left: 100px;
-}
 .avatar-uploader .el-upload {
   border: 1px dashed #d9d9d9;
   border-radius: 6px;
@@ -150,7 +148,7 @@ export default {
         id: undefined,
         name: '',
         keywords: '',
-        level: 'L2',
+        level: 'L1',
         pid: 0,
         desc: '',
         iconUrl: '',
@@ -201,7 +199,7 @@ export default {
         id: undefined,
         name: '',
         keywords: '',
-        level: 'L2',
+        level: 'L1',
         pid: 0,
         desc: '',
         iconUrl: '',
