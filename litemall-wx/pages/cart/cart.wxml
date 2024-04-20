@@ -26,17 +26,19 @@
               <view class="cart-goods">
                 <image class="img" src="{{item.picUrl}}"></image>
                 <view class="info">
-                  <view class="t">
-                    <text class="name">{{item.goodsName}}</text>
-                    <text class="num">x{{item.number}}</text>
-                  </view>
+                  <view class="name">{{item.goodsName}}</view>
+                  <view class="num">x{{item.number}}</view>
                   <view class="attr">{{ isEditCart ? '已选择:' : ''}}{{item.specifications||''}}</view>
-                  <view class="b">
+                  <view class="flex">
                     <text class="price">￥{{item.price}}</text>
-                    <view class="selnum">
-                      <view class="cut" bindtap="cutNumber" data-item-index="{{index}}">-</view>
-                      <input value="{{item.number}}" class="number" disabled="true" type="number" />
-                      <view class="add" bindtap="addNumber" data-item-index="{{index}}">+</view>
+                    <view class="cart-control selnum">
+                      <view class="control-comp">
+                        <view class="control-btn dec-btn" bind:tap="cutNumber" data-item-index="{{index}}">-</view>
+                      </view>
+                      <text class="control-comp"> {{ item.number }}</text>
+                      <view class="control-comp">
+                        <view class="control-btn inc-btn" bind:tap="addNumber" data-item-index="{{index}}">+</view>
+                      </view>
                     </view>
                   </view>
                 </view>

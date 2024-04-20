@@ -42,8 +42,7 @@
     "pages/ucenter/aftersaleList/aftersaleList",
     "pages/ucenter/aftersaleDetail/aftersaleDetail",
     "pages/store/index",
-    "pages/home/index",
-    "pages/demo/index"
+    "pages/home/index"
   ],
   "window": {
     "navigationBarBackgroundColor": "#FFFFFF",
@@ -111,7 +110,8 @@
     "van-icon": "./lib/vant-weapp/icon/index",
     "van-checkbox": "./lib/vant-weapp/checkbox/index",
     "van-steps": "./lib/vant-weapp/steps/index",
-    "van-action-sheet": "./lib/vant-weapp/action-sheet",
+    "van-action-sheet": "./lib/vant-weapp/action-sheet/index",
+    "van-sticky": "./lib/vant-weapp/sticky/index",
     "iconfont": "./iconfont/iconfont"
   },
   "sitemapLocation": "sitemap.json"

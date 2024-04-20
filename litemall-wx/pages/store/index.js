@@ -1,5 +1,6 @@
 var util = require('../../utils/util.js');
 var api = require('../../config/api.js');
+const { AddressDelete } = require('../../config/api.js');
 const app = getApp()
 Page({
   data: {
@@ -26,11 +27,41 @@ Page({
     productList: [],
     checkedSpecPrice: 0,
     tmpSpecText: '',
-    goodsNumber:1
+    goodsNumber: 1,
+    mallNmae: '',
+    mallDesc: '',
+    mallNotice: '',
+    mallBanner: '',
+    mallLogo: '',
+    mallLatitude: '',
+    mallLongitude: '',
+    mallPhone: '',
+    mallBusinessStartTime: '',
+    mallBusinessEndTime: '',
+    noticeShow: false,
   },
   onLoad: function (options) {
-    // this.getCatalog()
-    // this.getCartList()
+    this.getMallDetail()
+    this.getCatalog()
+    this.getCartList()
+  },
+  getMallDetail(){
+    util.request(api.MallDetail).then((res)=>{
+      const {name, desc, notice, address, banner, logo, latitude, longitude, phone, businessStartTime, businessEndTime } = res.data
+      this.setData({
+        mallName: name,
+        mallDesc: desc,
+        mallNotice: notice,
+        mallBanner: banner,
+        mallLogo: logo,
+        mallAddress: address,
+        mallLatitude: latitude,
+        mallLongitude: longitude,
+        mallPhone: phone,
+        mallBusinessStartTime: businessStartTime,
+        mallBusinessEndTime: businessEndTime
+      });
+    });
   },
   getCatalog: function() {
     //CatalogList
@@ -57,7 +88,6 @@ Page({
           cartTotal: res.data.cartTotal.goodsAmount,
           cartMap: cartMap,
         })
-
         if(this.data.cartShow && !res.data.cartList.length){
           this.setData({
             cartShow: false
@@ -127,7 +157,7 @@ Page({
     });  
   },
   navigateToProductDetail(event){
-    const id = event.target.dataset.id
+    const id = event.currentTarget.dataset.id
     wx.navigateTo({  
       url: '/pages/goods/goods?id=' + id  
     });  
@@ -418,6 +448,25 @@ Page({
     }
     wx.navigateTo({
       url: '/pages/checkout/checkout'
+    })
+  },
+  onOpenNoticePopup: function(){
+    this.setData({noticeShow: true})
+  },
+  onCloseNoticePopup: function(){
+    this.setData({noticeShow: false})
+  },
+  showLocation: function (e) {
+    wx.openLocation({
+      latitude: parseFloat(this.data.mallLatitude),
+      longitude: parseFloat(this.data.mallLongitude),
+      name: this.data.mallNmae,
+      address: this.data.mallAddress,
+    })
+  },
+  callPhone: function (e) {
+    wx.makePhoneCall({
+      phoneNumber: this.data.mallPhone,
     })
   },
   /**

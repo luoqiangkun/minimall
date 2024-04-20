@@ -15,6 +15,7 @@ export default {
       user_history: '搜索历史',
       user_feedback: '意见反馈',
       mall: '商场管理',
+      store: '店铺管理',
       mall_region: '行政区域',
       mall_brand: '品牌制造商',
       mall_category: '商品类目',
@@ -912,10 +913,15 @@ export default {
   config_mall: {
     form: {
       mall_name: '商场名称',
+      mall_desc: '商场简介',
       mall_address: '商场地址',
       mall_coordinates: '地理坐标',
       mall_phone: '联系电话',
-      mall_qq: '联系QQ'
+      mall_qq: '联系QQ',
+      mall_banner: '商场banner',
+      mall_logo: '商场logo',
+      mall_notice: '商场公告',
+      mall_business_hours:'营业时间'
     },
     placeholder: {
       mall_longitude: '经度',

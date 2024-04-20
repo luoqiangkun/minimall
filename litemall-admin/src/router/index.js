@@ -158,6 +158,15 @@ export const asyncRoutes = [
     },
     children: [
       {
+        path: 'store',
+        component: () => import('@/views/mall/store'),
+        name: 'store',
+        meta: {
+          title: 'app.menu.store',
+          noCache: true
+        }
+      },
+      {
         path: 'region',
         component: () => import('@/views/mall/region'),
         name: 'region',
