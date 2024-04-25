@@ -7,94 +7,105 @@
 		</view>
 	</view>
 </view>
-<view class="banner"></view>
+<view class="container">
+
+<view class="banner" style="background-image: url({{mallBanner}});"></view>
 <view class="store">
 		<view class="store-content">
 			<view class="store-info">
-				<view class="store-name">测试测试测试</view>
-				<view class="store-desc">测试测试测试测试测试测试测试测试测</view>
+				<view class="store-name">{{mallName}}</view>
+				<view class="store-desc">{{mallDesc}}</view>
 			</view>
-			<view class="store-logo"></view>
+			<view class="store-logo">
+        <image src="{{mallLogo}}" mode="aspectFit" />
+      </view>
 		</view>
-		<view class="store-location">测试测试测试测试测试测试测试测试测试测试测试</view>
-		<view class="store-notice" >
-			<text>测试测试测试测试测试测测试测试测试测试</text>
+		<view class="store-location" bind:tap="showLocation">
+      <text>{{mallAddress}}</text>
+      <van-icon name="location-o" />
+      </view>
+		<view class="store-notice" bind:tap="onOpenNoticePopup">
+			<text>{{mallNotice}}</text>
 			<van-icon name="arrow-down" />
 		</view>
 </view>
-<view class="container">
-  <view class="category-wrapper">
-    <scroll-view class="category-list" scroll-y="true" scroll-with-animation="true">
-      <block wx:for="{{list}}" wx:key="id">
-        <view  class="catgegory-item {{curActive === index ? 'active' : ''}}" data-id="{{item.id}}" data-index="{{index}}" bindtap="clickCategory">
-        <image class="category-icon" src="{{item.iconUrl}}" mode="aspectFit"></image>
-        {{item.name}}
-        </view>
-      </block>
-    </scroll-view>
-  </view>
-  <view class="prodeuct-wrapper">
-    <scroll-view class="product-container" scroll-y="true" scroll-with-animation="true" bindscroll="scroll" scroll-into-view="{{toView}}">
+<van-sticky>
+  <view class="main">
+    <view class="category-wrapper">
+      <scroll-view class="category-list" scroll-y="true" scroll-with-animation="true">
         <block wx:for="{{list}}" wx:key="id">
-          <view id="nav{{item.id}}" class="product-block">
-            <view class="product-category">
-              <image class="category-icon" src="{{item.iconUrl}}" mode="aspectFit"></image>
-              <view class="category-name">{{item.name}}</view>
-            </view>
-            <view class="product-list" >
-              <view class="product-item"  wx:for="{{item.goodsList}}" wx:key="id" wx:for-item="goods" wx:for-index="id" data-id="{{goods.id}}" bind:tap="navigateToProductDetail">
-                  <image class="product-img" src="{{goods.picUrl}}" mode="aspectFit"></image>
-                  <view class="product-detail">
-                      <view class="product-name">{{goods.name}}</view>
-                      <view class="product-desc">{{goods.brief}}</view>
-                      <view class="product-act">
-                        <view class="product-price">
-                          ¥<text class="strong">{{goods.retailPrice}}</text>
-                        </view>
-                        <view wx:if="{{goods.specificationList && goods.specificationList.length && !cartMap[goods.id]}}">
-                          <view class="primary-btn" catchtap="showProductPopup" data-goods="{{goods}}">选规格</view>
-                        </view>
-                        <view class="cart-control" wx:else>                      
-                          <view class="control-comp">
-                            <view class="control-btn dec-btn" catchtap="decCartProduct" data-goods="{{goods}}" data-cart="{{cartMap[goods.id]}}" wx:if="{{cartMap[goods.id]}}">-</view>
-                          </view>
-                          <text class="control-comp" wx-if="{{ cartMap[goods.id] }}"> {{ cartMap[goods.id].number }}</text>
-                          <view class="control-comp">
-                            <view class="control-btn inc-btn" catchtap="incCartProduct" data-goods="{{goods}}" data-cart="{{cartMap[goods.id]}}" wx:if="{{cartMap[goods.id]}}">+</view>
-                            <view class="control-btn inc-btn" catchtap="addCartProduct" data-goods="{{goods}}" wx:else>+</view>
-                          </view>
-                        </view>
-                      </view>
-                  </view>               
-                </view>
-            </view>
+          <view  class="catgegory-item {{curActive === index ? 'active' : ''}}" data-id="{{item.id}}" data-index="{{index}}" bindtap="clickCategory">
+          <image class="category-icon" src="{{item.iconUrl}}" mode="aspectFit"></image>
+          {{item.name}}
           </view>
         </block>
-    </scroll-view>
-  </view>
+      </scroll-view>
+    </view>
+    <view class="prodeuct-wrapper">
+      <scroll-view class="product-container" scroll-y="true" scroll-with-animation="true" bindscroll="scroll" scroll-into-view="{{toView}}">
+          <block wx:for="{{list}}" wx:key="id">
+            <view id="nav{{item.id}}" class="product-block">
+              <view class="product-category">
+                <image class="category-icon" src="{{item.iconUrl}}" mode="aspectFit"></image>
+                <view class="category-name">{{item.name}}</view>
+              </view>
+              <view class="product-list" >
+                <view class="product-item"  wx:for="{{item.goodsList}}" wx:key="id" wx:for-item="goods" wx:for-index="id" data-id="{{goods.id}}" bind:tap="navigateToProductDetail">
+                    <image class="product-img" src="{{goods.picUrl}}" mode="aspectFit"></image>
+                    <view class="product-detail">
+                        <view class="product-name">{{goods.name}}</view>
+                        <view class="product-desc">{{goods.brief}}</view>
+                        <view class="product-act">
+                          <view class="product-price">
+                            ¥<text class="strong">{{goods.retailPrice}}</text>
+                          </view>
+                          <view wx:if="{{goods.specificationList && goods.specificationList.length && !cartMap[goods.id]}}">
+                            <view class="primary-btn" catchtap="showProductPopup" data-goods="{{goods}}">选规格</view>
+                          </view>
+                          <view class="cart-control" wx:else>                      
+                            <view class="control-comp">
+                              <view class="control-btn dec-btn" catchtap="decCartProduct" data-goods="{{goods}}" data-cart="{{cartMap[goods.id]}}" wx:if="{{cartMap[goods.id]}}">-</view>
+                            </view>
+                            <text class="control-comp" wx-if="{{ cartMap[goods.id] }}"> {{ cartMap[goods.id].number }}</text>
+                            <view class="control-comp">
+                              <view class="control-btn inc-btn" catchtap="incCartProduct" data-goods="{{goods}}" data-cart="{{cartMap[goods.id]}}" wx:if="{{cartMap[goods.id]}}">+</view>
+                              <view class="control-btn inc-btn" catchtap="addCartProduct" data-goods="{{goods}}" wx:else>+</view>
+                            </view>
+                          </view>
+                        </view>
+                    </view>               
+                  </view>
+              </view>
+            </view>
+          </block>
+      </scroll-view>
+    </view>
 
-  <view class="cart-wrapper">
-    <view class="cart-bar">
-      <view class="cart-content" bind:tap="onTaggleCartPopup">
-        <view class="cart-icon">
-          <van-icon name="shopping-cart" size="60rpx" color="var(--pink)" />
+    <view class="cart-wrapper">
+      <view class="cart-bar">
+        <view class="cart-content" bind:tap="onTaggleCartPopup">
+          <view class="cart-icon">
+            <van-icon name="shopping-cart" size="60rpx" color="var(--pink)" />
+          </view>
+          <view class="cart-detail">
+            <view class="cart-price">¥ {{cartTotal}}</view>
+            <view class="cart-tips">支持自取</view>
+          </view>
         </view>
-        <view class="cart-detail">
-          <view class="cart-price">¥ {{cartTotal}}</view>
-          <view class="cart-tips">支持自取</view>
-        </view>
+        <view class="cart-btn" bind:tap="checkoutOrder">去结算</view>
       </view>
-      <view class="cart-btn" bind:tap="checkoutOrder">去结算</view>
     </view>
   </view>
-  <van-popup
-    show="{{ cartShow }}"
-    round
-    position="bottom"
-    custom-class="bottom-popup"
-    custom-style="z-index: 9999;"
-    bind:close="onCloseCartPopup"
-  >
+</van-sticky>
+
+<van-popup
+  show="{{ cartShow }}"
+  round
+  position="bottom"
+  custom-class="bottom-popup"
+  custom-style="z-index: 9999;"
+  bind:close="onCloseCartPopup"
+>
   <view class="cart-popup">
     <view class="action-wrapper">
         <view class="action-header">
@@ -129,64 +140,91 @@
         <view class="action-footer"></view>
       </view>
   </view>
-  </van-popup>
+</van-popup>
 
-  <van-popup
-    show="{{ detailShow }}"
-    round
-    position="bottom"
-    custom-class="bottom-popup"
-    custom-style="z-index: 99999;"
-    bind:close="closeProductPopup"
-  >
-    <view class="product-popup">
-      <view class="product-content">
-        <div class="product-item">
-          <image class="product-img" src="{{goodsPicUrl}}" mode="aspectFit"></image>
-              <view class="product-detail">
-                <view class="product-name">{{goodsName}}</view>
-                <view class="product-desc">{{goodsBrief}}</view>
-                <view class="product-act">
-                  <view class="product-price">
-                    ¥<text class="strong">{{checkedSpecPrice}}</text>
-                  </view>
+<van-popup
+  show="{{ detailShow }}"
+  round
+  position="bottom"
+  custom-class="bottom-popup"
+  custom-style="z-index: 99999;"
+  bind:close="closeProductPopup"
+>
+  <view class="product-popup">
+    <view class="product-content">
+      <div class="product-item">
+        <image class="product-img" src="{{goodsPicUrl}}" mode="aspectFit"></image>
+            <view class="product-detail">
+              <view class="product-name">{{goodsName}}</view>
+              <view class="product-desc">{{goodsBrief}}</view>
+              <view class="product-act">
+                <view class="product-price">
+                  ¥<text class="strong">{{checkedSpecPrice}}</text>
                 </view>
-            </view>
-        </div>
-        <view class="spec-wrapper">
-          <view class="spec-list">
-            <view class="spec-item" wx:for="{{specificationList}}" wx:key="name">
-              <view class="spec-name">{{item.name}}</view>
-              <view class="spec-values">
-                <view class="value {{vitem.checked ? 'selected' : ''}}" bindtap="clickSkuValue" wx:for="{{item.valueList}}" wx:for-item="vitem" wx:key="id" data-value-id="{{vitem.id}}" data-name="{{vitem.specification}}">{{vitem.value}}</view>
               </view>
+          </view>
+      </div>
+      <view class="spec-wrapper">
+        <view class="spec-list">
+          <view class="spec-item" wx:for="{{specificationList}}" wx:key="name">
+            <view class="spec-name">{{item.name}}</view>
+            <view class="spec-values">
+              <view class="value {{vitem.checked ? 'selected' : ''}}" bindtap="clickSkuValue" wx:for="{{item.valueList}}" wx:for-item="vitem" wx:key="id" data-value-id="{{vitem.id}}" data-name="{{vitem.specification}}">{{vitem.value}}</view>
             </view>
-          </view>  
-        </view>
-        <view class="attr-wappper"></view>
-        <view class="action-wrapper">
-          <text>数量</text>
-          <view class="cart-control">                      
-            <view class="control-comp">
-              <view class="control-btn dec-btn" bind:tap="decProductNumber" data-goods="{{goods}}" data-cart="{{cartMap[goods.id]}}" >-</view>
-            </view>
-            <text class="control-comp"> {{ goodsNumber }}</text>
-            <view class="control-comp">
-              <view class="control-btn inc-btn" bind:tap="incProductNumber" data-goods="{{goods}}" data-cart="{{cartMap[goods.id]}}" >+</view>
-            </view>
+          </view>
+        </view>  
+      </view>
+      <view class="attr-wappper"></view>
+      <view class="action-wrapper">
+        <text>数量</text>
+        <view class="cart-control">                      
+          <view class="control-comp">
+            <view class="control-btn dec-btn" bind:tap="decProductNumber" data-goods="{{goods}}" data-cart="{{cartMap[goods.id]}}" >-</view>
+          </view>
+          <text class="control-comp"> {{ goodsNumber }}</text>
+          <view class="control-comp">
+            <view class="control-btn inc-btn" bind:tap="incProductNumber" data-goods="{{goods}}" data-cart="{{cartMap[goods.id]}}" >+</view>
           </view>
         </view>
       </view>
-      <!-- <view class="selected-wrapper">
-        <text>已选规格：</text>
-        <text class="strong">{{tmpSpecText}}</text>
-      </view> -->
-      <view class="footer">
-        <van-button type="primary" block color="#FFC0CB" bind:tap="addCartProduct">加入购物车</van-button>
-      </view>
     </view>
-  </van-popup>
+    <!-- <view class="selected-wrapper">
+      <text>已选规格：</text>
+      <text class="strong">{{tmpSpecText}}</text>
+    </view> -->
+    <view class="footer">
+      <view class="button" bind:tap="addCartProduct">加入购物车</view>
+    </view>
+  </view>
+</van-popup>
 
+<van-popup
+  show="{{ noticeShow }}"
+  round
+  closeable
+  position="bottom"
+  custom-class="notice-popup"
+  custom-style="border-radius:20rpx;"
+  bind:close="onCloseNoticePopup"
+>
+  <view class="wrapper">
+    <view>
+      <view>店铺简介：</view>
+      <view>{{mallDesc}}</view>
+    </view>
+    <view>
+      <view>营业时间：</view>
+      <view>每天 {{mallBusinessStartTime}} ～ {{mallBusinessEndTime}}</view>
+    </view>
+    <view>
+      <view>联系电话：</view>
+      <view bind:tap="callPhone">{{mallPhone}}</view>
+    </view>
+    <view>
+      <view>店铺公告：</view>
+      <view>{{mallNotice}}</view>
+    </view>
+  </view>
+</van-popup>
 
 </view>
-

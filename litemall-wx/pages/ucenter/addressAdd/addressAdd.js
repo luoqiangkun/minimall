@@ -337,6 +337,7 @@ Page({
       if (res.errno === 0) {
         //返回之前，先取出上一页对象，并设置addressId
         var pages = getCurrentPages();
+        console.log( pages )
         var prevPage = pages[pages.length - 2];
         console.log(prevPage);
         if (prevPage.route == "pages/checkout/checkout") {

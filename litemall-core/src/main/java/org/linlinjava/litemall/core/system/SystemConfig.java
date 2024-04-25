@@ -30,6 +30,12 @@ public class SystemConfig {
     public final static String LITEMALL_MALL_QQ = "litemall_mall_qq";
     public final static String LITEMALL_MALL_LONGITUDE = "litemall_mall_longitude";
     public final static String LITEMALL_MALL_Latitude = "litemall_mall_latitude";
+    public final static String LITEMALL_MALL_DESC = "litemall_mall_desc";
+    public final static String LITEMALL_MALL_NOTICE = "litemall_mall_notice";
+    public final static String LITEMALL_MALL_BANNER = "litemall_mall_banner";
+    public final static String LITEMALL_MALL_LOGO = "litemall_mall_logo";
+    public final static String LITEMALL_MALL_BUSINESS_START_TIME = "litemall_mall_business_start_time";
+    public final static String LITEMALL_MALL_BUSINESS_END_TIME = "litemall_mall_business_end_time";
 
     //所有的配置均保存在该 HashMap 中
     private static Map<String, String> SYSTEM_CONFIGS = new HashMap<>();
@@ -120,6 +126,30 @@ public class SystemConfig {
 
     public static String getMallLatitude() {
         return getConfig(LITEMALL_MALL_Latitude);
+    }
+
+    public static String getMallDesc() {
+        return getConfig(LITEMALL_MALL_DESC);
+    }
+
+    public static String getMallNotice() {
+        return getConfig(LITEMALL_MALL_NOTICE);
+    }
+
+    public static String getMallBanner() {
+        return getConfig(LITEMALL_MALL_BANNER);
+    }
+
+    public static String getMallLogo() {
+        return getConfig(LITEMALL_MALL_LOGO);
+    }
+
+    public static String getBusinessStartTime() {
+        return getConfig(LITEMALL_MALL_BUSINESS_START_TIME);
+    }
+
+    public static String getBusinessEndTime() {
+        return getConfig(LITEMALL_MALL_BUSINESS_END_TIME);
     }
 
     public static void setConfigs(Map<String, String> configs) {

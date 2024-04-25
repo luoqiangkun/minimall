@@ -1,3 +1,4 @@
+
 var util = require('../../utils/util.js');
 var api = require('../../config/api.js');
 var user = require('../../utils/user.js');
@@ -212,12 +213,16 @@ Page({
   cutNumber: function(event) {
     let itemIndex = event.target.dataset.itemIndex;
     let cartItem = this.data.cartGoods[itemIndex];
-    let number = (cartItem.number - 1 > 1) ? cartItem.number - 1 : 1;
-    cartItem.number = number;
-    this.setData({
-      cartGoods: this.data.cartGoods
-    });
-    this.updateCart(cartItem.productId, cartItem.goodsId, number, cartItem.id);
+    let number = cartItem.number - 1;
+    if(number == 0){
+        this.deleteCart(cartItem.goodsId)
+    } else {
+      cartItem.number = number;
+      this.setData({
+        cartGoods: this.data.cartGoods
+      });
+      this.updateCart(cartItem.productId, cartItem.goodsId, number, cartItem.id);
+    }
   },
   addNumber: function(event) {
     let itemIndex = event.target.dataset.itemIndex;
@@ -255,48 +260,36 @@ Page({
     } catch (e) {}
 
   },
-  deleteCart: function() {
-    //获取已选择的商品
-    let that = this;
-
-    let productIds = this.data.cartGoods.filter(function(element, index, array) {
-      if (element.checked == true) {
-        return true;
-      } else {
-        return false;
+  deleteCart: function(productId) {
+    wx.showModal({
+      cancelColor: '#333333',
+      confirmColor: 'var(--pink)',
+      content: `确认要删除吗?`,
+      success: (res)=>{
+        if (res.cancel) {
+          //点击取消,默认隐藏弹框
+        } else {
+          util.request(api.CartDelete, {
+            productIds: [productId]
+          }, 'POST').then((res) => {
+            if (res.errno === 0) {
+              let cartList = res.data.cartList.map(v => {
+                v.checked = false;
+                return v;
+              });
+  
+              this.setData({
+                cartGoods: cartList,
+                cartTotal: res.data.cartTotal
+              });
+            }
+  
+            this.setData({
+              checkedAllStatus: this.isCheckedAll()
+            });
+          });
+        }
       }
-    });
-
-    if (productIds.length <= 0) {
-      return false;
-    }
-
-    productIds = productIds.map(function(element, index, array) {
-      if (element.checked == true) {
-        return element.productId;
-      }
-    });
-
-
-    util.request(api.CartDelete, {
-      productIds: productIds
-    }, 'POST').then(function(res) {
-      if (res.errno === 0) {
-        console.log(res.data);
-        let cartList = res.data.cartList.map(v => {
-          v.checked = false;
-          return v;
-        });
-
-        that.setData({
-          cartGoods: cartList,
-          cartTotal: res.data.cartTotal
-        });
-      }
-
-      that.setData({
-        checkedAllStatus: that.isCheckedAll()
-      });
-    });
+    })
   }
 })

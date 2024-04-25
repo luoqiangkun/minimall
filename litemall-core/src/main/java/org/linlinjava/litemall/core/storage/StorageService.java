@@ -1,6 +1,7 @@
 package org.linlinjava.litemall.core.storage;
 
 import org.linlinjava.litemall.core.util.CharUtil;
+import org.linlinjava.litemall.db.domain.LitemallStorage;
 import org.linlinjava.litemall.db.domain.LitemallStore;
 import org.linlinjava.litemall.db.service.LitemallStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,12 +44,12 @@ public class StorageService {
      * @param contentType   文件类型
      * @param fileName      文件索引名
      */
-    public LitemallStore store(InputStream inputStream, long contentLength, String contentType, String fileName) {
+    public LitemallStorage store(InputStream inputStream, long contentLength, String contentType, String fileName) {
         String key = generateKey(fileName);
         storage.store(inputStream, contentLength, contentType, key);
 
         String url = generateUrl(key);
-        LitemallStore storageInfo = new LitemallStore();
+        LitemallStorage storageInfo = new LitemallStorage();
         storageInfo.setName(fileName);
         storageInfo.setSize((int) contentLength);
         storageInfo.setType(contentType);
@@ -64,7 +65,7 @@ public class StorageService {
         String suffix = originalFilename.substring(index);
 
         String key = null;
-        LitemallStore storageInfo = null;
+        LitemallStorage storageInfo = null;
 
         do {
             key = CharUtil.getRandomString(20) + suffix;

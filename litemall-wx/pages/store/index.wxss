@@ -140,21 +140,14 @@
 .cu-custom .cu-bar .action-custom van-icon {
 	margin-right: 20rpx;
 }
+.container {
+  position: relative;
+  background-color: #ffffff;
+}
 .banner {
 	width: 100%;
 	height: 300rpx;
-	/* background-image: url(https://img.51miz.com/preview/muban/00/00/28/13/M-281365-1376C8FD.jpg); */
-	background: linear-gradient(45deg, #f43f3b, #ec008c);
 	background-size: 100%;
-	position: fixed;
-  width: 100%;
-  top: 0;
-}
-.container {
-	position: relative;
-	top: 50rpx;
-	z-index: 2;
-	background-color: transparent;
 }
 .store {
 	width: 93%;
@@ -163,7 +156,9 @@
   position: relative;
 	background-color: #fff;
 	border-radius: 20rpx;
-	box-shadow: 0 6rpx 6rpx 6rpx rgba(26, 26, 26, 0.2);
+  box-shadow: 0 6rpx 6rpx 6rpx rgba(26, 26, 26, 0.2);
+  position: relative;
+  top: -50rpx;
 }
 .store>view {
 	margin-bottom: 10rpx;
@@ -185,28 +180,36 @@
 	width: 100rpx;
 	height: 100rpx;
 	flex-shrink: 0;
-	background: linear-gradient(45deg, #ec008c, #6739b6);
 	border-radius: 20rpx;
 	overflow: hidden;
 }
-
+.store-content .store-logo image {
+  width: 100%;
+  height: 100%;
+}
+.store .store-location,
 .store .store-notice {
 	display: flex;
 	align-content: center;
 }
+.store .store-location text,
 .store .store-notice text {
 	overflow: hidden;
 	text-emphasis: ellipsis;
-	white-space: nowrap;
+  white-space: nowrap;
+  margin-right: 10rpx;
 }
+.store .store-location vant-icon,
 .store .store-notice vant-icon {
-	flex-shrink: 0;
+  flex-shrink: 0;
 }
 
-.container {
+.main {
   display: flex;
   height: calc(100vh);
   background-color: #ffffff;
+  position: relative;
+  top: -39rpx;
 }
 
 .category-wrapper {
@@ -315,12 +318,12 @@
   justify-content: center;
 }
 .cart-control .inc-btn {
-  background-color: #FFC0CB;
+  background-color: var(--pink);
   color: #ffffff;
 }
 .cart-control .dec-btn {
-  border: 1px solid #FFC0CB;
-  color: #FFC0CB;
+  border: 1px solid var(--pink);
+  color: var(--pink);
 } 
 .cart-bar {
   display: flex;
@@ -403,7 +406,7 @@
 }
 
 .product-popup  .spec-list  .spec-item {
-
+  margin-bottom: 60rpx;
 }
 .spec-list  .spec-item .spec-name {
   font-weight: 600;
@@ -419,8 +422,8 @@
   border: 1px solid #e4e4e4;
 }
 .spec-list  .spec-item .spec-values .selected {
-  border:1px solid #FFC0CB;
-  color: #FFC0CB;
+  border:1px solid var(--pink);
+  color: var(--pink);
 }
 .product-popup .action-wrapper {
   display: flex;
@@ -441,7 +444,15 @@
 .product-popup .footer {
   margin-top: 40rpx;
   padding: 0 40rpx;
+}
+.product-popup .footer .button {
+  width: 100%;
+  border-radius: 50rpx;
+  height: 80rpx;
+  line-height: 80rpx;
+  text-align: center;
   color: #ffffff;
+  background-color: var(--pink);
 }
 .cart-popup {
   padding: 20rpx 40rpx 150rpx;
@@ -450,6 +461,17 @@
 .primary-btn {
   font-size: 25rpx;
   padding: 10rpx;
-  background-color: #FFC0CB;
+  background-color: var(--pink);
   border-radius: 30rpx;
+  color: #ffffff;
+}
+.notice-popup .wrapper {
+  padding: 50rpx 30rpx 120rpx;
+}
+.notice-popup .wrapper>view {
+  margin-bottom: 20rpx;
+}
+.notice-popup .wrapper>view>view:first-child {
+  font-weight: 600;
+  margin-bottom: 10rpx;
 }

@@ -5,7 +5,7 @@
       <button style="background-color:#A9A9A9" bindtap="goLogin">去登录</button>
     </view>
   </view>
-  <view class='login' wx:else>
+  <view class='login bg' wx:else>
     <view class="service-policy">
       <view class="item">30天无忧退货</view>
       <view class="item">48小时快速退款</view>
@@ -21,22 +21,23 @@
       <view class="list">
         <view class="group-item">
           <view class="goods">
-            <view class="item {{isEditCart ? 'edit' : ''}}" wx:for="{{cartGoods}}" wx:key="id">
+            <view class="item" wx:for="{{cartGoods}}" wx:key="id">
               <van-checkbox value="{{ item.checked }}" bind:change="checkedItem" data-item-index="{{index}}" checked-color="var(--pink)"></van-checkbox>
               <view class="cart-goods">
                 <image class="img" src="{{item.picUrl}}"></image>
                 <view class="info">
-                  <view class="t">
-                    <text class="name">{{item.goodsName}}</text>
-                    <text class="num">x{{item.number}}</text>
-                  </view>
+                  <view class="name">{{item.goodsName}}</view>
                   <view class="attr">{{ isEditCart ? '已选择:' : ''}}{{item.specifications||''}}</view>
-                  <view class="b">
+                  <view class="flex">
                     <text class="price">￥{{item.price}}</text>
-                    <view class="selnum">
-                      <view class="cut" bindtap="cutNumber" data-item-index="{{index}}">-</view>
-                      <input value="{{item.number}}" class="number" disabled="true" type="number" />
-                      <view class="add" bindtap="addNumber" data-item-index="{{index}}">+</view>
+                    <view class="cart-control">
+                      <view class="control-comp">
+                        <view class="control-btn dec-btn" bind:tap="cutNumber" data-item-index="{{index}}">-</view>
+                      </view>
+                      <text class="control-comp"> {{ item.number }}</text>
+                      <view class="control-comp">
+                        <view class="control-btn inc-btn" bind:tap="addNumber" data-item-index="{{index}}">+</view>
+                      </view>
                     </view>
                   </view>
                 </view>
@@ -50,9 +51,7 @@
         <van-checkbox value="{{ checkedAllStatus }}" bind:change="checkedAll" checked-color="var(--pink)">全选（{{cartTotal.checkedGoodsCount}}）</van-checkbox>
         <view class="total">{{!isEditCart ? '￥'+cartTotal.checkedGoodsAmount : ''}}</view>
         <view class='action_btn_area'>
-          <view class="{{!isEditCart ? 'edit' : 'sure'}}" bindtap="editCart">{{!isEditCart ? '编辑' : '完成'}}</view>
-          <view class="delete" bindtap="deleteCart" wx:if="{{isEditCart}}">删除({{cartTotal.checkedGoodsCount}})</view>
-          <view class="checkout" bindtap="checkoutOrder" wx:if="{{!isEditCart}}">下单</view>
+          <view class="checkout" bindtap="checkoutOrder">下单</view>
           <!-- </view>  -->
         </view>
       </view>

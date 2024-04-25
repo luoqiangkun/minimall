@@ -15,6 +15,7 @@ export default {
       user_history: 'Search history',
       user_feedback: 'Feedbacks',
       mall: 'Mall',
+      store: 'Store',
       mall_region: 'Regions',
       mall_brand: 'Brands',
       mall_category: 'Categories',
@@ -914,10 +915,15 @@ export default {
   config_mall: {
     form: {
       mall_name: 'Name',
+      mall_desc: 'Desc',
       mall_address: 'Address',
       mall_coordinates: 'Coordinates',
       mall_phone: 'Phone',
-      mall_qq: 'QQ'
+      mall_qq: 'QQ',
+      mall_banner: 'Banner',
+      mall_logo: 'Logo',
+      mall_notice: 'Notice',
+      mall_business_hours: 'Business Hours'
     },
     placeholder: {
       mall_longitude: 'Longitude',
