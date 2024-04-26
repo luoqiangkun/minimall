@@ -3,6 +3,7 @@ page {
   --pink: #FF69B4;
   --blue: #ADD8E6;
   --grey: #8799a3;
+  --gradualRed: linear-gradient(45deg, #f43f3b, #ec008c);
   --gradualPink: linear-gradient(180deg, #FF69B4, #f7f8fa 30%, #f7f8fa 0%) no-repeat;
 }
 .container {

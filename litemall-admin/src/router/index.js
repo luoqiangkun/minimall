@@ -80,7 +80,7 @@ export const asyncRoutes = [
     name: 'userManage',
     meta: {
       title: 'app.menu.user',
-      icon: 'chart'
+      icon: 'el-icon-user-solid'
     },
     children: [
       {
@@ -154,7 +154,7 @@ export const asyncRoutes = [
     name: 'mallManage',
     meta: {
       title: 'app.menu.mall',
-      icon: 'chart'
+      icon: 'el-icon-s-shop'
     },
     children: [
       {
@@ -246,7 +246,7 @@ export const asyncRoutes = [
     name: 'goodsManage',
     meta: {
       title: 'app.menu.goods',
-      icon: 'chart'
+      icon: 'el-icon-s-goods'
     },
     children: [
       {
@@ -300,7 +300,7 @@ export const asyncRoutes = [
     name: 'promotionManage',
     meta: {
       title: 'app.menu.promotion',
-      icon: 'chart'
+      icon: 'el-icon-s-help'
     },
     children: [
       {
@@ -397,7 +397,7 @@ export const asyncRoutes = [
     name: 'sysManage',
     meta: {
       title: 'app.menu.sys',
-      icon: 'chart'
+      icon: 'el-icon-s-tools'
     },
     children: [
       {
@@ -461,7 +461,7 @@ export const asyncRoutes = [
     name: 'configManage',
     meta: {
       title: 'app.menu.config',
-      icon: 'chart'
+      icon: 'el-icon-s-grid'
     },
     children: [
       {
@@ -515,7 +515,7 @@ export const asyncRoutes = [
     name: 'statManage',
     meta: {
       title: 'app.menu.stat',
-      icon: 'chart'
+      icon: 'el-icon-s-data'
     },
     children: [
       {
