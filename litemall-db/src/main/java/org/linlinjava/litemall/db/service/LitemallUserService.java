@@ -26,6 +26,10 @@ public class LitemallUserService {
         UserVo userVo = new UserVo();
         userVo.setNickname(user.getNickname());
         userVo.setAvatar(user.getAvatar());
+        userVo.setBirthday(user.getBirthday());
+        userVo.setGender(user.getGender());
+        userVo.setMobile(user.getMobile());
+        userVo.setAddTime(user.getAddTime());
         return userVo;
     }
 

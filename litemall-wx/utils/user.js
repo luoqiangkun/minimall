@@ -11,10 +11,10 @@ const api = require('../config/api.js');
 function checkSession() {
   return new Promise(function(resolve, reject) {
     wx.checkSession({
-      success: function() {
+      success: function(res) {
         resolve(true);
       },
-      fail: function() {
+      fail: function(res) {
         reject(false);
       }
     })

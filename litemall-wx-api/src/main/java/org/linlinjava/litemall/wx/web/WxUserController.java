@@ -3,7 +3,9 @@ package org.linlinjava.litemall.wx.web;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.linlinjava.litemall.core.util.ResponseUtil;
+import org.linlinjava.litemall.db.domain.UserVo;
 import org.linlinjava.litemall.db.service.LitemallOrderService;
+import org.linlinjava.litemall.db.service.LitemallUserService;
 import org.linlinjava.litemall.wx.annotation.LoginUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -25,6 +27,15 @@ public class WxUserController {
 
     @Autowired
     private LitemallOrderService orderService;
+
+    @Autowired
+    private LitemallUserService userService;
+
+    @RequestMapping("")
+    public Object info(@LoginUser Integer userId){
+        UserVo user = userService.findUserVoById(userId);
+        return ResponseUtil.ok(user);
+    }
 
     /**
      * 用户个人页面数据

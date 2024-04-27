@@ -1,0 +1,49 @@
+<view class="container">
+  <view class="profile">
+    <view class="avatar">
+      <van-uploader file-list="{{ fileList }}" bind:after-read="afterRead" bind:delete="deleteImage" max-count="1" preview-size="50px"/> 
+    </view>
+
+    <view class="detail">
+      <van-field
+        label="用户昵称"
+        model:value="{{ nickname }}"
+      />
+
+      
+
+
+      
+      <van-field
+        label="手机号"
+        model:value="{{ mobile }}"
+      />
+
+      <van-field
+        label="生日"
+        model:value="{{ birthday }}"
+        bind:focus="onOpenPopup"
+      >
+      </van-field>
+
+      <van-field
+        label="注册时间"
+        disabled
+        model:value="{{ addTime }}"
+      />
+
+    </view>
+  </view>
+
+  <van-popup show="{{ show }}" 
+    round
+    position="bottom"
+    bind:close="onClosePopup">
+    <van-datetime-picker
+      type="date"
+      bind:confirm="onConfirm"
+      bind:cancel="onCancel"
+    />
+  </van-popup>
+
+</view>

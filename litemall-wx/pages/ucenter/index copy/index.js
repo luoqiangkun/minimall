@@ -7,7 +7,7 @@ Page({
   data: {
     userInfo: {
       nickName: '点击登录',
-      avatarUrl: '/static/images/avatar.png'
+      avatarUrl: '/static/images/my.png'
     },
     order: {
       unpaid: 0,
@@ -15,31 +15,23 @@ Page({
       unrecv: 0,
       uncomment: 0
     },
-    canIUseGetUserProfile: false,
     hasLogin: false
   },
   onLoad: function(options) {
-    if (wx.getUserProfile) {
-      this.setData({
-        canIUseGetUserProfile: true
-      })
-    }
+    // 页面初始化 options为页面跳转所带来的参数
   },
   onReady: function() {
 
   },
   onShow: function() {
+
     //获取用户的登录信息
     if (app.globalData.hasLogin) {
       let userInfo = wx.getStorageSync('userInfo');
       this.setData({
-        userInfo: {
-          nickName: userInfo.nickName,
-          avatarUrl: userInfo.avatarUrl ? userInfo.avatarUrl : this.data.userInfo.avatarUrl
-        },
+        userInfo: userInfo,
         hasLogin: true
       });
-      console.log( this.data.userInfo )
 
       let that = this;
       util.request(api.UserIndex).then(function(res) {
@@ -218,48 +210,6 @@ Page({
       url: '/pages/help/help'
     });
   },  
-  goProfile: function () {
-    wx.navigateTo({
-      url: '/pages/ucenter/profile/index'
-    });
-  },  
-  wxLogin: function(e) {
-    if (this.data.canIUseGetUserProfile) {
-      wx.getUserProfile({
-        desc: '用于完善会员资料', // 声明获取用户个人信息后的用途，后续会展示在弹窗中，请谨慎填写
-        success: (res) => {
-          this.doLogin(res.userInfo)
-        },
-        fail: () => {
-          util.showErrorToast('微信登录失败');
-        }
-      })
-    }
-    else {
-      if (e.detail.userInfo == undefined) {
-        app.globalData.hasLogin = false;
-        util.showErrorToast('微信登录失败');
-        return;
-      }
-      this.doLogin(e.detail.userInfo)
-    }
-  },
-  doLogin: function(userInfo) {
-    user.checkLogin().then((res)=>{
-      console.log( res )
-    }).catch(() => {
-      user.loginByWeixin(userInfo).then(res => {
-        app.globalData.hasLogin = true;
-        wx.navigateBack({
-          delta: 1
-        })
-      }).catch((err) => {
-        app.globalData.hasLogin = false;
-        util.showErrorToast('微信登录失败');
-      });
-
-    });
-  },
   exitLogin: function() {
     wx.showModal({
       title: '',
