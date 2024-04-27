@@ -9,11 +9,11 @@
       </el-form-item>
       <el-form-item :label="$t('config_mall.form.mall_business_hours')">
         <el-col :span="11">
-          <el-input v-model="dataForm.litemall_mall_business_start_time" :placeholder="$t('config_mall.placeholder.litemall_mall_business_start_time')" />
+          <el-input v-model="dataForm.litemall_mall_business_start_time" />
         </el-col>
         <el-col :span="2" style="text-align: center;">-</el-col>
         <el-col :span="11">
-          <el-input v-model="dataForm.litemall_mall_business_end_time" :placeholder="$t('config_mall.placeholder.litemall_mall_business_end_time')" />
+          <el-input v-model="dataForm.litemall_mall_business_end_time" />
         </el-col>
       </el-form-item>
       <el-form-item :label="$t('config_mall.form.mall_address')" prop="litemall_mall_address">
@@ -137,7 +137,8 @@ export default {
   methods: {
     init: function() {
       listMall().then(response => {
-        this.dataForm = response.data.data
+        this.dataForm = Object.assign(this.dataForm, response.data.data)
+        console.log(this.dataForm)
       })
     },
     uploadBanner: function(response) {
@@ -145,6 +146,7 @@ export default {
     },
     uploadLogo: function(response) {
       this.dataForm.litemall_mall_logo = response.data.url
+      console.log(this.dataForm)
     },
     cancel() {
       this.init()
