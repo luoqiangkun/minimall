@@ -12,6 +12,7 @@ Page({
     birthday:'',
     mobile:'',
     addTime:'',
+    fileList: [],
     show: false
   },
   getUserInfo: function () {
@@ -24,9 +25,16 @@ Page({
           gender: gender,
           birthday: birthday,
           mobile: mobile,
-          addTime: addTime
+          addTime: addTime,
+          fileList: avatar ? [{
+            url: avatar,
+            name: nickname,
+            deletable: false
+          }] : []
         });
       }
+
+      console.log( this.data.fileList)
     });
   },
   afterRead(event) {
@@ -36,15 +44,16 @@ Page({
       url: api.StorageUpload,
       filePath: file.path,
       name: 'file',
-      success: function (res){
+      success: (res) => {
         var _res = JSON.parse(res.data);
         if (_res.errno === 0) {
-          var url = _res.data.url
-          that.data.aftersale.pictures.push(url)
-          const { fileList = [] } = that.data;
-          fileList.push({ ...file, url: url });
-          that.setData({
-            fileList: fileList
+          this.setData({
+            fileList: [{
+              url: _res.data.url,
+              name: this.data.nickname,
+              deletable: false
+            }],
+            avatar: _res.data.url
           })
         }
       },

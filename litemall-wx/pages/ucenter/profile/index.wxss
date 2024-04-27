@@ -1,1 +1,10 @@
-/* pages/ucenter/profile/index.wxss */
+.profile {
+	background: #ffffff;
+}
+
+.profile .avatar {
+	text-align: center;
+}
+.profile .van-uploader__upload{
+	border: 0;
+}

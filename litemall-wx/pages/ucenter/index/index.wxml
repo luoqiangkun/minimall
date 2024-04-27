@@ -105,14 +105,16 @@
         <van-icon name="arrow" />   
       </view>
 
-      <view class="menu-item" bindtap='goFeedback'>
-        <view class='title'>
-          <view class="icon">
-            <image src='/static/images/customer.png'></image>
+      <view class="menu-item">
+        <button class="kf_button" open-type="contact" session-from="weapp">
+          <view class='title'>
+            <view class="icon">
+              <image src='/static/images/customer.png'></image>
+            </view>
+            <text>联系客服</text>
           </view>
-          <text>联系客服</text>
-        </view>
-        <van-icon name="arrow" />   
+          <van-icon name="arrow" size="30rpx" />   
+        </button>
       </view>
 
       <view class="menu-item" bindtap='aboutUs'>

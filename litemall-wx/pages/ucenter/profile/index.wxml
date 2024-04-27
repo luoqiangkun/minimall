@@ -9,16 +9,10 @@
         label="用户昵称"
         model:value="{{ nickname }}"
       />
-
-      
-
-
-      
       <van-field
         label="手机号"
         model:value="{{ mobile }}"
       />
-
       <van-field
         label="生日"
         model:value="{{ birthday }}"

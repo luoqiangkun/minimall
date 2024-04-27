@@ -82,3 +82,19 @@ page {
 .menu-item .title text{
   margin-left: 10rpx;
 }
+.kf_button {
+  background: #fff;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0;
+  margin: 0;
+  border-color: #fff;
+}
+.kf_button::after {
+  border: 0;
+}
+.kf_button vant-icon {
+  font-size: 30rpx;
+}
