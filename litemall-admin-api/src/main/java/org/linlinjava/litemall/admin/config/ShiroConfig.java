@@ -8,11 +8,13 @@ import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.linlinjava.litemall.admin.shiro.AdminAuthorizingRealm;
 import org.linlinjava.litemall.admin.shiro.AdminWebSessionManager;
+import org.linlinjava.litemall.admin.shiro.MyUserFilter;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
 
+import javax.servlet.Filter;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -28,6 +30,10 @@ public class ShiroConfig {
     public ShiroFilterFactoryBean shiroFilterFactoryBean(SecurityManager securityManager) {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         shiroFilterFactoryBean.setSecurityManager(securityManager);
+        Map<String, Filter> filters = shiroFilterFactoryBean.getFilters();
+        filters.put("user",new MyUserFilter());
+        shiroFilterFactoryBean.setFilters(filters);
+
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<String, String>();
         filterChainDefinitionMap.put("/admin/auth/kaptcha", "anon");
         filterChainDefinitionMap.put("/admin/auth/login", "anon");
@@ -36,10 +42,10 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/admin/auth/403", "anon");
         filterChainDefinitionMap.put("/admin/index/*", "anon");
 
-        filterChainDefinitionMap.put("/admin/**", "authc");
-        shiroFilterFactoryBean.setLoginUrl("/admin/auth/401");
-        shiroFilterFactoryBean.setSuccessUrl("/admin/auth/index");
-        shiroFilterFactoryBean.setUnauthorizedUrl("/admin/auth/403");
+        filterChainDefinitionMap.put("/admin/**", "anon");
+//        shiroFilterFactoryBean.setLoginUrl("/admin/auth/401");
+//         shiroFilterFactoryBean.setSuccessUrl("/admin/auth/index");
+//        shiroFilterFactoryBean.setUnauthorizedUrl("/admin/auth/403");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
         return shiroFilterFactoryBean;
     }
