@@ -343,7 +343,7 @@ export default {
       refund_money: '退款金额',
       delivery_person: '配送人',
       delivery_person: '联系方式',
-      delivery_time: '配送时间',
+      delivery_time: '配送时间'
     },
     placeholder: {
       filter_nickname: '请输入用户昵称',

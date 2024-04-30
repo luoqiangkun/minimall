@@ -67,7 +67,6 @@ export function listChannel(id) {
   })
 }
 
-
 export function deliveryOrder(data) {
   return request({
     url: '/order/delivery',

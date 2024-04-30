@@ -345,7 +345,7 @@ export default {
       refund_money: 'Refund amount',
       delivery_person: 'Delivery person',
       delivery_person: 'Delivery mobile',
-      delivery_time: 'Delivery time',
+      delivery_time: 'Delivery time'
     },
     placeholder: {
       filter_nickname: 'Nickname',

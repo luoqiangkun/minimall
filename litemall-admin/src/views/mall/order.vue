@@ -241,19 +241,20 @@
     <!-- 同城配送对话框 -->
     <el-dialog :visible.sync="deliveryDialogVisible" :title="$t('mall_order.dialog.delivery')">
       <el-form ref="deliveryForm" :model="deliveryForm" status-icon label-position="left" label-width="100px" style="width: 400px; margin-left:50px;">
-        <el-form-item :label="$t('mall_order.form.delivery_person')" prop="deliveryPerson" :rules="[{ required: true, trigger: 'blur'}]">
+        <el-form-item :label="$t('mall_order.form.deliveryPerson')" prop="deliveryPerson" :rules="[{ required: true, trigger: 'blur'}]">
           <el-input v-model="deliveryForm.deliveryPerson" />
         </el-form-item>
-        <el-form-item :label="$t('mall_order.form.delivery_mobile')" prop="deliveryMobile" :rules="[{ required: true,validator: checkPhone, trigger: 'blur'}]">
-          <el-input v-model="deliveryForm.deliveryMobile"/>
+        <el-form-item :label="$t('mall_order.form.deliveryMobile')" prop="deliveryMobile" :rules="[{ required: true,validator: checkPhone, trigger: 'blur'}]">
+          <el-input v-model="deliveryForm.deliveryMobile" />
         </el-form-item>
-        <el-form-item :label="$t('mall_order.form.delivery_time')" prop="deliveryTime" :rules="[{ required: true,validator: checkPhone, trigger: 'change'}]">
+        <el-form-item :label="$t('mall_order.form.deliveryTime')" prop="deliveryTime" :rules="[{ required: true,validator: checkPhone, trigger: 'change'}]">
           <el-date-picker
-							type="datetime"
-							v-model="deliveryForm.delivery_time"
-							format="yyyy-MM-dd HH:mm:ss"
-							value-format="yyyy-MM-dd HH:mm:ss"
-							style="width: 100%;"></el-date-picker>
+            v-model="deliveryForm.delivery_time"
+            type="datetime"
+            format="yyyy-MM-dd HH:mm:ss"
+            value-format="yyyy-MM-dd HH:mm:ss"
+            style="width: 100%;"
+          />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -263,7 +264,7 @@
     </el-dialog>
 
     <!-- 确认收货 -->
-    <el-dialog :visible.sync="receiveDialogVisible" :title="$t('mall_order.dialog.tip')"  width="30%">
+    <el-dialog :visible.sync="receiveDialogVisible" :title="$t('mall_order.dialog.tip')" width="30%">
       <span>{{}}</span>
       <div slot="footer" class="dialog-footer">
         <el-button @click="receiveDialogVisible = false">{{ $t('app.button.cancel') }}</el-button>
@@ -417,20 +418,20 @@ export default {
       channels: [],
       deliveryDialogShow: false,
       deliveryForm: {
-        orderSn:'',
+        orderSn: '',
         deliveryPerson: '',
         deliveryPerson: '',
-        deliveryTime: '',
+        deliveryTime: ''
       },
       checkMobile: (rule, value, callback) => { // 手机号验证
         if (!value) {
-            return callback(new Error('手机号不能为空'));
+          return callback(new Error('手机号不能为空'))
         } else {
           const reg = /^1[3456789]\d{9}$/
           if (reg.test(value)) {
-          callback();
+            callback()
           } else {
-              return callback(new Error('请输入正确的手机号'));
+            return callback(new Error('请输入正确的手机号'))
           }
         }
       },
@@ -615,7 +616,7 @@ export default {
       this.$print(this.$refs.print)
       this.orderDialogVisible = false
     },
-    handleDelivery(){
+    handleDelivery() {
       deliveryOrder(this.deliveryForm).then(response => {
         this.deliveryDialogVisible = false
         this.$notify.success({
@@ -649,7 +650,7 @@ export default {
             })
           })
         })
-        .catch(_ => {});
+        .catch(_ => {})
     }
   }
 }
