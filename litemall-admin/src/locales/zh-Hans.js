@@ -321,7 +321,8 @@ export default {
       detail: '订单详情',
       pay: '订单收款',
       ship: '发货',
-      refund: '退款'
+      refund: '退款',
+      delivery: '配送'
     },
     form: {
       detail_order_sn: '订单编号',
@@ -339,7 +340,10 @@ export default {
       pay_new_money: '付款金额',
       ship_channel: '快递公司',
       ship_sn: '快递编号',
-      refund_money: '退款金额'
+      refund_money: '退款金额',
+      delivery_person: '配送人',
+      delivery_person: '联系方式',
+      delivery_time: '配送时间',
     },
     placeholder: {
       filter_nickname: '请输入用户昵称',

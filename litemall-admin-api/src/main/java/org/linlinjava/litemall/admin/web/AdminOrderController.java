@@ -4,6 +4,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.linlinjava.litemall.admin.annotation.RequiresPermissionsDesc;
+import org.linlinjava.litemall.admin.dto.DeliveryDto;
 import org.linlinjava.litemall.admin.service.AdminOrderService;
 import org.linlinjava.litemall.core.express.ExpressService;
 import org.linlinjava.litemall.core.notify.NotifyService;
@@ -135,5 +136,29 @@ public class AdminOrderController {
     @PostMapping("/reply")
     public Object reply(@RequestBody String body) {
         return adminOrderService.reply(body);
+    }
+
+    /**
+     * 同城配送
+     * @param deliveryDto
+     * @return
+     */
+    @RequiresPermissions("admin:order:delivery")
+    @RequiresPermissionsDesc(menu = {"商场管理", "订单管理"}, button = "订单配送")
+    @PostMapping("/delivery")
+    public Object delivery(@Validated DeliveryDto deliveryDto){
+        return adminOrderService.delivery(deliveryDto);
+    }
+
+    /**
+     * 商家确认收货
+     * @param orderSn
+     * @return
+     */
+    @RequiresPermissions("admin:order:receive")
+    @RequiresPermissionsDesc(menu = {"商场管理", "订单管理"}, button = "确认收货")
+    @RequestMapping("/receive/{orderSn}")
+    public Object receive(@PathVariable String orderSn){
+        return adminOrderService.receive(orderSn);
     }
 }

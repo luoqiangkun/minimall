@@ -66,3 +66,19 @@ export function listChannel(id) {
     method: 'get'
   })
 }
+
+
+export function deliveryOrder(data) {
+  return request({
+    url: '/order/delivery',
+    method: 'post',
+    data
+  })
+}
+
+export function receiveOrder(orderSn) {
+  return request({
+    url: '/order/receive/' + orderSn,
+    method: 'get'
+  })
+}

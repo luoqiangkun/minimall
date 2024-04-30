@@ -7,6 +7,7 @@ import com.github.binarywang.wxpay.exception.WxPayException;
 import com.github.binarywang.wxpay.service.WxPayService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.linlinjava.litemall.admin.dto.DeliveryDto;
 import org.linlinjava.litemall.core.notify.NotifyService;
 import org.linlinjava.litemall.core.notify.NotifyType;
 import org.linlinjava.litemall.core.util.DateTimeUtil;
@@ -16,6 +17,7 @@ import org.linlinjava.litemall.db.domain.*;
 import org.linlinjava.litemall.db.service.*;
 import org.linlinjava.litemall.db.util.CouponUserConstant;
 import org.linlinjava.litemall.db.util.GrouponConstant;
+import org.linlinjava.litemall.db.util.OrderConstant;
 import org.linlinjava.litemall.db.util.OrderUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -209,10 +211,14 @@ public class AdminOrderService {
             return ResponseUtil.fail(ORDER_CONFIRM_NOT_ALLOWED, "订单不能确认收货");
         }
 
+        if(order.getShipType() != null && order.getShipType() == OrderConstant.SELF_PICKUP){
+            return ResponseUtil.fail(ORDER_INVALID_SHIP,"自提商品不需要配送");
+        }
         order.setOrderStatus(OrderUtil.STATUS_SHIP);
         order.setShipSn(shipSn);
         order.setShipChannel(shipChannel);
         order.setShipTime(LocalDateTime.now());
+        order.setShipType(OrderConstant.EXPRESS);
         if (orderService.updateWithOptimisticLocker(order) == 0) {
             return ResponseUtil.updatedDateExpired();
         }
@@ -315,4 +321,64 @@ public class AdminOrderService {
 
         return ResponseUtil.ok();
     }
+
+    /**
+     * 同城配送
+     * @param deliveryDto
+     * @return
+     */
+    public Object delivery(DeliveryDto deliveryDto){
+        String orderSn = deliveryDto.getOrderSn();
+        if(!StringUtils.hasText(orderSn)){
+            return ResponseUtil.badArgument();
+        }
+        LitemallOrder order = orderService.findBySn(orderSn);
+        if (order == null) {
+            return ResponseUtil.badArgument();
+        }
+        if(order.getShipStatus() != null){
+            return ResponseUtil.fail(ORDER_INVALID_SHIP,"商品已进行配送");
+        }
+        if(order.getShipType() == OrderConstant.SELF_PICKUP){
+            return ResponseUtil.fail(ORDER_INVALID_SHIP,"自提商品不需要配送");
+        }
+        order.setShipStatus(OrderConstant.PROGRESS);
+        order.setShipType(OrderConstant.DELIVERY);
+        order.setDeliveryPerson(deliveryDto.getDeliveryPerson());
+        order.setDeliveryMobile(deliveryDto.getDeliveryMobile());
+        order.setDeliveryTime(deliveryDto.getDeliveryTime());
+        if(orderService.updateWithOptimisticLocker(order) == 0){
+            return ResponseUtil.fail(ORDER_INVALID_SHIP,"商品配送失败");
+        }
+        HashMap<String, String> data = new HashMap<>();
+        data.put("orderSn",orderSn);
+        return ResponseUtil.ok(data);
+    }
+
+    /**
+     *
+     * @param orderSn
+     * @return
+     */
+    public Object receive(String orderSn){
+        LitemallOrder order = orderService.findBySn(orderSn);
+        if (order == null) {
+            return ResponseUtil.badArgument();
+        }
+        if (order.getShipType() == null){
+            return ResponseUtil.fail(ORDER_INVALID_SHIP,"订单不能确认收货");
+        }
+        if(order.getShipStatus() == OrderConstant.FINISHED){
+            return ResponseUtil.fail(ORDER_INVALID_SHIP,"订单已确认收货");
+        }
+        order.setShipStatus(OrderConstant.FINISHED);
+        order.setOrderStatus(OrderUtil.STATUS_AUTO_CONFIRM);
+        if(orderService.updateWithOptimisticLocker(order) == 0){
+            return ResponseUtil.fail(ORDER_INVALID_SHIP,"操作失败");
+        }
+        HashMap<String, String> data = new HashMap<>();
+        data.put("orderSn",orderSn);
+        return ResponseUtil.ok(data);
+    }
+
 }

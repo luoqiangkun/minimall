@@ -323,7 +323,8 @@ export default {
       detail: 'Details',
       pay: 'Pay',
       ship: 'Ship',
-      refund: 'Refund'
+      refund: 'Refund',
+      delivery: 'Delivery'
     },
     form: {
       detail_order_sn: 'Order SN',
@@ -341,7 +342,10 @@ export default {
       pay_new_money: 'Payment amount',
       ship_channel: 'Ship company',
       ship_sn: 'Ship SN',
-      refund_money: 'Refund amount'
+      refund_money: 'Refund amount',
+      delivery_person: 'Delivery person',
+      delivery_person: 'Delivery mobile',
+      delivery_time: 'Delivery time',
     },
     placeholder: {
       filter_nickname: 'Nickname',

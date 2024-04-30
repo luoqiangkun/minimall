@@ -238,6 +238,39 @@
       </div>
     </el-dialog>
 
+    <!-- 同城配送对话框 -->
+    <el-dialog :visible.sync="deliveryDialogVisible" :title="$t('mall_order.dialog.delivery')">
+      <el-form ref="deliveryForm" :model="deliveryForm" status-icon label-position="left" label-width="100px" style="width: 400px; margin-left:50px;">
+        <el-form-item :label="$t('mall_order.form.delivery_person')" prop="deliveryPerson" :rules="[{ required: true, trigger: 'blur'}]">
+          <el-input v-model="deliveryForm.deliveryPerson" />
+        </el-form-item>
+        <el-form-item :label="$t('mall_order.form.delivery_mobile')" prop="deliveryMobile" :rules="[{ required: true,validator: checkPhone, trigger: 'blur'}]">
+          <el-input v-model="deliveryForm.deliveryMobile"/>
+        </el-form-item>
+        <el-form-item :label="$t('mall_order.form.delivery_time')" prop="deliveryTime" :rules="[{ required: true,validator: checkPhone, trigger: 'change'}]">
+          <el-date-picker
+							type="datetime"
+							v-model="deliveryForm.delivery_time"
+							format="yyyy-MM-dd HH:mm:ss"
+							value-format="yyyy-MM-dd HH:mm:ss"
+							style="width: 100%;"></el-date-picker>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="deliveryDialogVisible = false">{{ $t('app.button.cancel') }}</el-button>
+        <el-button type="primary" @click="handleDelivery">{{ $t('app.button.confirm') }}</el-button>
+      </div>
+    </el-dialog>
+
+    <!-- 确认收货 -->
+    <el-dialog :visible.sync="receiveDialogVisible" :title="$t('mall_order.dialog.tip')"  width="30%">
+      <span>{{}}</span>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="receiveDialogVisible = false">{{ $t('app.button.cancel') }}</el-button>
+        <el-button type="primary" @click="handleReceive">{{ $t('app.button.confirm') }}</el-button>
+      </div>
+    </el-dialog>
+
   </div>
 </template>
 
@@ -381,7 +414,27 @@ export default {
       },
       refundDialogVisible: false,
       downloadLoading: false,
-      channels: []
+      channels: [],
+      deliveryDialogShow: false,
+      deliveryForm: {
+        orderSn:'',
+        deliveryPerson: '',
+        deliveryPerson: '',
+        deliveryTime: '',
+      },
+      checkMobile: (rule, value, callback) => { // 手机号验证
+        if (!value) {
+            return callback(new Error('手机号不能为空'));
+        } else {
+          const reg = /^1[3456789]\d{9}$/
+          if (reg.test(value)) {
+          callback();
+          } else {
+              return callback(new Error('请输入正确的手机号'));
+          }
+        }
+      },
+      receiveDialogVisible: false
     }
   },
   created() {
@@ -561,6 +614,42 @@ export default {
     printOrder() {
       this.$print(this.$refs.print)
       this.orderDialogVisible = false
+    },
+    handleDelivery(){
+      deliveryOrder(this.deliveryForm).then(response => {
+        this.deliveryDialogVisible = false
+        this.$notify.success({
+          title: '成功',
+          message: '操作成功'
+        })
+        this.getList()
+      }).catch(response => {
+        this.$notify.error({
+          title: '失败',
+          message: response.data.errmsg
+        })
+      })
+    },
+    handleReceive() {
+      const message = this.orderDetail.order.ship_type == 2 ? '确认用户已收到商品了吗？' : '确认用户已取到商品了吗？'
+      this.$confirm(message)
+        .then(_ => {
+          this.receiveDialogVisible = false
+          receiveOrder(this.orderDetail.order.orderSn).then(response => {
+            this.$notify.success({
+              title: '成功',
+              message: '操作成功'
+            })
+
+            this.getList()
+          }).catch(response => {
+            this.$notify.error({
+              title: '失败',
+              message: response.data.errmsg
+            })
+          })
+        })
+        .catch(_ => {});
     }
   }
 }
