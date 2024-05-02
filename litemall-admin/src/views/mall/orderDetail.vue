@@ -1,170 +1,169 @@
 <template>
-    <div class="page">
-        <section>
-            <div class="header">订单信息</div>
-            <div class="body">
-                <el-row>
-                    <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="6">
-                        <div class="field">
-                            <label>订单号：</label>
-                            <div class="text">{{orderDetail.order.orderSn}}</div>
-                        </div>
-                    </el-col>
-                    <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="6">
-                         <div class="field">
-                            <label>下单时间：</label>
-                            <div class="text">{{orderDetail.order.addTime}}</div>
-                        </div>
-                    </el-col>
-                    <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="6">
-                         <div class="field">
-                            <label>下单用户：</label>
-                            <div class="text">{{orderDetail.user.nickname}}</div>
-                        </div>
-                    </el-col>
-                   <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="6">
-                         <div class="field">
-                            <label>用户留言：</label>
-                            <div class="text">{{orderDetail.order.message}}</div>
-                        </div>
-                    </el-col>
-                </el-row>
+  <div class="page">
+    <section>
+      <div class="header">订单信息</div>
+      <div class="body">
+        <el-row>
+          <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="6">
+            <div class="field">
+              <label>订单号：</label>
+              <div class="text">{{ orderDetail.order.orderSn }}</div>
             </div>
-        </section>
-
-         <section>
-            <div class="header">状态信息</div>
-            <div class="body">
-                <el-row>
-                   <div class="field">
-                        <label>订单状态：</label>
-                        <div class="text"> 
-                            <el-button type="primary" plain>{{ orderDetail.order.orderStatus | orderStatusFilter }}</el-button>
-                        </div>
-                    </div>
-                </el-row>
-                <el-row>
-                    <el-button type="primary" @click="handlePay">{{ $t('mall_order.button.pay') }}</el-button>
-                    <template v-if="!orderDetail.order.shipType">
-                        <el-button type="primary" @click="handleShip">快递发货</el-button>
-                        <el-button type="primary" @click="deliveryDialogVisible = true">同城配送</el-button>
-                    </template>
-                    <template v-if="orderDetail.order.shipStatus == 1">
-                        <el-button type="primary" @click="handleReceive">确认送达</el-button>
-                    </template>
-                    <el-button type="primary" @click="handleRefund">{{ $t('mall_order.button.refund') }}</el-button>
-                </el-row>
+          </el-col>
+          <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="6">
+            <div class="field">
+              <label>下单时间：</label>
+              <div class="text">{{ orderDetail.order.addTime }}</div>
             </div>
-        </section>
-
-        <section>
-            <div class="header">配送信息</div>
-            <div class="body">
-                <el-row>
-                    <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="6" v-if="orderDetail.order.shipType">
-                        <div class="field">
-                            <label>配送方式：</label>
-                            <div class="text" v-if="orderDetail.order.shipType == 1">快递配送</div>
-                            <div class="text" v-else-if="orderDetail.order.shipType == 2">同城配送</div>
-                            <div class="text" v-else-if="orderDetail.order.shipType == 3">用户自提</div>
-                        </div>
-                    </el-col>
-                    <template v-if="orderDetail.order.shipType != 3">
-                          <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="6">
-                            <div class="field">
-                                <label>收货人：</label>
-                                <div class="text">{{orderDetail.order.consignee}}</div>
-                            </div>
-                        </el-col>
-                        <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="6">
-                            <div class="field">
-                                <label>联系方式：</label>
-                                <div class="text">{{orderDetail.order.mobile}}</div>
-                            </div>
-                        </el-col>
-                        <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="6">
-                            <div class="field">
-                                <label>收货地址：</label>
-                                <div class="text">{{orderDetail.order.address}}</div>
-                            </div>
-                        </el-col>
-                    </template>
-                    <template v-if="orderDetail.order.shipType == 2">
-                         <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="6">
-                            <div class="field">
-                                <label>配送人：</label>
-                                <div class="text">{{orderDetail.order.deliveryPerson}}</div>
-                            </div>
-                        </el-col>
-                        <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="6">
-                            <div class="field">
-                                <label>联系方式：</label>
-                                <div class="text">{{orderDetail.order.deliveryMobile}}</div>
-                            </div>
-                        </el-col>
-                        <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="6">
-                            <div class="field">
-                                <label>配送时间：</label>
-                                <div class="text">{{orderDetail.order.deliveryTime}}</div>
-                            </div>
-                        </el-col>
-                    </template>
-
-                    <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="6" v-if="orderDetail.order.shipType">
-                        <div class="field" v-if="orderDetail.order.shipType == 3">
-                            <div class="text"  v-if="orderDetail.order.shipStatus == 1">用户未自提</div>
-                            <div class="text" v-else>用户已自提</div>
-                        </div>
-                         <div class="field" v-else>
-                            <label>配送状态：</label>
-                            <div class="text" v-if="orderDetail.order.shipStatus == 1">等待配送</div>
-                            <div class="text" v-else-if="orderDetail.order.shipStatus == 2">配送中</div>
-                            <div class="text" v-else-if="orderDetail.order.shipStatus == 3">已配送</div>
-                        </div>
-                    </el-col>
-
-                </el-row>
+          </el-col>
+          <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="6">
+            <div class="field">
+              <label>下单用户：</label>
+              <div class="text">{{ orderDetail.user.nickname }}</div>
             </div>
-        </section>
-
-        <section>
-            <div class="header">商品信息</div>
-            <div class="body">
-                <el-row>
-                    <el-table :data="orderDetail.orderGoods" border fit highlight-current-row>
-                        <el-table-column align="center" :label="$t('mall_order.table.detail_goods_name')" prop="goodsName" />
-                        <el-table-column align="center" :label="$t('mall_order.table.detail_goods_sn')" prop="goodsSn" />
-                        <el-table-column align="center" :label="$t('mall_order.table.detail_goods_specifications')" prop="specifications" />
-                        <el-table-column align="center" :label="$t('mall_order.table.detail_goods_price')" prop="price" />
-                        <el-table-column align="center" :label="$t('mall_order.table.detail_goods_number')" prop="number" />
-                        <el-table-column align="center" :label="$t('mall_order.table.detail_goods_pic_url')" prop="picUrl">
-                            <template slot-scope="scope">
-                            <img :src="scope.row.picUrl" width="40">
-                            </template>
-                        </el-table-column>
-                    </el-table>
-                </el-row>
-                <el-row>
-                    <div class="price-total">
-                     {{ $t('mall_order.text.detail_price_info', {
-                actual_price: orderDetail.order.actualPrice,
-                goods_price: orderDetail.order.goodsPrice,
-                freight_price: orderDetail.order.freightPrice,
-                coupon_price: orderDetail.order.couponPrice,
-                integral_price: orderDetail.order.integralPrice
-              }) }}
-                    </div>
-                </el-row>
+          </el-col>
+          <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="6">
+            <div class="field">
+              <label>用户留言：</label>
+              <div class="text">{{ orderDetail.order.message }}</div>
             </div>
-        </section>
+          </el-col>
+        </el-row>
+      </div>
+    </section>
 
-        
-        <section>
-            <div class="header"></div>
-            <div class="body"></div>
-        </section>
+    <section>
+      <div class="header">状态信息</div>
+      <div class="body">
+        <el-row>
+          <div class="field">
+            <label>订单状态：</label>
+            <div class="text">
+              <el-button type="primary" plain>{{ orderDetail.order.orderStatus | orderStatusFilter }}</el-button>
+            </div>
+          </div>
+        </el-row>
+        <el-row>
+          <el-button type="primary" @click="handlePay">{{ $t('mall_order.button.pay') }}</el-button>
+          <template v-if="!orderDetail.order.shipType">
+            <el-button type="primary" @click="handleShip">快递发货</el-button>
+            <el-button type="primary" @click="deliveryDialogVisible = true">同城配送</el-button>
+          </template>
+          <template v-if="orderDetail.order.shipStatus == 1">
+            <el-button type="primary" @click="handleReceive">确认送达</el-button>
+          </template>
+          <el-button type="primary" @click="handleRefund">{{ $t('mall_order.button.refund') }}</el-button>
+        </el-row>
+      </div>
+    </section>
 
-          <!-- 收款对话框 -->
+    <section>
+      <div class="header">配送信息</div>
+      <div class="body">
+        <el-row>
+          <el-col v-if="orderDetail.order.shipType" :xs="24" :sm="12" :md="12" :lg="8" :xl="6">
+            <div class="field">
+              <label>配送方式：</label>
+              <div v-if="orderDetail.order.shipType == 1" class="text">快递配送</div>
+              <div v-else-if="orderDetail.order.shipType == 2" class="text">同城配送</div>
+              <div v-else-if="orderDetail.order.shipType == 3" class="text">用户自提</div>
+            </div>
+          </el-col>
+          <template v-if="orderDetail.order.shipType != 3">
+            <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="6">
+              <div class="field">
+                <label>收货人：</label>
+                <div class="text">{{ orderDetail.order.consignee }}</div>
+              </div>
+            </el-col>
+            <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="6">
+              <div class="field">
+                <label>联系方式：</label>
+                <div class="text">{{ orderDetail.order.mobile }}</div>
+              </div>
+            </el-col>
+            <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="6">
+              <div class="field">
+                <label>收货地址：</label>
+                <div class="text">{{ orderDetail.order.address }}</div>
+              </div>
+            </el-col>
+          </template>
+          <template v-if="orderDetail.order.shipType == 2">
+            <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="6">
+              <div class="field">
+                <label>配送人：</label>
+                <div class="text">{{ orderDetail.order.deliveryPerson }}</div>
+              </div>
+            </el-col>
+            <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="6">
+              <div class="field">
+                <label>联系方式：</label>
+                <div class="text">{{ orderDetail.order.deliveryMobile }}</div>
+              </div>
+            </el-col>
+            <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="6">
+              <div class="field">
+                <label>配送时间：</label>
+                <div class="text">{{ orderDetail.order.deliveryTime }}</div>
+              </div>
+            </el-col>
+          </template>
+
+          <el-col v-if="orderDetail.order.shipType" :xs="24" :sm="12" :md="12" :lg="8" :xl="6">
+            <div v-if="orderDetail.order.shipType == 3" class="field">
+              <div v-if="orderDetail.order.shipStatus == 1" class="text">用户未自提</div>
+              <div v-else class="text">用户已自提</div>
+            </div>
+            <div v-else class="field">
+              <label>配送状态：</label>
+              <div v-if="orderDetail.order.shipStatus == 1" class="text">等待配送</div>
+              <div v-else-if="orderDetail.order.shipStatus == 2" class="text">配送中</div>
+              <div v-else-if="orderDetail.order.shipStatus == 3" class="text">已配送</div>
+            </div>
+          </el-col>
+
+        </el-row>
+      </div>
+    </section>
+
+    <section>
+      <div class="header">商品信息</div>
+      <div class="body">
+        <el-row>
+          <el-table :data="orderDetail.orderGoods" border fit highlight-current-row>
+            <el-table-column align="center" :label="$t('mall_order.table.detail_goods_name')" prop="goodsName" />
+            <el-table-column align="center" :label="$t('mall_order.table.detail_goods_sn')" prop="goodsSn" />
+            <el-table-column align="center" :label="$t('mall_order.table.detail_goods_specifications')" prop="specifications" />
+            <el-table-column align="center" :label="$t('mall_order.table.detail_goods_price')" prop="price" />
+            <el-table-column align="center" :label="$t('mall_order.table.detail_goods_number')" prop="number" />
+            <el-table-column align="center" :label="$t('mall_order.table.detail_goods_pic_url')" prop="picUrl">
+              <template slot-scope="scope">
+                <img :src="scope.row.picUrl" width="40">
+              </template>
+            </el-table-column>
+          </el-table>
+        </el-row>
+        <el-row>
+          <div class="price-total">
+            {{ $t('mall_order.text.detail_price_info', {
+              actual_price: orderDetail.order.actualPrice,
+              goods_price: orderDetail.order.goodsPrice,
+              freight_price: orderDetail.order.freightPrice,
+              coupon_price: orderDetail.order.couponPrice,
+              integral_price: orderDetail.order.integralPrice
+            }) }}
+          </div>
+        </el-row>
+      </div>
+    </section>
+
+    <section>
+      <div class="header" />
+      <div class="body" />
+    </section>
+
+    <!-- 收款对话框 -->
     <el-dialog :visible.sync="payDialogVisible" :title="$t('mall_order.dialog.pay')" width="40%" center>
       <el-form ref="payForm" :model="payForm" status-icon label-position="left" label-width="100px">
         <div style="margin-bottom: 10px;">
@@ -262,7 +261,7 @@
       </div>
     </el-dialog>
 
-    </div>
+  </div>
 </template>
 <script>
 import { listChannel, detailOrder, refundOrder, payOrder, shipOrder, deliveryOrder, receiveOrder } from '@/api/order'
@@ -339,9 +338,9 @@ export default {
     }
   },
   created() {
-    if(this.$route.params.id){
-        this.getDetail( this.$route.params.id )
-        this.getChannel()
+    if (this.$route.params.id) {
+      this.getDetail(this.$route.params.id)
+      this.getChannel()
     }
   },
   methods: {
@@ -357,7 +356,7 @@ export default {
       })
     },
     handlePay() {
-      let row = this.orderDetail.order  
+      const row = this.orderDetail.order
       this.payForm.orderId = row.id
       this.payForm.orderSn = row.orderSn
       this.payForm.oldMoney = row.actualPrice
@@ -467,7 +466,7 @@ export default {
       this.orderDialogVisible = false
     },
     handleDelivery() {
-      deliveryOrder(Object.assign({},  this.deliveryForm, {orderSn: this.orderDetail.order.orderSn})).then(response => {
+      deliveryOrder(Object.assign({}, this.deliveryForm, { orderSn: this.orderDetail.order.orderSn })).then(response => {
         this.deliveryDialogVisible = false
         this.$notify.success({
           title: '成功',
@@ -484,7 +483,7 @@ export default {
     handleReceive() {
       const message = this.orderDetail.order.ship_type == 2 ? '确认用户已收到商品了吗？' : '确认用户已取到商品了吗？'
       this.$confirm(message)
-        .then( ()=> {
+        .then(() => {
           this.receiveDialogVisible = false
           receiveOrder(this.orderDetail.order.orderSn).then(response => {
             this.$notify.success({
@@ -535,6 +534,5 @@ section {
 ::v-deep .el-table__expanded-cell {
   padding: 6px 80px;
 }
-
 
 </style>

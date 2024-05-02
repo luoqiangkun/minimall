@@ -488,7 +488,7 @@ export default {
       this.getList()
     },
     handleDetail(row) {
-      this.$router.push({ path: "/mall/orderDetail/" + row.id })
+      this.$router.push({ path: '/mall/orderDetail/' + row.id })
     },
     handlePay(row) {
       this.payForm.orderId = row.id
