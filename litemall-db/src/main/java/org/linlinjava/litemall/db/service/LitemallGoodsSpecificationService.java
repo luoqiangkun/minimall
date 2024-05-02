@@ -5,6 +5,7 @@ import org.linlinjava.litemall.db.domain.LitemallGoodsSpecification;
 import org.linlinjava.litemall.db.domain.LitemallGoodsSpecificationExample;
 import org.linlinjava.litemall.db.vo.GoodsSpecificationVO;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
@@ -89,25 +90,26 @@ public class LitemallGoodsSpecificationService {
     public List<GoodsSpecificationVO> getVoListBySpecificationList(List<LitemallGoodsSpecification> goodsSpecificationList){
         Map<String, GoodsSpecificationVO> map = new HashMap<>();
         List<GoodsSpecificationVO> specificationVoList = new ArrayList<>();
-        for (LitemallGoodsSpecification goodsSpecification : goodsSpecificationList) {
-            String specification = goodsSpecification.getSpecification();
-            GoodsSpecificationVO goodsSpecificationVo = map.get(specification);
-            if (goodsSpecificationVo == null) {
-                goodsSpecificationVo = new GoodsSpecificationVO();
-                goodsSpecificationVo.setName(specification);
-                List<LitemallGoodsSpecification> valueList = new ArrayList<>();
-                goodsSpecification.setChecked(false);
-                valueList.add(goodsSpecification);
-                goodsSpecificationVo.setValueList(valueList);
-                map.put(specification, goodsSpecificationVo);
-                specificationVoList.add(goodsSpecificationVo);
-            } else {
-                List<LitemallGoodsSpecification> valueList = goodsSpecificationVo.getValueList();
-                goodsSpecification.setChecked(false);
-                valueList.add(goodsSpecification);
+        if( !ObjectUtils.isEmpty(goodsSpecificationList) ) {
+            for (LitemallGoodsSpecification goodsSpecification : goodsSpecificationList) {
+                String specification = goodsSpecification.getSpecification();
+                GoodsSpecificationVO goodsSpecificationVo = map.get(specification);
+                if (goodsSpecificationVo == null) {
+                    goodsSpecificationVo = new GoodsSpecificationVO();
+                    goodsSpecificationVo.setName(specification);
+                    List<LitemallGoodsSpecification> valueList = new ArrayList<>();
+                    goodsSpecification.setChecked(false);
+                    valueList.add(goodsSpecification);
+                    goodsSpecificationVo.setValueList(valueList);
+                    map.put(specification, goodsSpecificationVo);
+                    specificationVoList.add(goodsSpecificationVo);
+                } else {
+                    List<LitemallGoodsSpecification> valueList = goodsSpecificationVo.getValueList();
+                    goodsSpecification.setChecked(false);
+                    valueList.add(goodsSpecification);
+                }
             }
         }
-
         return specificationVoList;
     }
 

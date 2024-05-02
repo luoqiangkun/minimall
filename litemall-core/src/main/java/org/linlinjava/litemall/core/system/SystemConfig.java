@@ -36,6 +36,7 @@ public class SystemConfig {
     public final static String LITEMALL_MALL_LOGO = "litemall_mall_logo";
     public final static String LITEMALL_MALL_BUSINESS_START_TIME = "litemall_mall_business_start_time";
     public final static String LITEMALL_MALL_BUSINESS_END_TIME = "litemall_mall_business_end_time";
+    public final static String LITEMALL_MALL_PICK_TIMES = "litemall_mall_pick_times";
 
     //所有的配置均保存在该 HashMap 中
     private static Map<String, String> SYSTEM_CONFIGS = new HashMap<>();
@@ -150,6 +151,10 @@ public class SystemConfig {
 
     public static String getBusinessEndTime() {
         return getConfig(LITEMALL_MALL_BUSINESS_END_TIME);
+    }
+
+    public static String getPickTimes() {
+        return getConfig(LITEMALL_MALL_PICK_TIMES);
     }
 
     public static void setConfigs(Map<String, String> configs) {

@@ -1,99 +1,145 @@
 <view class="container">
-  <view class="address-box">
-    <view class="address-item" bindtap="selectAddress" wx:if="{{checkedAddress.id > 0}}">
-      <view class="address-content">
-        <view>
-          <text class="default" wx:if="{{checkedAddress.isDefault}}">默认</text>
-          <text class="address-detail">{{checkedAddress.province}}{{checkedAddress.city}}{{checkedAddress.county}}{{checkedAddress.addressDetail}}</text>
+  <view class="card">
+    <view class="tab">
+      <view class="tab-nav">
+        <view class="{{shipType == 1 ? 'active' : ''}}" data-type="1" bind:tap="changeShip">配送</view>
+        <view class="{{shipType == 3 ? 'active' : ''}}" data-type="3" bind:tap="changeShip">自提</view>
+      </view>
+      <view class="tab-panel {{shipType == 1 ? 'active' : ''}}">
+        <view class="address-box">
+          <view class="address-item" bindtap="selectAddress" wx:if="{{checkedAddress.id > 0}}">
+            <view class="address-content">
+              <view>
+                <text class="default" wx:if="{{checkedAddress.isDefault}}">默认</text>
+                <text class="address-detail">{{checkedAddress.province}}{{checkedAddress.city}}{{checkedAddress.county}}{{checkedAddress.addressDetail}}</text>
+              </view>
+              <view>
+                <text class="user-name">{{checkedAddress.name}}</text>
+                <text class="user-phone">{{checkedAddress.tel}}</text>
+              </view>
+            </view>
+            <view class="address-action">
+              <van-icon name="arrow" /> 
+            </view>
+          </view>
+          <view class="address-item address-empty" bindtap="selectAddress" wx:else>
+            <view class="address-content">
+              <text>还没有收货地址，去添加</text>
+            </view>
+            <view class="address-action">
+              <van-icon name="arrow" /> 
+            </view>
+          </view>
         </view>
-        <view>
-          <text class="user-name">{{checkedAddress.name}}</text>
-          <text class="user-phone">{{checkedAddress.tel}}</text>
+      </view>
+      <view class="tab-panel {{shipType == 3 ? 'active' : ''}}">
+        <view class="address-box">
+          <van-field
+            value="{{ pickupTimeText }}"
+            label="自提时间"
+            input-align="right"
+            readonly
+          >
+            <view slot="button" bind:tap="onOpenTimePopup">
+              <van-icon name="arrow" />      
+            </view>
+          </van-field>
+          <van-field
+            model:value="{{ reservedPhone }}"
+            label="预留电话"
+            placeholder="请输入预留电话"
+            input-align="right"
+          />
         </view>
       </view>
-      <view class="address-action">
-        <van-icon name="arrow" /> 
-      </view>
     </view>
-    <view class="address-item address-empty" bindtap="selectAddress" wx:else>
-      <view class="address-content">
-        <text>还没有收货地址，去添加</text>
-      </view>
-      <view class="address-action">
-        <van-icon name="arrow" /> 
-      </view>
-    </view>
+
+    
   </view>
 
-  <view class="goods-items">
-    <view class="item" wx:for="{{checkedGoodsList}}" wx:key="id">
-      <view class="img">
-        <image src="{{item.picUrl}}"></image>
-      </view>
-      <view class="info">
-        <view class="t">
-          <text class="name">{{item.goodsName}}</text>
-          <text class="number">x{{item.number}}</text>
+  <view class="card">
+    <view class="goods-items">
+      <view class="item" wx:for="{{checkedGoodsList}}" wx:key="id">
+        <view class="img">
+          <image src="{{item.picUrl}}"></image>
         </view>
-        <view class="m">{{item.specifications}}</view>
-        <view class="b">￥{{item.price}}</view>
+        <view class="info">
+          <view class="t">
+            <text class="name">{{item.goodsName}}</text>
+            <text class="number">x{{item.number}}</text>
+          </view>
+          <view class="m">{{item.specifications}}</view>
+          <view class="b">￥{{item.price}}</view>
+        </view>
       </view>
+    </view>
+
+    <view class="coupon-box">
+      <view class="coupon-item" bindtap="selectCoupon">
+        <view class="l" wx:if="{{couponId == 0}}">
+          <text class="name">没有可用的优惠券</text>
+        </view>
+        <view class="l" wx:elif="{{couponId == -1}}">
+          <text class="name">优惠券</text>
+          <text class="txt">{{availableCouponLength}}张</text>
+        </view>
+        <view class="l" wx:else>
+          <text class="name">优惠券</text>
+          <text class="txt">-￥{{couponPrice}}元</text>
+        </view>      
+        <view class="r">
+          <van-icon name="arrow" />      
+        </view>
+      </view>
+    </view>
+
+    <view class="order-box">
+      <view class="order-item">
+        <view class="l">
+          <text class="name">商品合计</text>
+        </view>
+        <view class="r">
+          <text class="txt">￥{{goodsTotalPrice}}元</text>
+        </view>
+      </view>
+      <view class="order-item">
+        <view class="l">
+          <text class="name">运费</text>
+        </view>
+        <view class="r">
+          <text class="txt">￥{{freightPrice}}元</text>
+        </view>
+      </view>
+      <view class="order-item no-border">
+        <view class="l">
+          <text class="name">优惠券</text>
+        </view>
+        <view class="r">
+          <text class="txt">-￥{{couponPrice}}元</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="message-box">
+      <input class="message-item" bindinput="bindMessageInput" placeholder="如需要，请输入留言" value="{{message}}" />
     </view>
   </view>
-
-  <view class="coupon-box">
-    <view class="coupon-item" bindtap="selectCoupon">
-      <view class="l" wx:if="{{couponId == 0}}">
-        <text class="name">没有可用的优惠券</text>
-      </view>
-      <view class="l" wx:elif="{{couponId == -1}}">
-        <text class="name">优惠券</text>
-        <text class="txt">{{availableCouponLength}}张</text>
-      </view>
-      <view class="l" wx:else>
-        <text class="name">优惠券</text>
-        <text class="txt">-￥{{couponPrice}}元</text>
-      </view>      
-      <view class="r">
-        <van-icon name="arrow" />      
-      </view>
-    </view>
-  </view>
-
-  <view class="order-box">
-    <view class="order-item">
-      <view class="l">
-        <text class="name">商品合计</text>
-      </view>
-      <view class="r">
-        <text class="txt">￥{{goodsTotalPrice}}元</text>
-      </view>
-    </view>
-    <view class="order-item">
-      <view class="l">
-        <text class="name">运费</text>
-      </view>
-      <view class="r">
-        <text class="txt">￥{{freightPrice}}元</text>
-      </view>
-    </view>
-    <view class="order-item no-border">
-      <view class="l">
-        <text class="name">优惠券</text>
-      </view>
-      <view class="r">
-        <text class="txt">-￥{{couponPrice}}元</text>
-      </view>
-    </view>
-  </view>
-
-  <view class="message-box">
-    <input class="message-item" bindinput="bindMessageInput" placeholder="如需要，请输入留言" value="{{message}}" />
-  </view>
-
   <view class="placeholder"></view>
   <view class="order-total">
     <view class="l">实付：￥{{actualPrice}}</view>
     <view class="r" bindtap="submitOrder">去付款</view>
   </view>
+
+  <van-popup show="{{ timeShow }}" 
+    round
+    position="bottom"
+    bind:close="onCloseTimePopup">
+    <van-tree-select
+      items="{{ pickTimeList }}"
+      active-id="{{ activeId }}"
+      bind:click-nav="onClickTimeNav"
+      bind:click-item="onClickTimeItem"
+    />
+  </van-popup>
+
 </view>

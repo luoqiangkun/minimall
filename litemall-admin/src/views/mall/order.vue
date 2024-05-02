@@ -247,7 +247,7 @@
         <el-form-item :label="$t('mall_order.form.deliveryMobile')" prop="deliveryMobile" :rules="[{ required: true,validator: checkPhone, trigger: 'blur'}]">
           <el-input v-model="deliveryForm.deliveryMobile" />
         </el-form-item>
-        <el-form-item :label="$t('mall_order.form.deliveryTime')" prop="deliveryTime" :rules="[{ required: true,validator: checkPhone, trigger: 'change'}]">
+        <el-form-item :label="$t('mall_order.form.deliveryTime')" prop="deliveryTime" :rules="[{ required: true,trigger: 'change'}]">
           <el-date-picker
             v-model="deliveryForm.delivery_time"
             type="datetime"
@@ -488,10 +488,7 @@ export default {
       this.getList()
     },
     handleDetail(row) {
-      detailOrder(row.id).then(response => {
-        this.orderDetail = response.data.data
-      })
-      this.orderDialogVisible = true
+      this.$router.push({ path: "/mall/orderDetail/" + row.id })
     },
     handlePay(row) {
       this.payForm.orderId = row.id

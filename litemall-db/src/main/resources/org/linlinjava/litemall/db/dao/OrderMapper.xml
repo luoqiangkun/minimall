@@ -97,6 +97,27 @@
             <if test="order.deleted != null">
                 deleted = #{order.deleted,jdbcType=BIT},
             </if>
+            <if test="order.shipType != null">
+                ship_type = #{order.shipType,jdbcType=BIT},
+            </if>
+            <if test="order.shipStatus != null">
+                ship_status = #{order.shipStatus,jdbcType=BIT},
+            </if>
+            <if test="order.pickupTime != null">
+                pickup_time = #{order.pickupTime,jdbcType=BIT},
+            </if>
+            <if test="order.reservedPhone != null">
+                reserved_phone = #{order.reservedPhone,jdbcType=BIT},
+            </if>
+            <if test="order.deliveryPerson != null">
+                delivery_person = #{order.deliveryPerson,jdbcType=BIT},
+            </if>
+            <if test="order.deliveryMobile != null">
+                delivery_mobile = #{order.deliveryMobile,jdbcType=BIT},
+            </if>
+            <if test="order.deliveryTime != null">
+                delivery_time = #{order.deliveryTime,jdbcType=BIT},
+            </if>
         </set>
         where id = #{order.id,jdbcType=INTEGER} and update_time = #{lastUpdateTime,jdbcType=INTEGER}
     </update>

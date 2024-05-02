@@ -132,6 +132,7 @@
     </view>
   </view>
 </view>
+
 <!-- 规格选择界面 -->
 <view class="attr-pop-box" hidden="{{!openAttr}}">
   <view class="attr-pop">

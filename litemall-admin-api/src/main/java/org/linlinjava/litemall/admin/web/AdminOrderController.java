@@ -72,8 +72,8 @@ public class AdminOrderController {
      * @param id
      * @return
      */
-    @RequiresPermissions("admin:order:read")
-    @RequiresPermissionsDesc(menu = {"商场管理", "订单管理"}, button = "详情")
+//    @RequiresPermissions("admin:order:read")
+//    @RequiresPermissionsDesc(menu = {"商场管理", "订单管理"}, button = "详情")
     @GetMapping("/detail")
     public Object detail(@NotNull Integer id) {
         return adminOrderService.detail(id);
@@ -146,7 +146,7 @@ public class AdminOrderController {
     @RequiresPermissions("admin:order:delivery")
     @RequiresPermissionsDesc(menu = {"商场管理", "订单管理"}, button = "订单配送")
     @PostMapping("/delivery")
-    public Object delivery(@Validated DeliveryDto deliveryDto){
+    public Object delivery(@Validated @RequestBody DeliveryDto deliveryDto){
         return adminOrderService.delivery(deliveryDto);
     }
 

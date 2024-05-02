@@ -1,21 +1,46 @@
 page {
   height: 100%;
-  background: var(--gradualPink);
 }
 page .container {
-  margin: 0 20rpx;
+  padding: 20rpx 20rpx;
   color: #666;
+  background: var(--gradualPink);
 }
+.container .card {
+  border-radius: 15rpx;
+  background-color: #ffffff;
+  overflow: hidden;
+  margin-bottom: 20rpx;
+}
+.tab-nav {
+  display: flex;
+}
+.tab-nav view {
+  flex-grow: 1;
+  text-align: center;
+  background: #facccf;
+  height: 70rpx;
+  line-height: 70rpx;
+}
+.tab-nav .active {
+  background-color: #fff;
+}
+.tab-panel {
+  display: none;
+}
+.tab-panel.active {
+  display: block;
+}
+
 .address-box {
-  margin-top: 20rpx;
   border-bottom: 1px solid #ebedf0;
+  padding: 20rpx 0;
 }
 .address-item {
   padding: 30rpx 20rpx;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: #ffffff;
 }
 .address-item .address-content>view:first-child {
   margin-bottom: 10rpx;
@@ -146,36 +171,45 @@ page .container {
 }
 .placeholder {
   width: 100%;
-  height: 100rpx;
+  height: 80rpx;
 }
 .order-total {
   position: fixed;
   left: 0;
   bottom: 0;
-  height: 100rpx;
+  height: 120rpx;
   width: 100%;
   display: flex;
+  align-items: center;
+  justify-content: space-between;
   background-color: #fff;
   z-index: 99999;
+  padding: 0 20rpx;
+  border-top: 1px solid #ebedf0;
 }
 
 .order-total .l {
-  flex: 1;
-  height: 100rpx;
-  line-height: 100rpx;
+  line-height: 120rpx;
   color: var(--pink);
-  background: #fff;
-  padding-left: 31.25rpx;
-  border-top: 1rpx solid rgba(0, 0, 0, 0.2);
-  border-bottom: 1rpx solid rgba(0, 0, 0, 0.2);
+  font-size: 35rpx;
 }
 
 .order-total .r {
-  width: 233rpx;
-  height: 100rpx;
-  background: var(--pink);
-  border: 1px solid var(--pink);
-  line-height: 100rpx;
+  height: 80rpx;
+  width: 30%;
   text-align: center;
-  color: #fff;
+  line-height: 80rpx;
+  background-color: var(--pink);
+  color: #ffffff;
+  border-radius: 80rpx;
+  font-size: 35rpx;
+}
+.van-cell{
+  padding: 15rpx 20rpx !important;
+}
+.van-cell::before {
+  display: none;
+}
+.van-cell::after {
+  display: none;
 }

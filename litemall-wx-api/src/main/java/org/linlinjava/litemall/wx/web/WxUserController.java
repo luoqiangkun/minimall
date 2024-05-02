@@ -3,13 +3,17 @@ package org.linlinjava.litemall.wx.web;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.linlinjava.litemall.core.util.ResponseUtil;
+import org.linlinjava.litemall.db.domain.LitemallUser;
 import org.linlinjava.litemall.db.domain.UserVo;
 import org.linlinjava.litemall.db.service.LitemallOrderService;
 import org.linlinjava.litemall.db.service.LitemallUserService;
 import org.linlinjava.litemall.wx.annotation.LoginUser;
+import org.linlinjava.litemall.wx.dto.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -31,7 +35,7 @@ public class WxUserController {
     @Autowired
     private LitemallUserService userService;
 
-    @RequestMapping("")
+    @GetMapping("")
     public Object info(@LoginUser Integer userId){
         UserVo user = userService.findUserVoById(userId);
         return ResponseUtil.ok(user);
@@ -54,6 +58,22 @@ public class WxUserController {
         Map<Object, Object> data = new HashMap<Object, Object>();
         data.put("order", orderService.orderInfo(userId));
         return ResponseUtil.ok(data);
+    }
+
+    @PostMapping("")
+    public Object update(@LoginUser Integer userId, UserDto userDto){
+        if (userId == null) {
+            return ResponseUtil.unlogin();
+        }
+        LitemallUser litemallUser = new LitemallUser();
+        litemallUser.setId(userId);
+        litemallUser.setNickname(userDto.getNickname());
+        litemallUser.setAvatar(userDto.getAvatar());
+        litemallUser.setBirthday(userDto.getBirthday());
+        if (userService.updateById(litemallUser) == 0) {
+            return ResponseUtil.updatedDataFailed();
+        }
+        return ResponseUtil.ok();
     }
 
 }

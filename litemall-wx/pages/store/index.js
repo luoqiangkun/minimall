@@ -4,7 +4,14 @@ const app = getApp()
 Page({
   data: {
     toView:'',
+    headerHeight:'',
+    mainStyle:'',
     heightList:[],
+    scrollTop: 0,
+    headerOpacity: 0,
+    searchIconOpacity: 1,
+    searchInputOpacity: 0,
+    backIconColor:'#ffffff',
     scrollTopHeight: 0,
     StatusBar: app.globalData.StatusBar,
     CustomBar: app.globalData.CustomBar,
@@ -21,11 +28,9 @@ Page({
     goodsName:'',
     goodsPicUrl:'',
     goodsBrief:'',
-    attributeList: [],
     specificationList: [],
-    productList: [],
     checkedSpecPrice: 0,
-    tmpSpecText: '',
+    goodsSpecText: '',
     goodsNumber: 1,
     mallNmae: '',
     mallDesc: '',
@@ -40,9 +45,46 @@ Page({
     noticeShow: false,
   },
   onLoad: function (options) {
+    wx.hideTabBar(); // 隐藏底部导航栏
     this.getMallDetail()
     this.getCatalog()
     this.getCartList()
+  },
+  onPageScroll: function(e) {
+    // 监听页面滚动事件
+    let scrollTop = e.scrollTop;
+    let headerOpacity = Math.min(scrollTop / 100, 1); // 控制 headerBar 的透明度
+    let searchIconOpacity, searchInputOpacity, backIconColor;
+    if (scrollTop <= 50) {
+      // 滚动距离小于等于50px时，搜索按钮显示，搜索框隐藏
+      searchIconOpacity = 1;
+      searchInputOpacity = 0;
+      backIconColor = "#ffffff";
+    } else if (scrollTop <= 100) {
+      // 滚动距离大于50px小于等于100px时，搜索按钮开始渐变隐藏，搜索框开始渐变显示
+      searchIconOpacity = 1 - (scrollTop - 50) / 50;
+      searchInputOpacity = (scrollTop - 50) / 50;
+      backIconColor = "#000000";
+    } else {
+      // 滚动距离大于100px时，搜索按钮完全隐藏，搜索框完全显示
+      searchIconOpacity = 0;
+      searchInputOpacity = 1;
+      backIconColor = "#000000";
+    }
+    let mainStyle = '';
+    if (scrollTop > 100) {
+      // 当滚动距离超过 banner 高度时，main 元素 sticky 在顶部
+      mainStyle = 'position: sticky; top: ' + this.data.CustomBar + 'px;';
+    }
+    // 更新 data 中的数据
+    this.setData({
+      scrollTop: scrollTop,
+      headerOpacity: headerOpacity,
+      searchIconOpacity: searchIconOpacity,
+      searchInputOpacity: searchInputOpacity,
+      backIconColor: backIconColor,
+      mainStyle: mainStyle
+    });
   },
   getMallDetail(){
     util.request(api.MallDetail).then((res)=>{
@@ -86,6 +128,7 @@ Page({
           cartGoods: res.data.cartList,
           cartTotal: res.data.cartTotal.goodsAmount,
           cartMap: cartMap,
+          cartGoodsCount: res.data.cartTotal.goodsCount
         })
         if(this.data.cartShow && !res.data.cartList.length){
           this.setData({
@@ -114,8 +157,7 @@ Page({
         })
         this.setData({
           heightList:tmpHeightList
-        })    
-        console.log(tmpHeightList)
+        })   
     })
   },
   scroll(e) {
@@ -194,7 +236,7 @@ Page({
     }
 
     let checkedProduct = checkedProductArray[0];
-    console.log( checkedProduct )
+
     //验证库存
     if (checkedProduct.number <= 0) {
       util.showErrorToast('没有库存');
@@ -217,7 +259,8 @@ Page({
         } else {
           util.showErrorToast(res.errmsg);
         }
-
+        
+        this.setData({detailShow: false})
       });
   },
   updateCart: function(productId, goodsId, number, id) {
@@ -228,6 +271,9 @@ Page({
       id: id
     }, 'POST').then((res) => {
       this.getCartList()
+      
+      this.setData({detailShow: false})
+
     });
   },
   incCartProduct: function(event) {
@@ -264,16 +310,35 @@ Page({
   },
   showProductPopup( event ){
     const product = event.currentTarget.dataset.goods
+    let _specificationList = product.specificationList;
+    let goodsPicUrl = product.productList[0].url;
+    // 如果仅仅存在一种货品，那么商品页面初始化时默认checked
+    if (_specificationList.length == 1) {
+      if (_specificationList[0].valueList.length == 1) {
+        _specificationList[0].valueList[0].checked = true
+
+        // 如果仅仅存在一种货品，那么商品价格应该和货品价格一致
+        // 这里检测一下
+        let _productPrice = product.productList[0].price;
+        let _goodsPrice = product.retailPrice;
+        if (_productPrice != _goodsPrice) {
+          console.error('商品数量价格和货品不一致');
+        }
+        this.setData({
+          checkedSpecText: _specificationList[0].valueList[0].value
+        });
+      }
+    }
+
     this.setData({
       goodsId: product.id,
       goodsName: product.name,
-      goodsPicUrl: product.picUrl,
+      goodsPicUrl: goodsPicUrl,
       goodsBrief: product.brief,
       attributeList: product.attributeList,
       specificationList: product.specificationList,
       productList: product.productList,
       checkedSpecPrice: product.retailPrice,
-      tmpSpecText: '',
       goodsNumber: 1,
       detailShow: true
     })
@@ -472,7 +537,12 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-
+    const query = wx.createSelectorQuery();
+    query.select('#header').boundingClientRect(rect => {
+      this.setData({
+        headerHeight: rect.height
+      });
+    }).exec();
   },
 
   /**

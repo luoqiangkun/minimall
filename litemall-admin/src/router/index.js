@@ -197,6 +197,17 @@ export const asyncRoutes = [
         }
       },
       {
+        path: 'orderDetail/:id',
+        component: () => import('@/views/mall/orderDetail'),
+        name: 'orderDetail',
+        hidden: true,
+        meta: {
+          perms: ['GET /admin/order/detail'],
+          title: 'app.menu.mall_order_detail',
+          noCache: true
+        }
+      },
+      {
         path: 'aftersale',
         component: () => import('@/views/mall/aftersale'),
         name: 'aftersale',

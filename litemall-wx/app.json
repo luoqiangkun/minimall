@@ -118,6 +118,9 @@
     "van-radio": "./lib/vant-weapp/radio/index",
     "van-radio-group": "./lib/vant-weapp/radio-group/index",
     "van-datetime-picker": "./lib/vant-weapp/datetime-picker/index",
+    "van-tab": "./lib/vant-weapp/tab/index",
+    "van-tabs": "./lib/vant-weapp/tabs/index",
+    "van-tree-select": "./lib/vant-weapp/tree-select/index",
     "iconfont": "./iconfont/iconfont"
   },
   "sitemapLocation": "sitemap.json"

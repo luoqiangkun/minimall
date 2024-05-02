@@ -20,7 +20,16 @@ Page({
     userCouponId: 0,
     message: '',
     grouponLinkId: 0, //参与的团购
-    grouponRulesId: 0 //团购规则ID
+    grouponRulesId: 0, //团购规则ID
+    shipType: 1,
+    reservedPhone: '',
+    pickupTime: '',
+    pickupTimeText: '',
+    mainActiveIndex: '',
+    activeId:'',
+    timeShow: false,
+    pickTimeList: [],
+    mainActiveIndex: 0
   },
   onLoad: function(options) {
     // 页面初始化 options为页面跳转所带来的参数
@@ -56,6 +65,13 @@ Page({
       wx.hideLoading();
     });
   },
+  getPickupTime: function() {
+    util.request(api.MallPickupTime).then((res) => {
+      if (res.errno === 0) {
+        this.setData({pickTimeList:res.data})
+      }
+    });
+  },
   selectAddress() {
     wx.navigateTo({
       url: '/pages/ucenter/address/address',
@@ -71,6 +87,31 @@ Page({
       message: e.detail.value
     });
   },
+  onOpenTimePopup: function(e) {
+    this.setData({
+      timeShow: true
+    });
+  },
+  onCloseTimePopup: function(e) {
+    this.setData({
+      timeShow: false
+    });
+  },
+  onClickTimeNav({ detail = {} }) {
+   
+  },
+  onClickTimeItem({ detail = {} }) {
+    const activeId = this.data.activeId === detail.id ? null : detail.id;
+    let todayText = '';
+    for (let index = 0; index < this.data.pickTimeList.length; index++) {
+      if(index == this.data.mainActiveIndex){
+        todayText = this.data.pickTimeList[index].text;
+        break;
+      }
+    }
+    this.setData({ pickupTime: detail.value, pickupTimeText: todayText + " " + detail.text , activeId: activeId, timeShow: false});
+  },
+  
   onReady: function() {
     // 页面渲染完成
 
@@ -121,6 +162,7 @@ Page({
     }
 
     this.getCheckoutInfo();
+    this.getPickupTime();
   },
   onHide: function() {
     // 页面隐藏
@@ -130,10 +172,31 @@ Page({
     // 页面关闭
 
   },
+  changeShip(event){
+    const type = event.currentTarget.dataset.type;
+    this.setData({
+      shipType: type
+    })
+  },
   submitOrder: function() {
-    if (this.data.addressId <= 0) {
-      util.showErrorToast('请选择收货地址');
-      return false;
+    if(this.data.shipType == 1){
+      if (this.data.addressId <= 0) {
+        util.showErrorToast('请选择收货地址');
+        return false;
+      }
+    } else if(this.data.shipType == 3){
+      if (!this.data.pickupTime) {
+        util.showErrorToast('请选择自取时间');
+        return false;
+      }
+      if (!this.data.reservedPhone) {
+        util.showErrorToast('请填写预留电话');
+        return false;
+      }
+      const pattern = /^1[0-9]{10}$/;
+      if(!pattern.test(this.data.reservedphone)){
+        util.showErrorToast('请填写合法的电话');
+      }
     }
     util.request(api.OrderSubmit, {
       cartId: this.data.cartId,
@@ -142,7 +205,10 @@ Page({
       userCouponId: this.data.userCouponId,
       message: this.data.message,
       grouponRulesId: this.data.grouponRulesId,
-      grouponLinkId: this.data.grouponLinkId
+      grouponLinkId: this.data.grouponLinkId,
+      shipType:this.data.shipType,
+      pickupTime:this.data.pickupTime,
+      reservedPhone:this.data.reservedPhone
     }, 'POST').then(res => {
       if (res.errno === 0) {
 

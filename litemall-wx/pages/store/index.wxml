@@ -1,38 +1,33 @@
 
-<view class="cu-custom" style="height:{{CustomBar}}px">
-	<view class="cu-bar fixed" style="height:{{CustomBar}}px;padding-top:{{StatusBar}}px;">
-		<view class="action action-custom"  style="width:{{Custom.width}}px;height:{{Custom.height}}px;margin-left:calc(750rpx - {{Custom.right}}px)">
-			<van-icon name="arrow-left" size="50rpx" color="#fff" bind:tap="navigateToIndex" />
-			<van-icon name="search" size="50rpx" color="#fff" bind:tap="navigateToProductSearch" />
-		</view>
+<view class="container" scroll-top="{{scrollTop}}" scroll-y="true" bindscroll="onPageScroll">
+  <view class="cu-bar fixed" style="height:{{CustomBar}}px;padding-top:{{StatusBar}}px;background-color: rgba(255, 255, 255, {{headerOpacity}})">
+		<van-icon name="arrow-left" size="50rpx" color="{{backIconColor}}" bind:tap="navigateToIndex" />
+    <view class="search" bind:tap="navigateToProductSearch" style="height:{{Custom.height}}px;opacity: {{searchInputOpacity}};" >
+      <van-icon name="search" size="40rpx" />
+      <input class="searchInput" type="text" placeholder="搜索" />
+    </view>
 	</view>
-</view>
-<view class="container">
-
-<view class="banner" style="background-image: url({{mallBanner}});"></view>
-<view class="store">
-		<view class="store-content">
-			<view class="store-info">
-				<view class="store-name">{{mallName}}</view>
-				<view class="store-desc">{{mallDesc}}</view>
-			</view>
-			<view class="store-logo">
-        <image src="{{mallLogo}}" mode="aspectFit" />
+<view id="header" class="header">
+  <view class="banner" style="background-image: url({{mallBanner}});"></view>
+  <view class="store">
+      <view class="store-content">
+        <view class="store-info">
+          <view class="store-name">{{mallName}}</view>
+          <view class="store-desc">{{mallDesc}}</view>
+        </view>
+        <view class="store-logo">
+          <image src="{{mallLogo}}" mode="aspectFit" />
+        </view>
       </view>
-		</view>
-		<view class="store-location" bind:tap="showLocation">
-      <text>{{mallAddress}}</text>
-      <van-icon name="location-o" />
+      <view class="store-notice" bind:tap="onOpenNoticePopup">
+        {{mallNotice}}
       </view>
-		<view class="store-notice" bind:tap="onOpenNoticePopup">
-			<text>{{mallNotice}}</text>
-			<van-icon name="arrow-down" />
-		</view>
+  </view>
 </view>
-<van-sticky>
-  <view class="main">
+<view class="main" >
+  <view class="wrapper">
     <view class="category-wrapper">
-      <scroll-view class="category-list" scroll-y="true" scroll-with-animation="true">
+      <scroll-view class="category-list" scroll-y="true" scroll-with-animation="true" :show-scrollbar="false">
         <block wx:for="{{list}}" wx:key="id">
           <view  class="catgegory-item {{curActive === index ? 'active' : ''}}" data-id="{{item.id}}" data-index="{{index}}" bindtap="clickCategory">
           <image class="category-icon" src="{{item.iconUrl}}" mode="aspectFit"></image>
@@ -80,12 +75,12 @@
           </block>
       </scroll-view>
     </view>
-
     <view class="cart-wrapper">
       <view class="cart-bar">
         <view class="cart-content" bind:tap="onTaggleCartPopup">
           <view class="cart-icon">
-            <van-icon name="shopping-cart" size="60rpx" color="var(--pink)" />
+            <van-icon name="shopping-cart" size="50rpx" color="#fff" />
+            <view class="badge" wx:if="{{cartGoodsCount > 0}}">{{cartGoodsCount}}</view>
           </view>
           <view class="cart-detail">
             <view class="cart-price">¥ {{cartTotal}}</view>
@@ -96,7 +91,7 @@
       </view>
     </view>
   </view>
-</van-sticky>
+</view>
 
 <van-popup
   show="{{ cartShow }}"
@@ -188,10 +183,10 @@
         </view>
       </view>
     </view>
-    <!-- <view class="selected-wrapper">
+    <view class="selected-wrapper">
       <text>已选规格：</text>
-      <text class="strong">{{tmpSpecText}}</text>
-    </view> -->
+      <text class="strong">{{checkedSpecText}}</text>
+    </view>
     <view class="footer">
       <view class="button" bind:tap="addCartProduct">加入购物车</view>
     </view>
@@ -219,6 +214,11 @@
     <view>
       <view>联系电话：</view>
       <view bind:tap="callPhone">{{mallPhone}}</view>
+    </view>
+    <view>
+      <view>店铺地址：</view>
+      <view bind:tap="showLocation">{{mallAddress}}  <van-icon name="location-o" /></view>
+     
     </view>
     <view>
       <view>店铺公告：</view>

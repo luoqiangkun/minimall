@@ -1,7 +1,7 @@
 <view class="container">
   <view class="profile">
-    <view class="avatar">
-      <van-uploader file-list="{{ fileList }}" bind:after-read="afterRead" bind:delete="deleteImage" max-count="1" preview-size="50px"/> 
+    <view class="avatar" bindtap="chooseImage">
+      <image src="{{avatar}}" mode="aspectFit" />
     </view>
 
     <view class="detail">
@@ -40,4 +40,8 @@
     />
   </van-popup>
 
+
+  <view class="footer">
+    <view class="button primary-button" bind:tap="updateUserInfo">保存</view>
+  </view>
 </view>

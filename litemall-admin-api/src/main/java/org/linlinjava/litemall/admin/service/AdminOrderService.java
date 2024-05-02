@@ -348,6 +348,7 @@ public class AdminOrderService {
         order.setDeliveryMobile(deliveryDto.getDeliveryMobile());
         order.setDeliveryTime(deliveryDto.getDeliveryTime());
         if(orderService.updateWithOptimisticLocker(order) == 0){
+            System.out.println("ettetetetetetete");
             return ResponseUtil.fail(ORDER_INVALID_SHIP,"商品配送失败");
         }
         HashMap<String, String> data = new HashMap<>();

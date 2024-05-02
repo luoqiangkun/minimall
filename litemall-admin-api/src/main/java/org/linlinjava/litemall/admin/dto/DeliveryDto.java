@@ -22,13 +22,6 @@ public class DeliveryDto {
     @NotNull(message = "配送时间不能为空")
     private LocalDateTime deliveryTime;
 
-    public DeliveryDto(String orderSn, String deliveryPerson, String deliveryMobile, LocalDateTime deliveryTime) {
-        this.orderSn = orderSn;
-        this.deliveryPerson = deliveryPerson;
-        this.deliveryMobile = deliveryMobile;
-        this.deliveryTime = deliveryTime;
-    }
-
     public String getOrderSn() {
         return orderSn;
     }

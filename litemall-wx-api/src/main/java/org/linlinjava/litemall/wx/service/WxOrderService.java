@@ -19,16 +19,10 @@ import org.linlinjava.litemall.core.notify.NotifyType;
 import org.linlinjava.litemall.core.qcode.QCodeService;
 import org.linlinjava.litemall.core.system.SystemConfig;
 import org.linlinjava.litemall.core.task.TaskService;
-import org.linlinjava.litemall.core.util.DateTimeUtil;
-import org.linlinjava.litemall.core.util.JacksonUtil;
-import org.linlinjava.litemall.core.util.ResponseUtil;
+import org.linlinjava.litemall.core.util.*;
 import org.linlinjava.litemall.db.domain.*;
 import org.linlinjava.litemall.db.service.*;
-import org.linlinjava.litemall.db.util.CouponUserConstant;
-import org.linlinjava.litemall.db.util.GrouponConstant;
-import org.linlinjava.litemall.db.util.OrderHandleOption;
-import org.linlinjava.litemall.db.util.OrderUtil;
-import org.linlinjava.litemall.core.util.IpUtil;
+import org.linlinjava.litemall.db.util.*;
 import org.linlinjava.litemall.wx.task.OrderUnpaidTask;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -40,6 +34,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -205,6 +200,16 @@ public class WxOrderService {
         orderVo.put("expCode", order.getShipChannel());
         orderVo.put("expName", expressService.getVendorName(order.getShipChannel()));
         orderVo.put("expNo", order.getShipSn());
+        orderVo.put("shipType", order.getShipType());
+        orderVo.put("shipSn", order.getShipSn());
+        orderVo.put("shipChannel", order.getShipChannel());
+        orderVo.put("shipTime", order.getShipTime());
+        orderVo.put("shipStatus", order.getShipStatus());
+        orderVo.put("pickupTime", order.getPickupTime());
+        orderVo.put("reservedPhone", order.getReservedPhone());
+        orderVo.put("deliveryPerson", order.getDeliveryPerson());
+        orderVo.put("deliveryMobile", order.getDeliveryMobile());
+        orderVo.put("deliveryTime", order.getDeliveryTime());
 
         List<LitemallOrderGoods> orderGoodsList = orderGoodsService.queryByOid(order.getId());
 
@@ -259,6 +264,9 @@ public class WxOrderService {
         String message = JacksonUtil.parseString(body, "message");
         Integer grouponRulesId = JacksonUtil.parseInteger(body, "grouponRulesId");
         Integer grouponLinkId = JacksonUtil.parseInteger(body, "grouponLinkId");
+        Integer shipType = JacksonUtil.parseInteger(body, "shipType");
+        String pickupTime = JacksonUtil.parseString(body, "pickupTime");
+        String reservedPhone = JacksonUtil.parseString(body, "reservedPhone");
 
         //如果是团购项目,验证活动是否有效
         if (grouponRulesId != null && grouponRulesId > 0) {
@@ -301,14 +309,32 @@ public class WxOrderService {
             }
         }
 
-        if (cartId == null || addressId == null || couponId == null) {
+        if (cartId == null || shipType == null || couponId == null) {
             return ResponseUtil.badArgument();
         }
+        LitemallAddress checkedAddress = null;
+        LocalDateTime dateTime = null;
+        if (shipType == OrderConstant.SELF_PICKUP){
+            if(pickupTime == null || reservedPhone == null || !RegexUtil.isMobileSimple(reservedPhone)){
+                return ResponseUtil.badArgument();
+            }
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            dateTime = LocalDateTime.parse(pickupTime, formatter);
+            LocalDateTime currentDateTime = LocalDateTime.now();
+            // 比较时间
+            if (dateTime.isBefore(currentDateTime)) {
+                return ResponseUtil.badArgument();
+            }
+        } else {
+            // 收货地址
+            if(addressId == null){
+                return ResponseUtil.badArgument();
+            }
+            checkedAddress = addressService.query(userId, addressId);
+            if(checkedAddress == null){
+                return ResponseUtil.badArgument();
+            }
 
-        // 收货地址
-        LitemallAddress checkedAddress = addressService.query(userId, addressId);
-        if (checkedAddress == null) {
-            return ResponseUtil.badArgument();
         }
 
         // 团购优惠
@@ -374,18 +400,23 @@ public class WxOrderService {
         order.setUserId(userId);
         order.setOrderSn(orderService.generateOrderSn(userId));
         order.setOrderStatus(OrderUtil.STATUS_CREATE);
-        order.setConsignee(checkedAddress.getName());
-        order.setMobile(checkedAddress.getTel());
         order.setMessage(message);
-        String detailedAddress = checkedAddress.getProvince() + checkedAddress.getCity() + checkedAddress.getCounty() + " " + checkedAddress.getAddressDetail();
-        order.setAddress(detailedAddress);
         order.setGoodsPrice(checkedGoodsPrice);
         order.setFreightPrice(freightPrice);
         order.setCouponPrice(couponPrice);
         order.setIntegralPrice(integralPrice);
         order.setOrderPrice(orderTotalPrice);
         order.setActualPrice(actualPrice);
-
+        if (shipType == OrderConstant.SELF_PICKUP){
+            order.setShipType(shipType);
+            order.setPickupTime(dateTime);
+            order.setReservedPhone(reservedPhone);
+        } else {
+            order.setConsignee(checkedAddress.getName());
+            order.setMobile(checkedAddress.getTel());
+            String detailedAddress = checkedAddress.getProvince() + checkedAddress.getCity() + checkedAddress.getCounty() + " " + checkedAddress.getAddressDetail();
+            order.setAddress(detailedAddress);
+        }
         // 有团购
         if (grouponRules != null) {
             order.setGrouponPrice(grouponPrice);    //  团购价格

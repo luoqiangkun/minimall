@@ -19,10 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.*;
 
 /**
@@ -324,6 +321,17 @@ public class WxGoodsController {
 	public Object count() {
 		Integer goodsCount = goodsService.queryOnSale();
 		return ResponseUtil.ok(goodsCount);
+	}
+
+	/**
+	 * 商品规格
+	 * @param id
+	 * @return
+	 */
+	@GetMapping("/spec")
+	public Object spec(@NotNull Integer id){
+		List specificationVoList = (List) goodsSpecificationService.getSpecificationVoList(id);
+		return ResponseUtil.okList(specificationVoList);
 	}
 
 }

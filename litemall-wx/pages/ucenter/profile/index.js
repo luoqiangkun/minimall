@@ -12,7 +12,6 @@ Page({
     birthday:'',
     mobile:'',
     addTime:'',
-    fileList: [],
     show: false
   },
   getUserInfo: function () {
@@ -21,43 +20,52 @@ Page({
         const {nickname, avatar, gender, birthday, mobile, addTime} = res.data;
         this.setData({
           nickname: nickname,
-          avatar: avatar,
-          gender: gender,
+          avatar: avatar ? avatar : '/static/images/avatar.png',
+          gender: gender ? gender : 0,
           birthday: birthday,
           mobile: mobile,
-          addTime: addTime,
-          fileList: avatar ? [{
-            url: avatar,
-            name: nickname,
-            deletable: false
-          }] : []
+          addTime: addTime
         });
       }
-
-      console.log( this.data.fileList)
     });
   },
-  afterRead(event) {
-    const { file } = event.detail
-    let that = this
+  updateUserInfo: function () {
+    util.request(api.UserInfo,this.data,'POST').then( (res) => {
+      console.log( res )
+      if (res.errno === 0) {
+        wx.showToast({
+          title: "保存成功"
+        })
+      } else {
+        util.showErrorToast(res.errmsg);
+      }
+    });
+  },
+  chooseImage: function(e) {
+    wx.chooseImage({
+      count: 1,
+      sizeType: ['original', 'compressed'],
+      sourceType: ['album', 'camera'],
+      success: (res) => {
+        this.upload(res);
+      }
+    })
+  },
+  upload: function(res) {
     wx.uploadFile({
       url: api.StorageUpload,
-      filePath: file.path,
+      filePath: res.tempFilePaths[0],
       name: 'file',
       success: (res) => {
         var _res = JSON.parse(res.data);
         if (_res.errno === 0) {
+          var url = _res.data.url
           this.setData({
-            fileList: [{
-              url: _res.data.url,
-              name: this.data.nickname,
-              deletable: false
-            }],
-            avatar: _res.data.url
+            avatar: url
           })
         }
       },
-      fail: function (e) {
+      fail: function(e) {
         wx.showModal({
           title: '错误',
           content: '上传失败',
