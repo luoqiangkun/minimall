@@ -7,6 +7,9 @@ var app = getApp();
 
 Page({
   data: {
+    StatusBar: app.globalData.StatusBar,
+    CustomBar: app.globalData.CustomBar,
+    Custom: app.globalData.Custom,
     cartGoods: [],
     cartTotal: {
       "goodsCount": 0,
@@ -32,6 +35,7 @@ Page({
     wx.stopPullDownRefresh() //停止下拉刷新
   },
   onShow: function() {
+    wx.hideTabBar();
     // 页面显示
     if (app.globalData.hasLogin) {
       this.getCartList();
@@ -47,6 +51,11 @@ Page({
   },
   onUnload: function() {
     // 页面关闭
+  },
+  back: function() {
+    wx.switchTab({  
+      url: '/pages/index/index'  
+    });  
   },
   goLogin() {
     wx.navigateTo({
@@ -196,26 +205,24 @@ Page({
 
   },
   updateCart: function(productId, goodsId, number, id) {
-    let that = this;
-
     util.request(api.CartUpdate, {
       productId: productId,
       goodsId: goodsId,
       number: number,
       id: id
-    }, 'POST').then(function(res) {
-      that.setData({
-        checkedAllStatus: that.isCheckedAll()
-      });
+    }, 'POST').then((res) => {
+
+      this.getCartList();
     });
 
   },
   cutNumber: function(event) {
-    let itemIndex = event.target.dataset.itemIndex;
+    let itemIndex = event.currentTarget.dataset.itemIndex;
     let cartItem = this.data.cartGoods[itemIndex];
     let number = cartItem.number - 1;
+
     if(number == 0){
-        this.deleteCart(cartItem.goodsId)
+        this.deleteCart(cartItem.productId)
     } else {
       cartItem.number = number;
       this.setData({
@@ -225,7 +232,7 @@ Page({
     }
   },
   addNumber: function(event) {
-    let itemIndex = event.target.dataset.itemIndex;
+    let itemIndex = event.currentTarget.dataset.itemIndex;
     let cartItem = this.data.cartGoods[itemIndex];
     let number = cartItem.number + 1;
     cartItem.number = number;
@@ -273,20 +280,15 @@ Page({
             productIds: [productId]
           }, 'POST').then((res) => {
             if (res.errno === 0) {
-              let cartList = res.data.cartList.map(v => {
-                v.checked = false;
-                return v;
-              });
-  
               this.setData({
-                cartGoods: cartList,
+                cartGoods: res.data.cartList,
                 cartTotal: res.data.cartTotal
               });
+      
+              this.setData({
+                checkedAllStatus: that.isCheckedAll(),
+              });
             }
-  
-            this.setData({
-              checkedAllStatus: this.isCheckedAll()
-            });
           });
         }
       }

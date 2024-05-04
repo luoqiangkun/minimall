@@ -1,10 +1,43 @@
 /**app.wxss**/
 page {
-  --pink: #FF69B4;
+  	/* Color 可以自定义相关配色 */
+	/* var属性兼容性 --> https://www.caniuse.com/#feat=css-variables */
+	/* 标准色 */
+	--red: #e54d42;
+	--orange: #f37b1d;
+	--yellow: #fbbd08;
+	--olive: #8dc63f;
+	--green: #39b54a;
+	--cyan: #1cbbb4;
+	--blue: #0081ff;
+	--purple: #6739b6;
+	--mauve: #9c26b0;
+	--pink: #e03997;
+	--brown: #a5673f;
+	--grey: #8799a3;
+	--black: #333333;
+	--darkGray: #666666;
+	--gray: #aaaaaa;
+	--ghostWhite: #f1f1f1;
+	--white: #ffffff;
+	/* 浅色 */
+	--redLight: #fadbd9;
+	--orangeLight: #fde6d2;
+	--yellowLight: #fef2ce;
+	--oliveLight: #e8f4d9;
+	--greenLight: #d7f0db;
+	--cyanLight: #d2f1f0;
+	--blueLight: #cce6ff;
+	--purpleLight: #e1d7f0;
+	--mauveLight: #ebd4ef;
+	--pinkLight: #f9d7ea;
+	--brownLight: #ede1d9;
+	--greyLight: #e7ebed;
+  --pink: #ec008c;
   --blue: #ADD8E6;
   --grey: #8799a3;
-  --gradualRed: linear-gradient(45deg, #f43f3b, #ec008c);
-  --gradualPink: linear-gradient(180deg, #FF69B4, #f7f8fa 30%, #f7f8fa 0%) no-repeat;
+  --gradualRed: linear-gradient(90deg, #f43f3b, #ec008c);
+  --gradualPink: linear-gradient(180deg, #ec008c, #f7f8fa 30%, #f7f8fa 0%) no-repeat;
 }
 .container {
   box-sizing: border-box;

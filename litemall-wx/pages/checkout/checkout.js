@@ -5,6 +5,9 @@ var app = getApp();
 
 Page({
   data: {
+    StatusBar: app.globalData.StatusBar,
+    CustomBar: app.globalData.CustomBar,
+    Custom: app.globalData.Custom,
     checkedGoodsList: [],
     checkedAddress: {},
     availableCouponLength: 0, // 可用的优惠券数量
@@ -29,12 +32,20 @@ Page({
     activeId:'',
     timeShow: false,
     pickTimeList: [],
-    mainActiveIndex: 0
+    mainActiveIndex: 0,
+    name:'',
+    address:'',
+    latitude: '',
+    longitude: ''
   },
   onLoad: function(options) {
     // 页面初始化 options为页面跳转所带来的参数
   },
-
+  back: function() {
+    wx.navigateBack({
+      delta: 1
+    });
+  },
   //获取checkou信息
   getCheckoutInfo: function() {
     let that = this;
@@ -63,6 +74,17 @@ Page({
         });
       }
       wx.hideLoading();
+    });
+  },
+  getMallDetail(){
+    util.request(api.MallDetail).then((res)=>{
+      const { name, address, latitude, longitude } = res.data
+      this.setData({
+        name: name,
+        address: address,
+        latitude: latitude,
+        longitude: longitude
+      });
     });
   },
   getPickupTime: function() {
@@ -162,6 +184,7 @@ Page({
     }
 
     this.getCheckoutInfo();
+    this.getMallDetail();
     this.getPickupTime();
   },
   onHide: function() {
@@ -275,5 +298,13 @@ Page({
         util.showErrorToast(res.errmsg);
       }
     });
-  }
+  },
+  showLocation: function (e) {
+    wx.openLocation({
+      latitude: parseFloat(this.data.latitude),
+      longitude: parseFloat(this.data.longitude),
+      name: this.data.name,
+      address: this.data.address,
+    })
+  },
 });

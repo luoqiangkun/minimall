@@ -1,42 +1,52 @@
-<view class="container">
-  <view class="no-login" wx:if="{{!hasLogin}}">
-    <view class="c">
-      <text>还没有登录</text>
-      <button style="background-color:#A9A9A9" bindtap="goLogin">去登录</button>
-    </view>
-  </view>
-  <view class='login bg' wx:else>
-    <view class="service-policy">
-      <view class="item">30天无忧退货</view>
-      <view class="item">48小时快速退款</view>
-      <view class="item">满88元免邮费</view>
-    </view>
-    <view class="no-cart" wx:if="{{cartGoods.length <= 0}}">
+<view class="cu-bar fixed" style="height:{{CustomBar}}px;padding-top:{{StatusBar}}px;background-color: rgba(255, 255, 255, {{headerOpacity}})">
+  <van-icon class="back" name="arrow-left" size="50rpx" color="#fff" bind:tap="back" />
+  <text class="title">购物车</text>
+</view>
+<view class="container" style="margin-top: {{CustomBar}}px;">
+  <view class="wrapper">
+    <view class="no-login" wx:if="{{!hasLogin}}">
       <view class="c">
-        <text>空空如也~</text>
-        <text>去添加点什么吧</text>
+        <text>还没有登录</text>
+        <button style="background:var(--pink)" bindtap="goLogin">去登录</button>
       </view>
     </view>
-    <view class="cart-view" wx:else>
-      <view class="list">
-        <view class="group-item">
-          <view class="goods">
-            <view class="item" wx:for="{{cartGoods}}" wx:key="id">
-              <van-checkbox value="{{ item.checked }}" bind:change="checkedItem" data-item-index="{{index}}" checked-color="var(--pink)"></van-checkbox>
-              <view class="cart-goods">
-                <image class="img" src="{{item.picUrl}}"></image>
-                <view class="info">
-                  <view class="name">{{item.goodsName}}</view>
-                  <view class="attr">{{ isEditCart ? '已选择:' : ''}}{{item.specifications||''}}</view>
-                  <view class="flex">
-                    <text class="price">￥{{item.price}}</text>
-                    <view class="cart-control">
-                      <view class="control-comp">
-                        <view class="control-btn dec-btn" bind:tap="cutNumber" data-item-index="{{index}}">-</view>
-                      </view>
-                      <text class="control-comp"> {{ item.number }}</text>
-                      <view class="control-comp">
-                        <view class="control-btn inc-btn" bind:tap="addNumber" data-item-index="{{index}}">+</view>
+    <view class='login bg' wx:else>
+      <view class="service-policy">
+        <view class="item">30天无忧退货</view>
+        <view class="item">48小时快速退款</view>
+        <view class="item">满88元免邮费</view>
+      </view>
+      <view class="no-cart" wx:if="{{cartGoods.length <= 0}}">
+        <view class="c">
+          <text>空空如也~</text>
+          <text>去添加点什么吧</text>
+        </view>
+      </view>
+      <view class="cart-view" wx:else>
+        <view class="list">
+          <view class="group-item">
+            <view class="goods">
+              <view class="item" wx:for="{{cartGoods}}" wx:key="id">
+                <van-checkbox value="{{ item.checked }}" bind:change="checkedItem" data-item-index="{{index}}" checked-color="var(--pink)"></van-checkbox>
+                <view class="cart-goods">
+                  <image class="img" src="{{item.picUrl}}"></image>
+                  <view class="info">
+                    <view class="name">{{item.goodsName}}</view>
+                    <view class="attr">{{ isEditCart ? '已选择:' : ''}}{{item.specifications||''}}</view>
+                    <view class="flex">
+                      <text class="price">￥{{item.price}}</text>
+                      <view class="cart-control">
+                        <view class="control-comp">
+                          <view class="control-btn dec-btn" bind:tap="cutNumber" data-item-index="{{index}}">
+                            <van-icon name="minus" size="30rpx" />
+                          </view>
+                        </view>
+                        <text class="control-comp"> {{ item.number }}</text>
+                        <view class="control-comp">
+                          <view class="control-btn inc-btn" bind:tap="addNumber" data-item-index="{{index}}">
+                            <van-icon name="plus" size="30rpx" color="#fff"/>
+                          </view>
+                        </view>
                       </view>
                     </view>
                   </view>
@@ -44,15 +54,12 @@
               </view>
             </view>
           </view>
-        </view>
 
-      </view>
-      <view class="cart-bottom">
-        <van-checkbox value="{{ checkedAllStatus }}" bind:change="checkedAll" checked-color="var(--pink)">全选（{{cartTotal.checkedGoodsCount}}）</van-checkbox>
-        <view class="total">{{!isEditCart ? '￥'+cartTotal.checkedGoodsAmount : ''}}</view>
-        <view class='action_btn_area'>
+        </view>
+        <view class="cart-bottom">
+          <van-checkbox value="{{ checkedAllStatus }}" bind:change="checkedAll" checked-color="var(--pink)">全选（{{cartTotal.checkedGoodsCount}}）</van-checkbox>
+          <view class="total">{{!isEditCart ? '￥'+cartTotal.checkedGoodsAmount : ''}}</view>
           <view class="checkout" bindtap="checkoutOrder">下单</view>
-          <!-- </view>  -->
         </view>
       </view>
     </view>

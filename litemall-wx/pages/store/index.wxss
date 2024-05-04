@@ -33,7 +33,7 @@
 }
 .banner {
 	width: 100%;
-	height: 250rpx;
+	height: 280rpx;
 	background-size: 100%;
 }
 .store {
@@ -109,8 +109,8 @@
 }
 .catgegory-item image {
   display: block;
-  width: 50rpx;
-  height: 50rpx;
+  width: 40rpx;
+  height: 40rpx;
   margin: 0 auto;
 }
 .catgegory-item.active {
@@ -260,7 +260,6 @@
   background-color: var(--pink);
   color: #ffffff;
   border-radius: 80rpx;
-  font-size: 35rpx;
 }
 
 .cart-action {
@@ -368,7 +367,7 @@
   color: #ffffff;
 }
 .notice-popup .wrapper {
-  padding: 50rpx 30rpx 120rpx;
+  padding: 50rpx 30rpx;
 }
 .notice-popup .wrapper>view {
   margin-bottom: 20rpx;

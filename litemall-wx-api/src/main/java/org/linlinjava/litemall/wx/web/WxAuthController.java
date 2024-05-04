@@ -13,6 +13,7 @@ import org.linlinjava.litemall.core.util.RegexUtil;
 import org.linlinjava.litemall.core.util.ResponseUtil;
 import org.linlinjava.litemall.core.util.bcrypt.BCryptPasswordEncoder;
 import org.linlinjava.litemall.db.domain.LitemallUser;
+import org.linlinjava.litemall.db.domain.UserVo;
 import org.linlinjava.litemall.db.service.CouponAssignService;
 import org.linlinjava.litemall.db.service.LitemallUserService;
 import org.linlinjava.litemall.wx.annotation.LoginUser;
@@ -117,8 +118,7 @@ public class WxAuthController {
     @PostMapping("login_by_weixin")
     public Object loginByWeixin(@RequestBody WxLoginInfo wxLoginInfo, HttpServletRequest request) {
         String code = wxLoginInfo.getCode();
-        UserInfo userInfo = wxLoginInfo.getUserInfo();
-        if (code == null || userInfo == null) {
+        if (code == null) {
             return ResponseUtil.badArgument();
         }
 
@@ -142,9 +142,6 @@ public class WxAuthController {
             user.setUsername(openId);
             user.setPassword(openId);
             user.setWeixinOpenid(openId);
-            user.setAvatar(userInfo.getAvatarUrl());
-            user.setNickname(userInfo.getNickName());
-            user.setGender(userInfo.getGender());
             user.setUserLevel((byte) 0);
             user.setStatus((byte) 0);
             user.setLastLoginTime(LocalDateTime.now());
@@ -168,8 +165,15 @@ public class WxAuthController {
         String token = UserTokenManager.generateToken(user.getId());
 
         Map<Object, Object> result = new HashMap<Object, Object>();
+        UserVo userVo = new UserVo();
+        userVo.setNickname(user.getNickname());
+        userVo.setMobile(user.getMobile());
+        userVo.setAvatar(user.getAvatar());
+        userVo.setBirthday(user.getBirthday());
+        userVo.setGender(user.getGender());
+        userVo.setAddTime(user.getAddTime());
         result.put("token", token);
-        result.put("userInfo", userInfo);
+        result.put("userInfo", userVo);
         return ResponseUtil.ok(result);
     }
 

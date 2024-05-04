@@ -1,6 +1,3 @@
-var api = require('../config/api.js');
-var app = getApp();
-
 function formatTime(date) {
   var year = date.getFullYear()
   var month = date.getMonth() + 1
@@ -9,8 +6,6 @@ function formatTime(date) {
   var hour = date.getHours()
   var minute = date.getMinutes()
   var second = date.getSeconds()
-
-
   return [year, month, day].map(formatNumber).join('-') + ' ' + [hour, minute, second].map(formatNumber).join(':')
 }
 
@@ -33,9 +28,7 @@ function request(url, data = {}, method = "GET") {
         'X-Litemall-Token': wx.getStorageSync('token')
       },
       success: function(res) {
-
         if (res.statusCode == 200) {
-
           if (res.data.errno == 501) {
             // 清除登录相关内容
             try {
@@ -44,7 +37,7 @@ function request(url, data = {}, method = "GET") {
             } catch (e) {
               // Do something when catch error
             }
-            // 切换到登录页面
+            //切换到登录页面
             wx.navigateTo({
               url: '/pages/auth/login/login'
             });

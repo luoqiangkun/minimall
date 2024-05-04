@@ -1,0 +1,22 @@
+<view class="container">
+<view class="card">
+  <view class="menu">
+      <view class="menu-list">
+        <view class="menu-item" open-type="getPhoneNumber" bindgetphonenumber="bindPhoneNumber">
+          <view class='title'>
+            <text>绑定手机</text>
+          </view>
+          <van-icon name="arrow" />   
+        </view>
+
+        <view class="menu-item" wx:if="{{hasLogin}}" bindtap="exitLogin" >
+          <view class='title'>
+            <text>退出登录</text>
+          </view>
+          <van-icon name="arrow" />   
+        </view>
+
+      </view>
+    </view>
+</view>
+</view>

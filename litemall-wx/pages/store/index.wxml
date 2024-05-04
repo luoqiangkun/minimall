@@ -31,7 +31,7 @@
         <block wx:for="{{list}}" wx:key="id">
           <view  class="catgegory-item {{curActive === index ? 'active' : ''}}" data-id="{{item.id}}" data-index="{{index}}" bindtap="clickCategory">
           <image class="category-icon" src="{{item.iconUrl}}" mode="aspectFit"></image>
-          {{item.name}}
+          <text>{{item.name}}</text>
           </view>
         </block>
       </scroll-view>
@@ -59,12 +59,18 @@
                           </view>
                           <view class="cart-control" wx:else>                      
                             <view class="control-comp">
-                              <view class="control-btn dec-btn" catchtap="decCartProduct" data-goods="{{goods}}" data-cart="{{cartMap[goods.id]}}" wx:if="{{cartMap[goods.id]}}">-</view>
+                              <view class="control-btn dec-btn" catchtap="decCartProduct" data-goods="{{goods}}" data-cart="{{cartMap[goods.id]}}" wx:if="{{cartMap[goods.id]}}">
+                                <van-icon name="minus" size="30rpx" />
+                              </view>
                             </view>
                             <text class="control-comp" wx-if="{{ cartMap[goods.id] }}"> {{ cartMap[goods.id].number }}</text>
                             <view class="control-comp">
-                              <view class="control-btn inc-btn" catchtap="incCartProduct" data-goods="{{goods}}" data-cart="{{cartMap[goods.id]}}" wx:if="{{cartMap[goods.id]}}">+</view>
-                              <view class="control-btn inc-btn" catchtap="addCartProduct" data-goods="{{goods}}" wx:else>+</view>
+                              <view class="control-btn inc-btn" catchtap="incCartProduct" data-goods="{{goods}}" data-cart="{{cartMap[goods.id]}}" wx:if="{{cartMap[goods.id]}}">
+                                <van-icon name="plus" size="30rpx" color="#fff"/>
+                              </view>
+                              <view class="control-btn inc-btn" catchtap="addCartProduct" data-goods="{{goods}}" wx:else>
+                                <van-icon name="plus" size="30rpx" color="#fff"/>
+                              </view>
                             </view>
                           </view>
                         </view>
@@ -79,7 +85,7 @@
       <view class="cart-bar">
         <view class="cart-content" bind:tap="onTaggleCartPopup">
           <view class="cart-icon">
-            <van-icon name="shopping-cart" size="50rpx" color="#fff" />
+            <van-icon name="bag" size="50rpx" color="#fff"/>
             <view class="badge" wx:if="{{cartGoodsCount > 0}}">{{cartGoodsCount}}</view>
           </view>
           <view class="cart-detail">
@@ -120,11 +126,15 @@
                     </view>
                     <view class="cart-control">
                       <view class="control-comp">
-                        <view class="control-btn dec-btn" bind:tap="decCartProduct" data-goods="{{goods}}" data-cart="{{goods}}" >-</view>
+                        <view class="control-btn dec-btn" bind:tap="decCartProduct" data-goods="{{goods}}" data-cart="{{goods}}" >
+                          <van-icon name="minus" size="30rpx" />
+                        </view>
                       </view>
                       <text class="control-comp"> {{ goods.number }}</text>
                       <view class="control-comp">
-                        <view class="control-btn inc-btn" bind:tap="incCartProduct" data-goods="{{goods}}" data-cart="{{goods}}" >+</view>
+                        <view class="control-btn inc-btn" bind:tap="incCartProduct" data-goods="{{goods}}" data-cart="{{goods}}" >
+                          <van-icon name="plus" size="30rpx" color="#fff"/>
+                        </view>
                       </view>
                     </view>
                   </view>
@@ -174,11 +184,15 @@
         <text>数量</text>
         <view class="cart-control">                      
           <view class="control-comp">
-            <view class="control-btn dec-btn" bind:tap="decProductNumber" data-goods="{{goods}}" data-cart="{{cartMap[goods.id]}}" >-</view>
+            <view class="control-btn dec-btn" bind:tap="decProductNumber" data-goods="{{goods}}" data-cart="{{cartMap[goods.id]}}" >
+              <van-icon name="minus" size="30rpx" />
+            </view>
           </view>
           <text class="control-comp"> {{ goodsNumber }}</text>
           <view class="control-comp">
-            <view class="control-btn inc-btn" bind:tap="incProductNumber" data-goods="{{goods}}" data-cart="{{cartMap[goods.id]}}" >+</view>
+            <view class="control-btn inc-btn" bind:tap="incProductNumber" data-goods="{{goods}}" data-cart="{{cartMap[goods.id]}}" >
+              <van-icon name="plus" size="30rpx" color="#fff"/>
+            </view>
           </view>
         </view>
       </view>
@@ -199,7 +213,7 @@
   closeable
   position="bottom"
   custom-class="notice-popup"
-  custom-style="border-radius:20rpx;"
+  custom-style="border-radius:20rpx;z-index:322222222;"
   bind:close="onCloseNoticePopup"
 >
   <view class="wrapper">

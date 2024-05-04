@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -43,14 +44,16 @@ public class WxMallController {
     public Object pickupTimeList(){
         String time = SystemConfig.getPickTimes();
         String[] timeList = time.split(",");
-        LocalDate today = LocalDate.now();
-        LocalDate tomorrow = today.plusDays(1);
+        LocalDateTime today = LocalDateTime.now();
+        LocalDateTime tomorrow = today.plusDays(1);
         DateTimeFormatter f1 = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         DateTimeFormatter f2 = DateTimeFormatter.ofPattern("MM-dd");
+        DateTimeFormatter f3 = DateTimeFormatter.ofPattern("HH:mm");
         String todayDate = today.format(f1);
         String simpleTodayDate = today.format(f2);
         String tomorrowDate = tomorrow.format(f1);
         String simpleTomorrowDate = tomorrow.format(f2);
+        String todayTime = today.format(f3);
 
         PickTimeDto todayDto = new PickTimeDto();
         todayDto.setText("今天（" + simpleTodayDate + "）");
@@ -66,7 +69,7 @@ public class WxMallController {
 
         Integer id = 3;
         for (String s : timeList) {
-            if(s.compareTo(simpleTodayDate) > 0){
+            if(s.compareTo(todayTime) > 0){
                 PickTimeDto dto1 = new PickTimeDto();
                 dto1.setText(s);
                 dto1.setValue(todayDate + " " + s + ":00");

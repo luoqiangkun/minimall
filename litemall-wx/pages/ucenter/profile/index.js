@@ -20,8 +20,8 @@ Page({
         const {nickname, avatar, gender, birthday, mobile, addTime} = res.data;
         this.setData({
           nickname: nickname,
-          avatar: avatar ? avatar : '/static/images/avatar.png',
-          gender: gender ? gender : 0,
+          avatar: avatar ? avatar : '',
+          gender: gender ? gender : '',
           birthday: birthday,
           mobile: mobile,
           addTime: addTime
@@ -31,11 +31,16 @@ Page({
   },
   updateUserInfo: function () {
     util.request(api.UserInfo,this.data,'POST').then( (res) => {
-      console.log( res )
       if (res.errno === 0) {
+        wx.setStorageSync('userInfo', res.data);
         wx.showToast({
           title: "保存成功"
         })
+        setTimeout(function () {
+          wx.reLaunch({
+            url: '/pages/ucenter/index/index' // 替换为你想要跳转的页面路径
+          });
+        }, 1500);
       } else {
         util.showErrorToast(res.errmsg);
       }
@@ -96,6 +101,11 @@ Page({
   },
   onCancel(){
     this.setData({show: false})
+  },
+  onChange(event) {
+    this.setData({
+      gender: event.detail.value,
+    });
   },
   /**
    * 生命周期函数--监听页面加载

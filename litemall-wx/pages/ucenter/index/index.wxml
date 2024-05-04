@@ -1,132 +1,104 @@
-<view class="container">
+<view class="cu-bar fixed" style="height:{{CustomBar}}px;padding-top:{{StatusBar}}px;background-color: rgba(255, 255, 255, {{headerOpacity}})">
+  <van-icon class="back" name="arrow-left" size="40rpx" color="#fff" bind:tap="goBack" />
+  <text class="title">个人中心</text>
+</view>
+
+<view class="container" style="margin-top: {{CustomBar}}px;">
   <view class="profile">
-    <view class="profile-info" wx:if="hasLogin" bind:tap="goProfile">
+    <view class="profile-info">
       <view class="avatar">
         <image src="{{userInfo.avatarUrl}}" mode="aspectFit" />
       </view>
-      <view class="info">
+      <view class="info" bind:tap="goProfile" wx:if="{{hasLogin}}">
         <text class="name">{{userInfo.nickName}}</text>
       </view>
+      <view class="login" wx:else>
+        <text bind:tap="goLogin">点击登录</text>
+      </view>
+
     </view>
     
-    <view class="profile-info" wx:else>
-      <view class="avatar">
-        <image src="{{userInfo.avatarUrl}}" mode="aspectFit" />
-      </view>
-      <view class="login">
-        <button wx:if="{{canIUseGetUserProfile}}" bindtap="wxLogin"> 点击登录 </button>
-        <button wx:else open-type="getUserInfo" bindgetuserinfo="wxLogin"> 点击登录 </button>
-      </view>
+    <view class="profile-setting" bind:tap="goProfile" wx:if="{{hasLogin}}">
+      账户设置
     </view>
-
   </view>
   
-  <view class="menu">
-    <view class="menu-list">
-      <view class="menu-item" bindtap='goOrder'>
-        <view class='title'>
-          <van-icon name="coupon-o" />
-          <text>我的订单</text>
-        </view>
-        <van-icon name="arrow" />   
-      </view>
 
-      <view class="menu-item" bindtap='goCoupon'>
-        <view class='title'>
-          <view class="icon">
-            <image src='/static/images/coupon.png'></image>
-          </view>
-          <text>优惠卷</text>
-        </view>
-        <van-icon name="arrow" />   
+  <view class="card" style="margin-top: -50rpx;">
+    <view class="grid grid-2">
+      <view class="cell" bindtap='goCoupon'>
+        <iconfont name="youhuiquan" color="#e54d42" size="22" />
+        <view>优惠券</view>
       </view>
-
-      <view class="menu-item" bindtap='goCollect'>
-        <view class='title'>
-          <view class="icon">
-            <image src='/static/images/collect.png'></image>
-          </view>
-          <text>收藏夹</text>
-        </view>
-        <van-icon name="arrow" />   
-      </view>
-
-      <view class="menu-item" bindtap='goFootprint'>
-        <view class='title'>
-          <view class="icon">
-            <image src='/static/images/footprint.png'></image>
-          </view>
-          <text>浏览足迹</text>
-        </view>
-        <van-icon name="arrow" />   
-      </view>
-      
-      <view class="menu-item" bindtap='goAddress'>
-        <view class='title'>
-          <view class="icon">
-            <image src='/static/images/address.png'></image>
-          </view>
-          <text>地址管理</text>
-        </view>
-        <van-icon name="arrow" />   
+      <view class="cell" bindtap='goCollect'>
+        <iconfont name="shoucang" color="#f37b1d" size="22" />
+        <view>收藏</view>
       </view>
     </view>
   </view>
 
-  <view class="menu">
-    <view class="menu-list">
-      <view class="menu-item" open-type="getPhoneNumber" bindgetphonenumber="bindPhoneNumber">
-        <view class='title'>
-          <view class="icon">
-            <image src='/static/images/mobile.png'></image>
-          </view>
-          <text>绑定手机</text>
-        </view>
-        <van-icon name="arrow" />   
+  <view class="card">
+    <view class="card-header">服务功能</view>
+    <view class="grid grid-4">
+      <view class="cell" bindtap='goAddress'>
+        <iconfont name="dizhi" color="#fbbd08" size="22" />
+        <view>我的地址</view>
       </view>
-
-      <view class="menu-item" bindtap='goHelp'>
-        <view class='title'>
-          <view class="icon">
-            <image src='/static/images/help.png'></image>
-          </view>
-          <text>帮助中心</text>
-        </view>
-        <van-icon name="arrow" />   
+      <view class="cell" bindtap='goOrder'>
+        <iconfont name="5" color="#1cbbb4" size="22" />
+        <view>我的订单</view>
       </view>
-
-      <view class="menu-item" bindtap='goFeedback'>
-        <view class='title'>
-          <view class="icon">
-            <image src='/static/images/feedback.png'></image>
-          </view>
-          <text>意见反馈</text>
-        </view>
-        <van-icon name="arrow" />   
+      <view class="cell" bindtap='goFootprint'>
+        <iconfont name="zuji" color="#39b54a" size="22" />
+        <view>浏览足迹</view>
       </view>
+      <view class="cell" bindtap='goHelp'>
+        <iconfont name="bangzhu" color="#0081ff" size="22" />
+        <view>帮助中心</view>
+      </view>
+    </view>
+  </view>
 
-      <view class="menu-item">
-        <button class="kf_button" open-type="contact" session-from="weapp">
+  <view class="card">
+    <view class="card-header">常用工具</view>
+    <view class="menu">
+      <view class="menu-list">
+        <view class="menu-item" bindtap='goFeedback'>
           <view class='title'>
-            <view class="icon">
-              <image src='/static/images/customer.png'></image>
-            </view>
-            <text>联系客服</text>
+            <iconfont name="yijianfankui" color="#6739b6" size="22" />
+            <text>意见反馈</text>
           </view>
-          <van-icon name="arrow" size="30rpx" />   
-        </button>
-      </view>
-
-      <view class="menu-item" bindtap='aboutUs'>
-        <view class='title'>
-          <view class="icon">
-            <image src='/static/images/about.png'></image>
-          </view>
-          <text>关于我们</text>
+          <van-icon name="arrow" />   
         </view>
-        <van-icon name="arrow" />   
-      </view>
 
+        <view class="menu-item">
+          <button class="kf_button" open-type="contact" session-from="weapp">
+            <view class='title'>
+              <iconfont name="10" color="#9c26b0" size="22" />
+              <text>联系客服</text>
+            </view>
+            <van-icon name="arrow" size="30rpx" />   
+          </button>
+        </view>
+
+        <view class="menu-item" bindtap='aboutUs'>
+          <view class='title'>
+            <iconfont name="guanyuwomen" color="#a5673f" size="22" />
+            <text>关于我们</text>
+          </view>
+          <van-icon name="arrow" />   
+        </view>
+
+        <view class="menu-item" bind:tap="goSetting">
+          <view class='title'>
+            <iconfont name="shouji" color="#333333" size="22" />
+            <text>账号设置</text>
+          </view>
+          <van-icon name="arrow" />   
+        </view>
+
+
+      </view>
     </view>
   </view>
 </view>

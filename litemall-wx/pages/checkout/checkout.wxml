@@ -1,4 +1,8 @@
-<view class="container">
+<view class="cu-bar fixed" style="height:{{CustomBar}}px;padding-top:{{StatusBar}}px;background-color: rgba(255, 255, 255, {{headerOpacity}})">
+  <van-icon class="back" name="arrow-left" size="50rpx" color="#fff" bind:tap="back" />
+  <text class="title">填写订单</text>
+</view>
+<view class="container" style="margin-top: {{CustomBar}}px;">
   <view class="card">
     <view class="tab">
       <view class="tab-nav">
@@ -34,11 +38,13 @@
       </view>
       <view class="tab-panel {{shipType == 3 ? 'active' : ''}}">
         <view class="address-box">
+          <view class="location" bind:tap="showLocation">{{address}}  <van-icon name="location-o" /></view>
           <van-field
             value="{{ pickupTimeText }}"
             label="自提时间"
             input-align="right"
             readonly
+            bind:click-input="onOpenTimePopup"
           >
             <view slot="button" bind:tap="onOpenTimePopup">
               <van-icon name="arrow" />      
@@ -133,6 +139,7 @@
   <van-popup show="{{ timeShow }}" 
     round
     position="bottom"
+    custom-style="padding:20rpx;z-index:9999999;"
     bind:close="onCloseTimePopup">
     <van-tree-select
       items="{{ pickTimeList }}"

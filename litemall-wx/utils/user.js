@@ -4,6 +4,7 @@
 const util = require('../utils/util.js');
 const api = require('../config/api.js');
 
+var app = getApp();
 
 /**
  * Promise封装wx.checkSession
@@ -44,20 +45,18 @@ function login() {
 /**
  * 调用微信登录
  */
-function loginByWeixin(userInfo) {
-
+function loginByWeixin() {
   return new Promise(function(resolve, reject) {
     return login().then((res) => {
       //登录远程服务器
       util.request(api.AuthLoginByWeixin, {
-        code: res.code,
-        userInfo: userInfo
+        code: res.code
       }, 'POST').then(res => {
         if (res.errno === 0) {
           //存储用户信息
           wx.setStorageSync('userInfo', res.data.userInfo);
           wx.setStorageSync('token', res.data.token);
-
+          
           resolve(res);
         } else {
           reject(res);

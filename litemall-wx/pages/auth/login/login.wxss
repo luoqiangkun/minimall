@@ -1,10 +1,10 @@
 .login-box {
   width: 100%;
   height: auto;
-  overflow: hidden;
-  padding: 0 40rpx;
-  margin-top: 200rpx;
-  background: #fff;
+  height: 100vh;
+  background-color: #fff;
+  display: flex;
+  align-items: center;
 }
 
 .wx-login-btn {
@@ -13,7 +13,7 @@
   line-height: 96rpx;
   border-radius: 6rpx;
   width: 90%;
-  color: #fff;
+  color: red;
   right: 0;
   display: flex;
   justify-content: center;
@@ -30,6 +30,7 @@
   border-top-right-radius: 50rpx;
   border-bottom-right-radius: 50rpx;
   letter-spacing: 3rpx;
+  background: var(--pink) !important;
 }
 
 .account-login-btn {

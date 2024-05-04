@@ -5,7 +5,7 @@ import java.time.LocalDate;
 public class UserDto {
 
     private String nickname;
-    private Integer gender;
+    private Byte gender;
     private LocalDate birthday;
     private String mobile;
     private String avatar;
@@ -18,11 +18,11 @@ public class UserDto {
         this.nickname = nickname;
     }
 
-    public Integer getGender() {
+    public Byte getGender() {
         return gender;
     }
 
-    public void setGender(Integer gender) {
+    public void setGender(Byte gender) {
         this.gender = gender;
     }
 

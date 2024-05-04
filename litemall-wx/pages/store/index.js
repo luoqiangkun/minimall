@@ -45,7 +45,6 @@ Page({
     noticeShow: false,
   },
   onLoad: function (options) {
-    wx.hideTabBar(); // 隐藏底部导航栏
     this.getMallDetail()
     this.getCatalog()
     this.getCartList()
@@ -188,7 +187,7 @@ Page({
     })
   },
   navigateToIndex(){
-    wx.navigateTo({  
+    wx.switchTab({  
       url: '/pages/index/index'  
     });  
   },
@@ -549,7 +548,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    console.log( 222222 )
+    wx.hideTabBar(); // 隐藏底部导航栏
   },
 
   /**

@@ -1,6 +1,6 @@
 Component({
   properties: {
-    // Bread | Birthday-Cake | Banana-2 | a-CheeseCake | chicken-meat | Cake | Coffee | Donute | Egg | maize | Ham | Hamburger-3 | radish | Watermelon | Tomato-2 | Peach | Pear-1
+    // guanyuwomen | shoucang | zuji | dizhi | yijianfankui | 10 | 5 | bangzhu | shouji | youhuiquan | dingdan | Bread | Birthday-Cake | Banana-2 | a-CheeseCake | chicken-meat | Cake | Coffee | Donute | Egg | maize | Ham | Hamburger-3 | radish | Watermelon | Tomato-2 | Peach | Pear-1
     name: {
       type: String,
     },

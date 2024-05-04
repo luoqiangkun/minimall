@@ -12,10 +12,7 @@ import org.linlinjava.litemall.wx.dto.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -61,7 +58,7 @@ public class WxUserController {
     }
 
     @PostMapping("")
-    public Object update(@LoginUser Integer userId, UserDto userDto){
+    public Object update(@LoginUser Integer userId, @RequestBody  UserDto userDto){
         if (userId == null) {
             return ResponseUtil.unlogin();
         }
@@ -70,10 +67,12 @@ public class WxUserController {
         litemallUser.setNickname(userDto.getNickname());
         litemallUser.setAvatar(userDto.getAvatar());
         litemallUser.setBirthday(userDto.getBirthday());
+        litemallUser.setGender(userDto.getGender());
+        litemallUser.setMobile(userDto.getMobile());
         if (userService.updateById(litemallUser) == 0) {
             return ResponseUtil.updatedDataFailed();
         }
-        return ResponseUtil.ok();
+        return ResponseUtil.ok(litemallUser);
     }
 
 }

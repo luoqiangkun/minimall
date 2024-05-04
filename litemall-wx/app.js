@@ -1,19 +1,15 @@
-var util = require('./utils/util.js');
-var api = require('./config/api.js');
-var user = require('./utils/user.js');
-
 App({
   onLaunch: function() {
     Promise.prototype.finally = function(callback){
       let P = this.constructor;
       return this.then(
-              value => {
-                   P.resolve(callback()).then(() => value)
-               },
-               reason => {
-                   P.resolve(callback()).then(() => { throw reason })
-               }
-           )
+        value => {
+              P.resolve(callback()).then(() => value)
+          },
+          reason => {
+              P.resolve(callback()).then(() => { throw reason })
+          }
+      )
     }
     const updateManager = wx.getUpdateManager();
     wx.getUpdateManager().onUpdateReady(function() {
@@ -37,51 +33,15 @@ App({
         this.globalData.CustomBar = custom.bottom + custom.top - e.statusBarHeight;
       }
     })
-  },
-  wxLogin: function(e) {
-    if (this.data.canIUseGetUserProfile) {
-      wx.getUserProfile({
-        desc: '用于完善会员资料', // 声明获取用户个人信息后的用途，后续会展示在弹窗中，请谨慎填写
-        success: (res) => {
-          this.doLogin(res.userInfo)
-        },
-        fail: () => {
-          util.showErrorToast('微信登录失败');
-        }
-      })
-    }
-    else {
-      if (e.detail.userInfo == undefined) {
-        app.globalData.hasLogin = false;
-        util.showErrorToast('微信登录失败');
-        return;
-      }
-      this.doLogin(e.detail.userInfo)
-    }
-  },
-  doLogin: function(userInfo) {
-    user.checkLogin().catch(() => {
-      user.loginByWeixin(userInfo).then(res => {
-        app.globalData.hasLogin = true;
-        wx.navigateBack({
-          delta: 1
-        })
-      }).catch((err) => {
-        app.globalData.hasLogin = false;
-        util.showErrorToast('微信登录失败');
-      });
 
-    });
-  },
-  onShow: function(options) {
-    user.checkLogin().then(res => {
+    const token = wx.getStorageSync('token');
+    if (token) {
+      // 如果缓存中存在 token，则设置 hasLogin 为 true
       this.globalData.hasLogin = true;
-    }).catch(() => {
-      this.globalData.hasLogin = false;
-    });
+    }
+
   },
   globalData: {
     hasLogin: false
-    
   }
 })
