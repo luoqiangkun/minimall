@@ -99,6 +99,9 @@ page {
 .card .cell iconfont>view {
   margin: 0 auto;
 }
+.card .cell>view {
+  margin-top: 10rpx;
+}
 .menu {
   padding: 0 20rpx;
   background-color: #fff;

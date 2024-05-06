@@ -44,7 +44,8 @@
         "pages/store/index",
         "pages/home/index",
         "pages/ucenter/profile/index",
-        "pages/ucenter/setting/index"
+        "pages/ucenter/setting/index",
+        "pages/ucenter/express/index"
     ],
     "window": {
         "navigationBarBackgroundColor": "#FFFFFF",

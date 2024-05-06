@@ -1,0 +1,16 @@
+<!-- index.wxml -->
+
+<view class="container">
+  <view class="timeline">
+    <block wx:for="{{ expressList }}" wx:key="index">
+      <view class="timeline-item">
+        <view class="timeline-dot"></view>
+        <view class="timeline-line"></view>
+        <view class="timeline-content">
+          <view class="time">{{ item.time }}</view>
+          <view class="place">{{ item.desc }}</view>
+        </view>
+      </view>
+    </block>
+  </view>
+</view>

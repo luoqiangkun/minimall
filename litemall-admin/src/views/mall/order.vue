@@ -89,13 +89,10 @@
 
       <el-table-column align="center" :label="$t('mall_order.table.ship_channel')" prop="shipChannel" />
 
-      <el-table-column align="center" :label="$t('mall_order.table.actions')" width="250" class-name="oper">
+      <el-table-column align="center" :label="$t('mall_order.table.actions')" width="120" class-name="oper">
         <template slot-scope="scope">
           <el-button type="primary" size="mini" @click="handleDetail(scope.row)">{{ $t('app.button.detail') }}</el-button>
           <el-button type="danger" size="mini" @click="handleDelete(scope.row)">{{ $t('app.button.delete') }}</el-button>
-          <el-button type="warning" size="mini" @click="handlePay(scope.row)">{{ $t('mall_order.button.pay') }}</el-button>
-          <el-button type="primary" size="mini" @click="handleShip(scope.row)">{{ $t('mall_order.button.ship') }}</el-button>
-          <el-button type="danger" size="mini" @click="handleRefund(scope.row)">{{ $t('mall_order.button.refund') }}</el-button>
         </template>
       </el-table-column>
     </el-table>

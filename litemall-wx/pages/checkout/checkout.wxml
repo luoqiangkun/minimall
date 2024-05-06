@@ -52,6 +52,7 @@
           </van-field>
           <van-field
             model:value="{{ reservedPhone }}"
+            type="number"
             label="预留电话"
             placeholder="请输入预留电话"
             input-align="right"

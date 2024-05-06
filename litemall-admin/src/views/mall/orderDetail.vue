@@ -39,12 +39,12 @@
           <div class="field">
             <label>订单状态：</label>
             <div class="text">
-              <el-button type="primary" plain>{{ orderDetail.order.orderStatus | orderStatusFilter }}</el-button>
+              <el-button type="danger" plain>{{ orderDetail.order.orderStatus | orderStatusFilter }}</el-button>
             </div>
           </div>
         </el-row>
         <el-row>
-          <el-button type="primary" @click="handlePay">{{ $t('mall_order.button.pay') }}</el-button>
+          <el-button type="primary" @click="handlePay" v-if="orderDetail.order.orderStatus == 101">{{ $t('mall_order.button.pay') }}</el-button>
           <template v-if="!orderDetail.order.shipType">
             <el-button type="primary" @click="handleShip">快递发货</el-button>
             <el-button type="primary" @click="deliveryDialogVisible = true">同城配送</el-button>
@@ -52,7 +52,7 @@
           <template v-if="orderDetail.order.shipStatus == 1">
             <el-button type="primary" @click="handleReceive">确认送达</el-button>
           </template>
-          <el-button type="primary" @click="handleRefund">{{ $t('mall_order.button.refund') }}</el-button>
+          <el-button type="primary" @click="handleRefund" v-if="orderDetail.order.orderStatus == 202">{{ $t('mall_order.button.refund') }}</el-button>
         </el-row>
       </div>
     </section>
@@ -158,10 +158,42 @@
       </div>
     </section>
 
-    <section>
-      <div class="header" />
-      <div class="body" />
+    <section v-if="orderDetail.order.shipSn">
+      <div class="header">物流信息</div>
+      <div class="body">
+        <el-row>
+          <div class="field">
+            <label>物流公司：</label>
+            <div class="text">
+              {{orderDetail.order.shipChannel}}
+            </div>
+          </div>
+        </el-row>
+       <el-row>
+          <div class="field">
+            <label>物流单号：</label>
+            <div class="text">
+              {{orderDetail.order.shipSn}}
+
+              <el-button type="primary" @click="getExpress">查看物流</el-button>
+            </div>
+          </div>
+        </el-row>
+
+        <el-row v-if="expressLoaded">
+           <el-timeline :reverse="true" style="margin-top:10px;">
+              <el-timeline-item
+                v-for="(item, index) in express"
+                :key="index"
+                :timestamp="item.time">
+                {{item.desc}}
+              </el-timeline-item>
+            </el-timeline>
+        </el-row>
+
+      </div>
     </section>
+
 
     <!-- 收款对话框 -->
     <el-dialog :visible.sync="payDialogVisible" :title="$t('mall_order.dialog.pay')" width="40%" center>
@@ -264,7 +296,7 @@
   </div>
 </template>
 <script>
-import { listChannel, detailOrder, refundOrder, payOrder, shipOrder, deliveryOrder, receiveOrder } from '@/api/order'
+import { listChannel, detailOrder, refundOrder, payOrder, shipOrder, deliveryOrder, receiveOrder, orderExpress } from '@/api/order'
 import checkPermission from '@/utils/permission' // 权限判断函数
 
 const statusMap = {
@@ -334,7 +366,9 @@ export default {
           }
         }
       },
-      receiveDialogVisible: false
+      receiveDialogVisible: false,
+      express: [],
+      expressLoaded: false
     }
   },
   created() {
@@ -353,6 +387,15 @@ export default {
     getChannel() {
       listChannel().then(response => {
         this.channels = response.data.data
+      })
+    },
+    getExpress() {
+      if(this.expressLoaded){
+        return;
+      }
+      orderExpress(this.orderDetail.order.orderSn).then(response => {
+        this.express = response.data.data
+        this.expressLoaded = true;
       })
     },
     handlePay() {

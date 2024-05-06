@@ -238,8 +238,8 @@
                     "scene": null
                 },
                 {
-                    "name": "测试",
-                    "pathName": "pages/demo/index",
+                    "name": "物流",
+                    "pathName": "pages/ucenter/express/index",
                     "query": "",
                     "scene": null
                 }

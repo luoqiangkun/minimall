@@ -2,6 +2,7 @@ package org.linlinjava.litemall.wx.web;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.linlinjava.litemall.core.util.ResponseUtil;
 import org.linlinjava.litemall.core.validator.Order;
 import org.linlinjava.litemall.core.validator.Sort;
 import org.linlinjava.litemall.wx.annotation.LoginUser;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.constraints.NotNull;
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/wx/order")
@@ -180,4 +182,9 @@ public class WxOrderController {
         return wxOrderService.comment(userId, body);
     }
 
+    @GetMapping("/express")
+    public Object express(@RequestParam("orderSn") String orderSn) throws IOException {
+        Object express = wxOrderService.express(orderSn);
+        return ResponseUtil.ok(express);
+    }
 }

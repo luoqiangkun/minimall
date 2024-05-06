@@ -330,8 +330,8 @@
                 },
                 {
                     "id": -1,
-                    "name": "家园",
-                    "pathName": "pages/home/index",
+                    "name": "物流",
+                    "pathName": "pages/ucenter/express/index",
                     "query": "",
                     "scene": null
                 }

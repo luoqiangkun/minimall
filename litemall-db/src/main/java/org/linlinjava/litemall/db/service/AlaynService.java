@@ -1,4 +1,4 @@
-package org.linlinjava.litemall.core.service;
+package org.linlinjava.litemall.db.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.logging.Log;
@@ -9,7 +9,6 @@ import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
-import org.linlinjava.litemall.core.util.HttpUtil;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;

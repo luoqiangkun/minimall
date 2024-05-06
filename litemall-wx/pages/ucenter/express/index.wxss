@@ -1,0 +1,52 @@
+/* index.wxss */
+
+.container {
+  padding: 20rpx;
+  background-color: #ffffff;
+}
+
+.timeline {
+  margin-top: 20rpx;
+}
+
+.timeline-item {
+  display: flex;
+  align-items: flex-start;
+  position: relative;
+  padding-bottom: 20rpx;
+}
+
+.timeline-dot {
+  width: 15rpx;
+  height: 15rpx;
+  background-color: #1890ff;
+  border-radius: 50%;
+  margin-right: 10rpx;
+  margin-top: 6rpx;
+}
+
+.timeline-line {
+  position: absolute;
+  top: 8rpx;
+  left: 5rpx; /* 根据需要调整位置 */
+  width: 2rpx;
+  height: 100%;
+  background-color: #1890ff;
+}
+.timeline-item:last-child .timeline-line {
+  display: none;
+}
+
+.timeline-content {
+  flex: 1;
+}
+
+.time {
+  font-size: 25rpx;
+  color: #999999;
+}
+
+.place {
+  color: #333333;
+  margin-top: 6rpx;
+}

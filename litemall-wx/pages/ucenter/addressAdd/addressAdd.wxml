@@ -19,7 +19,6 @@
 
   <view class="btns">
     <button class="save" bindtap="saveAddress">保存</button>
-    <button class="cannel" bindtap="cancelAddress">取消</button>
   </view>
 
   <view class="region-select" wx:if="{{openSelectRegion}}">

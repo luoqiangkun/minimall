@@ -80,6 +80,65 @@
     </view>
   </view>
 
+<view class="order-express">
+  <view wx:if="{{orderInfo.shipType == 1}}">
+    <view class="field">
+      <text>配送方式：</text>
+      <text>快递配送</text>
+    </view>
+    <view class="field">
+      <text>快递公司：</text>
+      <text>{{orderInfo.shipCom}}</text>
+    </view>
+    <view class="field">
+      <text>快递单号：</text>
+      <view bind:tap="goExpress">
+        <text>{{orderInfo.shipSn}}</text>
+        <van-icon class="arrow" name="arrow" />  
+      </view>
+    </view>
+  </view>
+
+  <view wx:if="{{orderInfo.shipType == 2}}">
+    <view class="field">
+      <text>配送方式：</text>
+      <text>同城配送</text>
+    </view>
+    <view class="field">
+      <text>配送人：</text>
+      <text>{{orderInfo.deliveryPerson}}</text>
+    </view>
+    <view class="field">
+      <text>联系方式：</text>
+      <text>{{orderInfo.deliveryMobile}}</text>
+    </view>
+    <view class="field">
+      <text>配送时间：</text>
+      <text>{{orderInfo.deliveryTime}}</text>
+    </view>
+  </view>
+
+  <view wx:if="{{orderInfo.shipType == 3}}">
+    <view class="field">
+      <text>配送方式：</text>
+      <text>用户自提</text>
+    </view>
+    <view class="field">
+      <text>取货地址：</text>
+      <view class="location" bind:tap="showLocation">{{address}}  <van-icon name="location-o" /></view>
+    </view>
+    <view class="field">
+      <text>预约时间：</text>
+      <text>{{orderInfo.pickupTime}}</text>
+    </view>
+    <view class="field">
+      <text>预留电话：</text>
+      <text>{{orderInfo.reservedPhone}}</text>
+    </view>
+  </view>
+
+
+</view>
   <view class="order-express" bindtap="expandDetail" wx:if="{{ orderInfo.expNo }}">
     <view class="order-express">
       <view class="title">
@@ -88,10 +147,10 @@
       </view>
       <van-icon class="ti" name="arrow" />      
     </view>
-    <view class="traces" wx:for="{{expressInfo.Traces}}" wx:key="item" wx:for-item="iitem" wx:if="{{ flag }}">
+    <view class="traces" wx:for="{{express}}" wx:key="index" wx:for-item="item" wx:if="{{ flag }}">
       <view class="trace">
-        <view class="acceptStation">{{iitem.AcceptStation}}</view>
-        <view class="acceptTime">{{iitem.AcceptTime}}</view>
+        <view class="acceptStation">{{item.desc}}</view>
+        <view class="acceptTime">{{item.time}}</view>
       </view>
     </view>
   </view>

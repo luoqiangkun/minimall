@@ -260,6 +260,7 @@
   background-color: var(--pink);
   color: #ffffff;
   border-radius: 80rpx;
+  font-weight: 600;
 }
 
 .cart-action {
@@ -349,14 +350,15 @@
 .product-popup .footer .button {
   width: 100%;
   border-radius: 50rpx;
-  height: 80rpx;
-  line-height: 80rpx;
+  height: 100rpx;
+  line-height: 100rpx;
   text-align: center;
   color: #ffffff;
   background-color: var(--pink);
+  font-weight: 600;
 }
 .cart-popup {
-  padding: 20rpx 40rpx 150rpx;
+  padding: 20rpx 40rpx 120rpx;
 }
 
 .primary-btn {

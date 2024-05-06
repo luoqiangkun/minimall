@@ -24,6 +24,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -56,6 +57,8 @@ public class AdminOrderService {
     private LogHelper logHelper;
     @Autowired
     private LitemallCouponUserService couponUserService;
+    @Autowired
+    private AlaynService alaynService;
 
     public Object list(String nickname, String consignee, String orderSn, LocalDateTime start, LocalDateTime end, List<Short> orderStatusArray,
                        Integer page, Integer limit, String sort, String order) {
@@ -382,4 +385,24 @@ public class AdminOrderService {
         return ResponseUtil.ok(data);
     }
 
+    /**
+     * 物流轨迹
+     * @param orderSn
+     * @return
+     * @throws IOException
+     */
+    public Object express(String orderSn) throws IOException {
+        LitemallOrder order = orderService.findBySn(orderSn);
+        if (order == null) {
+            return ResponseUtil.badArgument();
+        }
+        if(!StringUtils.hasText(order.getShipSn())){
+            return ResponseUtil.fail(ORDER_INVALID_SHIP,"缺少物流单号");
+        }
+        if(!StringUtils.hasText(order.getShipChannel())){
+            return ResponseUtil.fail(ORDER_INVALID_SHIP,"物流公司不正确");
+        }
+        List<Map<String, Object>> list = alaynService.express(order.getShipChannel(), order.getShipSn());
+        return list;
+    }
 }

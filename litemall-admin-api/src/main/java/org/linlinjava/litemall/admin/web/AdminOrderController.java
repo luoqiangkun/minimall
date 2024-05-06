@@ -17,6 +17,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -28,6 +29,7 @@ public class AdminOrderController {
 
     @Autowired
     private AdminOrderService adminOrderService;
+
     @Autowired
     private ExpressService expressService;
 
@@ -160,5 +162,18 @@ public class AdminOrderController {
     @RequestMapping("/receive/{orderSn}")
     public Object receive(@PathVariable String orderSn){
         return adminOrderService.receive(orderSn);
+    }
+
+    /**
+     * 物流
+     * @param orderSn
+     * @return
+     */
+    @RequiresPermissions("admin:order:express")
+    @RequiresPermissionsDesc(menu = {"商场管理", "订单管理"}, button = "查看物流")
+    @RequestMapping("/express/{orderSn}")
+    public Object express(@PathVariable("orderSn") String orderSn) throws IOException {
+        Object express = adminOrderService.express(orderSn);
+        return ResponseUtil.ok(express);
     }
 }

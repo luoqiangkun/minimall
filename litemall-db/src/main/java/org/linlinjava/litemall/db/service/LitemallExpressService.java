@@ -1,54 +1,30 @@
 package org.linlinjava.litemall.db.service;
 
-import com.github.pagehelper.PageHelper;
-import org.linlinjava.litemall.db.dao.LitemallIssueMapper;
-import org.linlinjava.litemall.db.domain.LitemallIssue;
-import org.linlinjava.litemall.db.domain.LitemallIssueExample;
+import org.linlinjava.litemall.db.dao.LitemallExpressMapper;
+import org.linlinjava.litemall.db.domain.LitemallExpress;
+import org.linlinjava.litemall.db.domain.LitemallExpressExample;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
-import java.time.LocalDateTime;
-import java.util.List;
 
 @Service
-public class LitemallIssueService {
+public class LitemallExpressService {
     @Resource
-    private LitemallIssueMapper issueMapper;
+    private LitemallExpressMapper expressMapper;
 
-    public void deleteById(Integer id) {
-        issueMapper.logicalDeleteByPrimaryKey(id);
-    }
-
-    public void add(LitemallIssue issue) {
-        issue.setAddTime(LocalDateTime.now());
-        issue.setUpdateTime(LocalDateTime.now());
-        issueMapper.insertSelective(issue);
-    }
-
-    public List<LitemallIssue> querySelective(String question, Integer page, Integer limit, String sort, String order) {
-        LitemallIssueExample example = new LitemallIssueExample();
-        LitemallIssueExample.Criteria criteria = example.createCriteria();
-
-        if (!StringUtils.isEmpty(question)) {
-            criteria.andQuestionLike("%" + question + "%");
+    /**
+     * 根据公司编码获取公司名称
+     * @param code
+     * @return
+     */
+    public String getNameByCode(String code){
+        if(!StringUtils.hasText(code)){
+            return null;
         }
-        criteria.andDeletedEqualTo(false);
-
-        if (!StringUtils.isEmpty(sort) && !StringUtils.isEmpty(order)) {
-            example.setOrderByClause(sort + " " + order);
-        }
-
-        PageHelper.startPage(page, limit);
-        return issueMapper.selectByExample(example);
-    }
-
-    public int updateById(LitemallIssue issue) {
-        issue.setUpdateTime(LocalDateTime.now());
-        return issueMapper.updateByPrimaryKeySelective(issue);
-    }
-
-    public LitemallIssue findById(Integer id) {
-        return issueMapper.selectByPrimaryKey(id);
+        LitemallExpressExample litemallExpressExample = new LitemallExpressExample();
+        litemallExpressExample.or().andCodeEqualTo(code);
+        LitemallExpress litemallExpress = expressMapper.selectOneByExample(litemallExpressExample);
+        return litemallExpress != null ? litemallExpress.getName() : null;
     }
 }

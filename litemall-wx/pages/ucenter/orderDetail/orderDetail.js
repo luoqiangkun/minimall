@@ -8,7 +8,11 @@ Page({
     orderGoods: [],
     expressInfo: {},
     flag: false,
-    handleOption: {}
+    handleOption: {},
+    name:'',
+    address:'',
+    latitude:'',
+    longitude:'',
   },
   onLoad: function(options) {
     // 页面初始化 options为页面跳转所带来的参数
@@ -16,6 +20,7 @@ Page({
       orderId: options.id
     });
     this.getOrderDetail();
+    this.getMallDetail();
   },
   onPullDownRefresh() {
     wx.showNavigationBarLoading() //在标题栏中显示加载
@@ -53,6 +58,17 @@ Page({
       }
 
       wx.hideLoading();
+    });
+  },
+  getMallDetail(){
+    util.request(api.MallDetail).then((res)=>{
+      const { name, address, latitude, longitude } = res.data
+      this.setData({
+        name: name,
+        address: address,
+        latitude: latitude,
+        longitude: longitude
+      });
     });
   },
   // “去付款”按钮点击效果
@@ -198,6 +214,19 @@ Page({
     else{
       util.redirect('/pages/ucenter/aftersaleDetail/aftersaleDetail?id=' + this.data.orderId);
     }
+  },
+  goExpress() {
+    wx.navigateTo({
+      url: "/pages/ucenter/express/index?orderSn=" + this.data.orderInfo.orderSn
+    });
+  },
+  showLocation: function (e) {
+    wx.openLocation({
+      latitude: parseFloat(this.data.latitude),
+      longitude: parseFloat(this.data.longitude),
+      name: this.data.name,
+      address: this.data.address,
+    })
   },
   onReady: function() {
     // 页面渲染完成

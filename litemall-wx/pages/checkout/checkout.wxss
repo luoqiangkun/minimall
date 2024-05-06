@@ -22,6 +22,7 @@ page {
 .cu-bar .title {
   color: #fff;
   font-size: 35rpx;
+  font-weight: 600;
 }
 page .container {
   padding: 20rpx 20rpx;
@@ -228,6 +229,7 @@ page .container {
   background-color: var(--pink);
   color: #ffffff;
   border-radius: 80rpx;
+  font-weight: 600;
 }
 .van-cell{
   padding: 15rpx 20rpx !important;

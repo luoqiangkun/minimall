@@ -203,7 +203,7 @@ export const asyncRoutes = [
         hidden: true,
         meta: {
           perms: ['GET /admin/order/detail'],
-          title: 'app.menu.mall_order_detail',
+          title: '订单详情',
           noCache: true
         }
       },

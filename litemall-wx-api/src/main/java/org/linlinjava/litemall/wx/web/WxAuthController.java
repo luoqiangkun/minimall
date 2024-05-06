@@ -86,6 +86,10 @@ public class WxAuthController {
         if (!encoder.matches(password, user.getPassword())) {
             return ResponseUtil.fail(AUTH_INVALID_ACCOUNT, "账号密码不对");
         }
+//KDvqMMnFy9hPJdqp9SKFPWTRHvwMdCvFzds85/uHMUlZv5CijA8/CkjlmxFH1CUP
+//aec4VWhp/SjjCtBeZ94rC7nwVfFbfluBGICw2G0/90W+rtLL3n+fyjRREfg
+
+        //8LE4gCZHxCGm4pmI9h4nCjNGshfVQkZCym70sR1lueboHccpjqJIRN9nV
 
         // 更新登录情况
         user.setLastLoginTime(LocalDateTime.now());

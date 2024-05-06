@@ -81,3 +81,10 @@ export function receiveOrder(orderSn) {
     method: 'get'
   })
 }
+
+export function orderExpress(orderSn) {
+  return request({
+    url: '/order/express/' + orderSn,
+    method: 'get'
+  })
+}

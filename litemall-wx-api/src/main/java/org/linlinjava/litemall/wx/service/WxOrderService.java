@@ -13,7 +13,6 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.linlinjava.litemall.core.express.ExpressService;
-import org.linlinjava.litemall.core.express.dao.ExpressInfo;
 import org.linlinjava.litemall.core.notify.NotifyService;
 import org.linlinjava.litemall.core.notify.NotifyType;
 import org.linlinjava.litemall.core.qcode.QCodeService;
@@ -27,18 +26,19 @@ import org.linlinjava.litemall.wx.task.OrderUnpaidTask;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.linlinjava.litemall.wx.util.WxResponseCode.*;
 
@@ -102,6 +102,11 @@ public class WxOrderService {
     private TaskService taskService;
     @Autowired
     private LitemallAftersaleService aftersaleService;
+    @Autowired
+    private LitemallExpressService litemallExpressService;
+    @Autowired
+    private AlaynService alaynService;
+
 
     /**
      * 订单列表
@@ -197,11 +202,9 @@ public class WxOrderService {
         orderVo.put("orderStatusText", OrderUtil.orderStatusText(order));
         orderVo.put("handleOption", OrderUtil.build(order));
         orderVo.put("aftersaleStatus", order.getAftersaleStatus());
-        orderVo.put("expCode", order.getShipChannel());
-        orderVo.put("expName", expressService.getVendorName(order.getShipChannel()));
-        orderVo.put("expNo", order.getShipSn());
         orderVo.put("shipType", order.getShipType());
         orderVo.put("shipSn", order.getShipSn());
+        orderVo.put("shipCom", order.getShipSn());
         orderVo.put("shipChannel", order.getShipChannel());
         orderVo.put("shipTime", order.getShipTime());
         orderVo.put("shipStatus", order.getShipStatus());
@@ -210,28 +213,15 @@ public class WxOrderService {
         orderVo.put("deliveryPerson", order.getDeliveryPerson());
         orderVo.put("deliveryMobile", order.getDeliveryMobile());
         orderVo.put("deliveryTime", order.getDeliveryTime());
-
+        if(StringUtils.hasText(order.getShipChannel())){
+            orderVo.put("shipCom",litemallExpressService.getNameByCode(order.getShipChannel()));
+        }
         List<LitemallOrderGoods> orderGoodsList = orderGoodsService.queryByOid(order.getId());
 
         Map<String, Object> result = new HashMap<>();
         result.put("orderInfo", orderVo);
         result.put("orderGoods", orderGoodsList);
-
-        // 订单状态为已发货且物流信息不为空
-        //"YTO", "800669400640887922"
-        if (order.getOrderStatus().equals(OrderUtil.STATUS_SHIP)) {
-            ExpressInfo ei = expressService.getExpressInfo(order.getShipChannel(), order.getShipSn());
-            if(ei == null){
-                result.put("expressInfo", new ArrayList<>());
-            }
-            else {
-                result.put("expressInfo", ei);
-            }
-        }
-        else{
-            result.put("expressInfo", new ArrayList<>());
-        }
-
+        System.out.println(orderVo);
         return ResponseUtil.ok(result);
 
     }
@@ -1099,5 +1089,36 @@ public class WxOrderService {
             couponUser.setUpdateTime(LocalDateTime.now());
             couponUserService.update(couponUser);
         }
+    }
+
+
+    /**
+     * 物流轨迹
+     * @param orderSn
+     * @return
+     * @throws IOException
+     */
+    public Object express(String orderSn) throws IOException {
+        LitemallOrder order = orderService.findBySn(orderSn);
+        if (order == null) {
+            return ResponseUtil.badArgument();
+        }
+        if(!StringUtils.hasText(order.getShipSn())){
+            return ResponseUtil.fail(ORDER_INVALID_SHIP,"缺少物流单号");
+        }
+        if(!StringUtils.hasText(order.getShipChannel())){
+            return ResponseUtil.fail(ORDER_INVALID_SHIP,"物流公司不正确");
+        }
+        List<Map<String, Object>> list = alaynService.express(order.getShipChannel(), order.getShipSn());
+//        List<HashMap<String, String>> data = list.stream().map(item -> {
+//            Date date = new Date((Long) item.get("time"));
+//            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//            String formattedDate = sdf.format(date);
+//            HashMap<String, String> hashMap = new HashMap<>();
+//            hashMap.put("time", formattedDate);
+//            hashMap.put("desc", (String) item.get("desc"));
+//            return hashMap;
+//        }).collect(Collectors.toList());
+        return list;
     }
 }
